@@ -33,7 +33,7 @@ const Checkout = () => {
 
       // 1️⃣ Create Order
       const orderRes = await axios.post(
-        "http://localhost:5000/api/orders",
+        "https://food-delivery-website-j8y3.onrender.com/api/orders",
         {
           items: cart,
           totalAmount: totalPrice,
@@ -45,7 +45,7 @@ const Checkout = () => {
 
       // 2️⃣ Process Payment (if not COD)
       if (paymentMethod !== "cod") {
-        await axios.post("http://localhost:5000/api/payment/create", {
+        await axios.post("https://food-delivery-website-j8y3.onrender.com/api/payment/create", {
           orderId,
           paymentMethod,
         });
@@ -119,7 +119,7 @@ const Checkout = () => {
                   >
                     <div className="flex items-center gap-4">
                       <img
-                        src={`http://localhost:5000/uploads/${item.image}`}
+                        src={`https://food-delivery-website-j8y3.onrender.com/uploads/${item.image}`}
                         alt={item.name}
                         className="w-16 h-16 rounded-xl object-cover"
                       />
