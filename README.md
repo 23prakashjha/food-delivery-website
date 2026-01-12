@@ -79,7 +79,7 @@ Persistent cart behavior
         ↓
 [ MongoDB Database ]
         ↓
-[ Razorpay Payment Gateway ]
+[  Payment Gateway (dummy) ]
 
 Why This Matters
 
@@ -213,10 +213,12 @@ Running Both Together
 You can run frontend and backend in two separate terminals:
 
 Terminal 1 – Backend
-cd server
+cd server,
 npm run dev
 
 Terminal 2 – Frontend
-cd client
+cd frontend,
 npm run dev
+
+live deployment link :-
 
