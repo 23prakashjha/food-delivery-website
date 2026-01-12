@@ -18,7 +18,7 @@ const ManageFood = () => {
     imageFile: null,
   });
 
-  const apiURL = "http://localhost:5000/api/foods"; // backend URL
+  const apiURL = "https://food-delivery-website-j8y3.onrender.com/api/foods"; // backend URL
 
   // ===== Fetch foods from backend =====
   const fetchFoods = async () => {
