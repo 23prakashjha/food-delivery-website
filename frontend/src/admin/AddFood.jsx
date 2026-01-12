@@ -123,7 +123,7 @@ const AddFood = () => {
               type="number"
               name="originalPrice"
               value={food.originalPrice}
-              placeholder="Original Price ($)"
+              placeholder="Original Price (Rs)"
               onChange={handleChange}
               className="flex-1 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
@@ -132,7 +132,7 @@ const AddFood = () => {
               type="number"
               name="discountPrice"
               value={food.discountPrice}
-              placeholder="Discount Price ($)"
+              placeholder="Discount Price (Rs)"
               onChange={handleChange}
               className="flex-1 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
