@@ -17,7 +17,7 @@ const app = express();
 ======================= */
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "https://food-delivery-website-self-chi.vercel.app/", // frontend URL
     credentials: false,              // NO auth/cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type"], // allow JSON requests
