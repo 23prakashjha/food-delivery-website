@@ -11,10 +11,10 @@ import axios from "axios";
 ======================= */
 const API = axios.create({
   baseURL: "https://food-delivery-website-j8y3.onrender.com/api",
-  withCredentials: true, // safe even if you don't use cookies yet
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 /* =======================
@@ -22,7 +22,6 @@ const API = axios.create({
 ======================= */
 const AuthContext = createContext(null);
 
-// Hook
 export const useAuth = () => useContext(AuthContext);
 
 /* =======================
@@ -32,7 +31,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load user from localStorage
+  /* =======================
+     LOAD USER
+  ======================= */
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -46,21 +47,25 @@ export const AuthProvider = ({ children }) => {
   ======================= */
   const login = async (email, password) => {
     try {
-      const { data } = await API.post("/auth/login", {
+      const response = await API.post("/auth/login", {
         email,
         password,
       });
+
+      const data = response.data;
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
 
       return { success: true };
     } catch (error) {
+      console.error("Login error:", error.response || error.message);
+
       return {
         success: false,
         message:
           error.response?.data?.message ||
-          "Login failed. Please try again.",
+          "Server error. Please try again later.",
       };
     }
   };
@@ -70,22 +75,26 @@ export const AuthProvider = ({ children }) => {
   ======================= */
   const register = async (name, email, password) => {
     try {
-      const { data } = await API.post("/auth/register", {
+      const response = await API.post("/auth/register", {
         name,
         email,
         password,
       });
+
+      const data = response.data;
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
 
       return { success: true };
     } catch (error) {
+      console.error("Register error:", error.response || error.message);
+
       return {
         success: false,
         message:
           error.response?.data?.message ||
-          "Registration failed. Please try again.",
+          "Server error. Please try again later.",
       };
     }
   };
@@ -106,14 +115,13 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
-        isAuthenticated: Boolean(user),
-        isAdmin: Boolean(user?.isAdmin),
+        isAuthenticated: !!user,
+        isAdmin: !!user?.isAdmin,
       }}
     >
       {!loading && children}
     </AuthContext.Provider>
   );
 };
-
 
 
