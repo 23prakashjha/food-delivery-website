@@ -6,12 +6,28 @@ import React, {
 } from "react";
 import axios from "axios";
 
+/* =======================
+   AXIOS INSTANCE
+======================= */
+const API = axios.create({
+  baseURL: "https://food-delivery-website-j8y3.onrender.com/api",
+  withCredentials: true, // safe even if you don't use cookies yet
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+/* =======================
+   CONTEXT SETUP
+======================= */
 const AuthContext = createContext(null);
 
 // Hook
 export const useAuth = () => useContext(AuthContext);
 
-// ✅ NAMED EXPORT (IMPORTANT)
+/* =======================
+   PROVIDER
+======================= */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,47 +41,58 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Login
+  /* =======================
+     LOGIN
+  ======================= */
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post(
-        "https://food-delivery-website-j8y3.onrender.com/api/auth/login",
-        { email, password }
-      );
+      const { data } = await API.post("/auth/login", {
+        email,
+        password,
+      });
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
+
       return { success: true };
     } catch (error) {
       return {
         success: false,
         message:
-          error.response?.data?.message || "Invalid credentials",
+          error.response?.data?.message ||
+          "Login failed. Please try again.",
       };
     }
   };
 
-  // Register
+  /* =======================
+     REGISTER
+  ======================= */
   const register = async (name, email, password) => {
     try {
-      const { data } = await axios.post(
-        "https://food-delivery-website-j8y3.onrender.com/api/auth/register",
-        { name, email, password }
-      );
+      const { data } = await API.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
+
       return { success: true };
     } catch (error) {
       return {
         success: false,
         message:
-          error.response?.data?.message || "Registration failed",
+          error.response?.data?.message ||
+          "Registration failed. Please try again.",
       };
     }
   };
 
-  // Logout
+  /* =======================
+     LOGOUT
+  ======================= */
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -79,13 +106,14 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
-        isAuthenticated: !!user,
-        isAdmin: user?.isAdmin || false,
+        isAuthenticated: Boolean(user),
+        isAdmin: Boolean(user?.isAdmin),
       }}
     >
       {!loading && children}
     </AuthContext.Provider>
   );
 };
+
 
 
