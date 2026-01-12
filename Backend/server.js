@@ -13,22 +13,39 @@ connectDB();
 const app = express();
 
 /* =======================
-   CORS CONFIG (FRONTEND SAFE)
+   CORS CONFIG (FIXED)
 ======================= */
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://food-delivery-website-self-chi.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "https://food-delivery-website-self-chi.vercel.app/", // frontend URL
-    credentials: false,              // NO auth/cookies
+    origin: function (origin, callback) {
+      // allow Postman / mobile apps
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type"], // allow JSON requests
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// ✅ Handle preflight requests
+app.options("*", cors());
 
 /* =======================
    MIDDLEWARE
 ======================= */
 app.use(express.json());
-app.use("/uploads", express.static("uploads")); // serve uploaded images
+app.use("/uploads", express.static("uploads"));
 
 /* =======================
    ROUTES
@@ -40,7 +57,9 @@ app.use("/api/payment", paymentRoutes);
 /* =======================
    HEALTH CHECK
 ======================= */
-app.get("/", (req, res) => res.send("API is running 🚀"));
+app.get("/", (req, res) => {
+  res.send("API is running 🚀");
+});
 
 /* =======================
    SERVER START
