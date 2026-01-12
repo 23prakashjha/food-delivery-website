@@ -127,66 +127,7 @@ const ManageFood = () => {
           />
         </div>
 
-        {/* Add/Edit Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-3xl shadow-lg grid grid-cols-1 md:grid-cols-2 gap-4"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Food Name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <input
-            type="number"
-            name="originalPrice"
-            placeholder="Original Price"
-            value={form.originalPrice}
-            onChange={handleChange}
-            required
-            className="p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <input
-            type="number"
-            name="discountPrice"
-            placeholder="Discount Price"
-            value={form.discountPrice}
-            onChange={handleChange}
-            className="p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <input
-            type="text"
-            name="category"
-            placeholder="Category"
-            value={form.category}
-            onChange={handleChange}
-            required
-            className="p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            className="p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 col-span-1 md:col-span-2"
-          />
-          <input
-            type="file"
-            name="image"
-            onChange={handleChange}
-            className="col-span-1 md:col-span-2"
-          />
-          <button
-            type="submit"
-            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition col-span-1 md:col-span-2"
-          >
-            <FaPlus /> {editingFood ? "Update Food" : "Add Food"}
-          </button>
-        </form>
+       
 
         {/* Food List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
