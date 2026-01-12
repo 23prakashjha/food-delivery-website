@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://food-delivery-website-j8y3.onrender.com/api/auth/login",
         { email, password }
       );
 
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://food-delivery-website-j8y3.onrender.com/api/auth/register",
         { name, email, password }
       );
 
