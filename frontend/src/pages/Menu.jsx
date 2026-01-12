@@ -14,7 +14,7 @@ const FoodCard = ({ food, onAdd }) => {
     >
       {food.image && (
         <img
-          src={`http://localhost:5000/uploads/${food.image}`}
+          src={`https://food-delivery-website-j8y3.onrender.com/uploads/${food.image}`}
           alt={food.name}
           className="h-48 w-full object-cover"
         />
@@ -91,7 +91,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/foods");
+        const { data } = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/foods");
         setFoods(data);
       } catch (err) {
         console.error("Food fetch failed", err);
