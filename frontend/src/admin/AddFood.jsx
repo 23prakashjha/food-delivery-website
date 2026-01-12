@@ -69,7 +69,7 @@ const AddFood = () => {
       formData.append("description", food.description);
       formData.append("image", imageFile);
 
-      const res = await axios.post("http://localhost:5000/api/foods", formData, {
+      const res = await axios.post("https://food-delivery-website-j8y3.onrender.com/api/foods", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
