@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import foodRoutes from "./routes/foodRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import authRoutes from "./routes/authRoutes.js"; // ✅ ADD THIS
 
 dotenv.config();
 connectDB();
@@ -13,7 +14,7 @@ connectDB();
 const app = express();
 
 /* =======================
-   CORS CONFIG (FIXED)
+   CORS (FINAL SAFE)
 ======================= */
 const allowedOrigins = [
   "http://localhost:5173",
@@ -22,15 +23,10 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow Postman / mobile apps
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -38,7 +34,7 @@ app.use(
   })
 );
 
-// ✅ Handle preflight requests
+// Handle preflight
 app.options("*", cors());
 
 /* =======================
@@ -50,6 +46,7 @@ app.use("/uploads", express.static("uploads"));
 /* =======================
    ROUTES
 ======================= */
+app.use("/api/auth", authRoutes); // ✅ REQUIRED
 app.use("/api/foods", foodRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
