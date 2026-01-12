@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true, // normalize email
+      lowercase: true,
       trim: true,
     },
 
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6,
-      select: false, // hide password by default
+      select: false, // 🔐 security best practice
     },
 
     isAdmin: {
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Remove password from JSON responses (extra safety)
+// 🔐 Extra safety
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
