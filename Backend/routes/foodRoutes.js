@@ -7,19 +7,28 @@ import Food from "../models/Food.js";
 const router = express.Router();
 
 // ===== Multer Setup =====
-const uploadsDir = path.join(path.resolve(), "uploads");
+const uploadsDir = path.join(process.cwd(), "uploads"); // use process.cwd() for project root
 
 // Ensure uploads folder exists
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
-}
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + "-" + file.originalname.replace(/\s+/g, "_")), // avoid spaces
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    // Accept only images
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (![".png", ".jpg", ".jpeg", ".webp"].includes(ext)) {
+      return cb(new Error("Only images are allowed"));
+    }
+    cb(null, true);
+  },
+});
 
 // ===== Routes =====
 
@@ -34,22 +43,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST add new food (No auth required)
+// POST add new food
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { name, originalPrice, discountPrice, category, description } =
-      req.body;
+    const { name, originalPrice, discountPrice, category, description } = req.body;
 
-    // Basic validation
-    if (!name || !originalPrice || !category) {
-      return res
-        .status(400)
-        .json({ message: "Name, price, and category are required" });
-    }
+    if (!name || !originalPrice || !category)
+      return res.status(400).json({ message: "Name, price, and category are required" });
 
-    if (!req.file) {
+    if (!req.file)
       return res.status(400).json({ message: "Image is required" });
-    }
 
     const newFood = await Food.create({
       name,
@@ -57,23 +60,22 @@ router.post("/", upload.single("image"), async (req, res) => {
       discountPrice: discountPrice || 0,
       category,
       description: description || "",
-      image: req.file.filename,
+      image: req.file.filename, // store filename only
     });
 
     res.status(201).json(newFood);
   } catch (error) {
-    console.error(error);
+    console.error("Food Add Error:", error);
     res.status(500).json({ message: "Server Error" });
   }
 });
 
-// DELETE food (No auth required)
+// DELETE food
 router.delete("/:id", async (req, res) => {
   try {
     const food = await Food.findById(req.params.id);
     if (!food) return res.status(404).json({ message: "Food not found" });
 
-    // Delete image file from uploads folder
     const imagePath = path.join(uploadsDir, food.image);
     if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
 
@@ -87,5 +89,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
+
 
 

@@ -28,13 +28,11 @@ const AddFood = () => {
 
   const fileInputRef = useRef();
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFood({ ...food, [name]: value });
   };
 
-  // Drag & drop or click image upload
   const handleFileUpload = (e) => {
     const file = e.dataTransfer?.files[0] || e.target.files[0];
     if (file) {
@@ -43,7 +41,6 @@ const AddFood = () => {
     }
   };
 
-  // Add custom category
   const handleAddCustomCategory = () => {
     if (customCategory && !categories.includes(customCategory)) {
       setCategories([...categories, customCategory]);
@@ -52,7 +49,6 @@ const AddFood = () => {
     }
   };
 
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imageFile) return alert("Please upload an image!");
@@ -60,7 +56,6 @@ const AddFood = () => {
 
     try {
       setLoading(true);
-
       const formData = new FormData();
       formData.append("name", food.name);
       formData.append("originalPrice", food.originalPrice);
@@ -69,12 +64,17 @@ const AddFood = () => {
       formData.append("description", food.description);
       formData.append("image", imageFile);
 
-      const res = await axios.post("http://localhost:5000/api/foods", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(
+        "https://food-delivery-website-j8y3.onrender.com/api/foods",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       if (res.status === 201 || res.status === 200) {
         alert("Food added successfully ✅");
+        // Reset form
         setFood({
           name: "",
           originalPrice: "",
@@ -94,7 +94,7 @@ const AddFood = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-100 to-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-50 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -123,7 +123,7 @@ const AddFood = () => {
               type="number"
               name="originalPrice"
               value={food.originalPrice}
-              placeholder="Original Price ($)"
+              placeholder="Original Price (Rs)"
               onChange={handleChange}
               className="flex-1 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
@@ -132,7 +132,7 @@ const AddFood = () => {
               type="number"
               name="discountPrice"
               value={food.discountPrice}
-              placeholder="Discount Price ($)"
+              placeholder="Discount Price (Rs)"
               onChange={handleChange}
               className="flex-1 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
@@ -159,7 +159,7 @@ const AddFood = () => {
               value={customCategory}
               placeholder="Add Category"
               onChange={(e) => setCustomCategory(e.target.value)}
-              className="p-2 border border-gray-300 rounded-xl flex-1 min-w-120px"
+              className="p-2 border border-gray-300 rounded-xl flex-1 min-w-[120px]"
             />
             <button
               type="button"
@@ -216,7 +216,7 @@ const AddFood = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             disabled={loading}
-            className={`w-full py-4 rounded-xl font-semibold shadow-lg text-white bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 ${
+            className={`w-full py-4 rounded-xl font-semibold shadow-lg text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
             }`}
           >

@@ -14,7 +14,7 @@ const FoodCard = ({ food, onAdd }) => {
     >
       {food.image && (
         <img
-          src={`http://localhost:5000/uploads/${food.image}`}
+          src={`https://food-delivery-website-j8y3.onrender.com/uploads/${food.image}`}
           alt={food.name}
           className="h-48 w-full object-cover"
         />
@@ -50,31 +50,20 @@ const FoodCard = ({ food, onAdd }) => {
 /* ---------------- 100+ CATEGORIES ---------------- */
 const categories = [
   "All",
-  "Veg", "Non-Veg", "Vegan",
+  "Veg", "Non-Veg",
   "North Indian", "South Indian", "East Indian", "West Indian",
-  "Chinese", "Thai", "Japanese", "Korean",
-  "Italian", "Mexican", "Mediterranean", "Greek",
-  "American", "French", "Spanish", "Turkish",
-  "Fast Food", "Street Food", "Cafe",
   "Pizza", "Burger", "Sandwich", "Wraps", "Roll",
-  "Pasta", "Noodles", "Rice Bowl", "Biryani",
-  "Grill", "BBQ", "Tandoor",
+  "Pasta", "Noodles", "Biryani",
+  "Grill", "Tandoor",
   "Seafood", "Chicken", "Mutton", "Egg",
-  "Salads", "Soups", "Starters",
+  "Salads", "Soups",
   "Breakfast", "Brunch", "Lunch", "Dinner",
-  "Healthy", "Low Carb", "High Protein",
   "Desserts", "Ice Cream", "Cakes", "Pastries",
-  "Sweets", "Bakery",
-  "Beverages", "Juices", "Mocktails", "Cocktails",
+  "Bakery",
+  "Brevage",
   "Coffee", "Tea", "Milkshakes",
   "Snacks", "Chaat",
-  "Kids Special",
-  "Combos", "Platters",
-  "Festival Special",
-  "Seasonal",
-  "Chef Special",
-  "Best Seller",
-  "New Arrivals"
+  "Kids Special", "Punjabi food"
 ];
 
 /* ---------------- MENU PAGE ---------------- */
@@ -91,7 +80,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/foods");
+        const { data } = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/foods");
         setFoods(data);
       } catch (err) {
         console.error("Food fetch failed", err);

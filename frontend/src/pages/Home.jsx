@@ -5,7 +5,7 @@ import { Star, MapPin, Clock, ArrowRight, Truck, Flame, Smartphone } from "lucid
 import pizza from "../assets/pizza.jpeg";           // make sure it’s pizza.jpeg
 import burger from "../assets/burger.jpeg";         // check name
 import roll from "../assets/roll.jpeg";             // check name
-import chickentikka from "../assets/chickenTikka.jpeg"; // check exact name
+import chickentikka from "../assets/chickentikka.jpeg"; // check exact name
 import momos from "../assets/momos.jpeg";          
 import pasta from "../assets/pasta.jpeg";           // you had 'apsta.jpeg', fix typo
 import brevage from "../assets/brevage.jpeg";  

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 
 const ManageFood = () => {
@@ -8,19 +8,9 @@ const ManageFood = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [editingFood, setEditingFood] = useState(null); // for edit
-  const [form, setForm] = useState({
-    name: "",
-    originalPrice: "",
-    discountPrice: "",
-    category: "",
-    description: "",
-    imageFile: null,
-  });
+  const backendURL = "https://food-delivery-website-j8y3.onrender.com";
+  const apiURL = `${backendURL}/api/foods`;
 
-  const apiURL = "http://localhost:5000/api/foods"; // backend URL
-
-  // ===== Fetch foods from backend =====
   const fetchFoods = async () => {
     try {
       setLoading(true);
@@ -38,78 +28,10 @@ const ManageFood = () => {
     fetchFoods();
   }, []);
 
-  // ===== Handle Search =====
   const filteredFoods = foods.filter((food) =>
     food.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // ===== Handle Form Change =====
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setForm({ ...form, imageFile: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
-
-  // ===== Add or Update Food =====
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("originalPrice", form.originalPrice);
-      formData.append("discountPrice", form.discountPrice || 0);
-      formData.append("category", form.category);
-      formData.append("description", form.description);
-      if (form.imageFile) formData.append("image", form.imageFile);
-
-      if (editingFood) {
-        // Update food
-        await axios.put(`${apiURL}/${editingFood._id}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        alert("Food updated successfully ✅");
-      } else {
-        // Add new food
-        await axios.post(apiURL, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        alert("Food added successfully ✅");
-      }
-
-      // Reset form and refresh foods
-      setForm({
-        name: "",
-        originalPrice: "",
-        discountPrice: "",
-        category: "",
-        description: "",
-        imageFile: null,
-      });
-      setEditingFood(null);
-      fetchFoods();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to save food");
-    }
-  };
-
-  // ===== Edit Food =====
-  const handleEdit = (food) => {
-    setEditingFood(food);
-    setForm({
-      name: food.name,
-      originalPrice: food.originalPrice,
-      discountPrice: food.discountPrice,
-      category: food.category,
-      description: food.description,
-      imageFile: null,
-    });
-  };
-
-  // ===== Delete Food =====
   const handleDelete = async (foodId) => {
     if (!window.confirm("Are you sure you want to delete this food?")) return;
     try {
@@ -123,8 +45,8 @@ const ManageFood = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-100 to-gray-50 px-4 py-10">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-50 px-4 py-10">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <h1 className="text-4xl font-extrabold text-gray-800">
@@ -139,9 +61,7 @@ const ManageFood = () => {
           />
         </div>
 
-        
-
-        {/* ===== Food List ===== */}
+        {/* Food List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading ? (
             <p className="text-center text-gray-500 col-span-full">Loading foods...</p>
@@ -152,14 +72,13 @@ const ManageFood = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col"
+                className="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col hover:scale-105 transition-transform"
               >
-                {/* Image */}
                 {food.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${food.image}`}
+                    src={`${backendURL}/uploads/${food.image}`}
                     alt={food.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover rounded-t-3xl"
                   />
                 )}
                 <div className="p-4 flex flex-col flex-1">
@@ -171,7 +90,7 @@ const ManageFood = () => {
                   <p className="text-gray-700 mt-1 flex-1">{food.description}</p>
                   <div className="flex gap-2 mt-4">
                     <button
-                      onClick={() => handleEdit(food)}
+                      onClick={() => alert("Edit feature coming soon!")}
                       className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition"
                     >
                       <FaEdit /> Edit
