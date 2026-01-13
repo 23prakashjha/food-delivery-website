@@ -51,19 +51,14 @@ const FoodCard = ({ food, onAdd }) => {
 const categories = [
   "All",
   "Veg", "Non-Veg",
-  "North Indian", "South Indian", "East Indian", "West Indian",
-  "Pizza", "Burger", "Sandwich", "Wraps", "Roll",
-  "Pasta", "Noodles", "Biryani",
-  "Grill", "Tandoor",
-  "Seafood", "Chicken", "Mutton", "Egg",
+  "Pizza", "Burger",  "Roll",
+  "Pasta", "Biryani",
+  "Sea Foods", "Mutton", "Egg",
   "Salads", "Soups",
-  "Breakfast", "Brunch", "Lunch", "Dinner",
-  "Desserts", "Ice Cream", "Cakes", "Pastries",
-  "Bakery",
-  "Brevage",
-  "Coffee", "Tea", "Milkshakes",
+  "Desserts", "Ice Cream", "Cakes & Pastries", 
+  "Brevages", "Cafe"
   "Snacks", "Chaat",
-  "Kids Special", "Punjabi food"
+  "Kids Special", "Punjabi Food"
 ];
 
 /* ---------------- MENU PAGE ---------------- */
