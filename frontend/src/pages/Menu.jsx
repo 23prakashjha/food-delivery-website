@@ -22,9 +22,10 @@ const FoodCard = ({ food, onAdd }) => {
 
       <div className="p-4 flex flex-col flex-1 space-y-2">
         <h3 className="text-xl font-bold text-gray-800">{food.name}</h3>
-        <p className="text-xs text-orange-500 font-semibold">
+
+        <span className="text-xs text-orange-500 font-semibold">
           {food.category}
-        </p>
+        </span>
 
         <p className="text-gray-600 text-sm flex-1">
           {food.description}
@@ -37,7 +38,7 @@ const FoodCard = ({ food, onAdd }) => {
 
           <button
             onClick={() => onAdd(food)}
-            className="flex items-center gap-2 bg-linear-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-xl font-semibold hover:scale-105 transition"
+            className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-xl font-semibold hover:scale-105 transition"
           >
             <FaShoppingCart /> Add
           </button>
@@ -47,18 +48,29 @@ const FoodCard = ({ food, onAdd }) => {
   );
 };
 
-/* ---------------- 100+ CATEGORIES ---------------- */
+/* ---------------- CATEGORIES ---------------- */
 const categories = [
   "All",
-  "Veg", "Non-Veg",
-  "Pizza", "Burger",  "Roll",
-  "Pasta", "Biryani",
-  "Sea Foods", "Mutton", "Egg",
-  "Salads", "Soups",
-  "Desserts", "Ice Cream", "Cakes & Pastries", 
-  "Brevages", "Cafe"
-  "Snacks", "Chaat",
-   "Punjabi Food",
+  "Veg",
+  "Non-Veg",
+  "Pizza",
+  "Burger",
+  "Roll",
+  "Pasta",
+  "Biryani",
+  "Sea Foods",
+  "Mutton",
+  "Egg",
+  "Salads",
+  "Soups",
+  "Desserts",
+  "Ice Cream",
+  "Cakes & Pastries",
+  "Brevages",
+  "Cafe",
+  "Snacks",
+  "Chaat",
+  "Punjabi Food",
 ];
 
 /* ---------------- MENU PAGE ---------------- */
@@ -75,7 +87,9 @@ const Menu = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/foods");
+        const { data } = await axios.get(
+          "https://food-delivery-website-j8y3.onrender.com/api/foods"
+        );
         setFoods(data);
       } catch (err) {
         console.error("Food fetch failed", err);
@@ -130,42 +144,37 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* CATEGORIES (NO BOX, MORE REALISTIC) */}
-<motion.div
-  initial={{ opacity: 0, y: 10 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.35 }}
-  className="w-full"
->
-  <div className="flex flex-wrap gap-2 md:gap-3">
-    {categories.map((cat, index) => (
-      <motion.button
-        key={cat}
-        whileHover={{ y: -2 }}
-        whileTap={{ scale: 0.96 }}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: index * 0.015 }}
-        onClick={() => setSelectedCategory(cat)}
-        className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-medium
-          transition-all duration-300
-          ${
-            selectedCategory === cat
-              ? "bg-orange-500 text-white shadow-md shadow-orange-400/40"
-              : "bg-white/70 backdrop-blur-md text-gray-700 hover:bg-orange-100 hover:text-orange-700"
-          }`}
+      {/* CATEGORIES */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
       >
-        {/* Subtle active glow */}
-        {selectedCategory === cat && (
-          <span className="absolute inset-0 rounded-full bg-orange-400 blur-md opacity-30 -z-10" />
-        )}
-
-        {cat}
-      </motion.button>
-    ))}
-  </div>
-</motion.div>
-
+        <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
+          {categories.map((cat, index) => (
+            <motion.button
+              key={cat}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.015 }}
+              onClick={() => setSelectedCategory(cat)}
+              className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all
+                ${
+                  selectedCategory === cat
+                    ? "bg-orange-500 text-white shadow-md shadow-orange-400/40"
+                    : "bg-white text-gray-700 hover:bg-orange-100 hover:text-orange-700"
+                }`}
+            >
+              {selectedCategory === cat && (
+                <span className="absolute inset-0 rounded-full bg-orange-400 blur-md opacity-30 -z-10" />
+              )}
+              {cat}
+            </motion.button>
+          ))}
+        </div>
+      </motion.div>
 
       {/* FOOD GRID */}
       {loading ? (
@@ -212,3 +221,4 @@ const Menu = () => {
 };
 
 export default Menu;
+
