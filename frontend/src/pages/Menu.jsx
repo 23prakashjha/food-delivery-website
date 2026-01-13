@@ -58,7 +58,7 @@ const categories = [
   "Desserts", "Ice Cream", "Cakes & Pastries", 
   "Brevages", "Cafe"
   "Snacks", "Chaat",
-  "Kids Special", "Punjabi Food"
+   "Punjabi Food",
 ];
 
 /* ---------------- MENU PAGE ---------------- */
