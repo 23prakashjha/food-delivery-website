@@ -1,3 +1,5 @@
+https://github.com/23prakashjha/food-delivery-website/blob/aca565a8ab10b06e3c3c876e794fb2e5bb311ed6/mernfood.PNG
+
 FoodeExpress- is a modern full-stack food delivery platform developed using the MERN stack (MongoDB, Express.js, React, and Node.js). The project is designed to simulate a real-world food delivery system by combining a responsive user interface, secure backend services, and scalable architecture. It focuses on providing a smooth and intuitive experience where users can browse food items, manage their cart, place orders, and make secure online payments.
 
 The frontend is built with React, ensuring a fast, dynamic, and mobile-friendly user experience. React components enable efficient UI rendering, while state management ensures real-time updates across the application. The backend, powered by Node.js and Express.js, handles business logic such as authentication, order processing, and API communication. MongoDB is used as the database due to its flexibility and ability to scale with growing application data.
