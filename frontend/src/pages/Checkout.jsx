@@ -132,7 +132,7 @@ const Checkout = () => {
                     </div>
 
                     <p className="font-semibold text-orange-600">
-                      $
+                      ₹
                       {(
                         (item.discountPrice ?? item.originalPrice) *
                         item.quantity
@@ -212,7 +212,7 @@ const Checkout = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Delivery</span>
@@ -222,7 +222,7 @@ const Checkout = () => {
                 <div className="flex justify-between text-xl font-extrabold">
                   <span>Total</span>
                   <span className="text-orange-600">
-                    ${totalPrice.toFixed(2)}
+                    ₹{totalPrice.toFixed(2)}
                   </span>
                 </div>
               </div>

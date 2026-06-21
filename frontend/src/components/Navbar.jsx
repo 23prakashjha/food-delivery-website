@@ -1,27 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
-  FaBars,
-  FaTimes,
-  FaShoppingCart,
-  FaUserCircle,
-  FaSignOutAlt,
-  FaClipboardList,
-  FaUserShield,
-  FaHome,
-  FaUtensils,
-  FaTags,
-  FaInfoCircle,
-  FaPhoneAlt,
+  FaBars, FaTimes, FaShoppingCart, FaUserCircle, FaSignOutAlt,
+  FaClipboardList, FaUserShield, FaHome, FaUtensils, FaTags,
+  FaInfoCircle, FaPhoneAlt, FaBell, FaSearch, FaCog,
 } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const { user, logout, cart } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuLinks = [
     { name: "Home", path: "/", icon: <FaHome /> },
@@ -31,232 +26,254 @@ const Navbar = () => {
     { name: "Contact", path: "/contact", icon: <FaPhoneAlt /> },
   ];
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setDropdownOpen(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdownOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Lock body scroll on mobile menu
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
   }, [mobileOpen]);
 
+  useEffect(() => {
+    setMobileOpen(false);
+    setDropdownOpen(false);
+  }, [location]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/menu?search=${encodeURIComponent(searchQuery)}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
   return (
     <>
-      {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between text-white">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-2xl shadow-lg border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
           {/* LOGO */}
-          <Link
-            to="/"
-            className="text-2xl font-extrabold tracking-wide hover:scale-105 transition-transform duration-300"
-          >
-            FoodExpress 🍔
+          <Link to="/" className="flex items-center gap-2 group">
+            <motion.div whileHover={{ rotate: [0, -10, 10, -5, 0] }} transition={{ duration: 0.5 }}
+              className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-lg shadow-lg">
+              🍔
+            </motion.div>
+            <span className="text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              FoodExpress
+            </span>
           </Link>
 
           {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center gap-8 font-medium">
+          <div className="hidden md:flex items-center gap-1">
             {menuLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.path}
+              <NavLink key={link.name} to={link.path} end={link.path === "/"}
                 className={({ isActive }) =>
-                  `relative hover:text-yellow-300 transition-colors duration-300 ${
-                    isActive ? "text-yellow-300 font-semibold" : ""
-                  } after:absolute after:left-0 after:-bottom-1 after:h-2px after:bg-yellow-300 after:w-0 hover:after:w-full after:transition-all after:duration-300`
-                }
-              >
+                  `relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 group ${isActive ? "text-indigo-600 bg-indigo-50" : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"}`
+                }>
                 {link.name}
+                {location.pathname === link.path && (
+                  <motion.div layoutId="navPill" className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
+                )}
               </NavLink>
             ))}
+          </div>
+
+          {/* RIGHT SECTION */}
+          <div className="flex items-center gap-3">
+            {/* SEARCH */}
+            <button onClick={() => setSearchOpen(!searchOpen)}
+              className="hidden sm:flex w-10 h-10 items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
+              <FaSearch size={16} />
+            </button>
 
             {/* CART */}
-            <button
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => navigate("/cart")}
-              className="relative hover:text-yellow-300 transition-colors duration-300"
-            >
-              <FaShoppingCart size={22} />
+              className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
+              <FaShoppingCart size={16} />
               {cart?.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full animate-pulse">
+                <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold shadow-lg">
                   {cart.length}
-                </span>
+                </motion.span>
               )}
-            </button>
+            </motion.button>
 
             {/* AUTH */}
             {!user ? (
-              <Link
-                to="/login"
-                className="bg-white text-indigo-600 px-5 py-2 rounded-full font-semibold hover:bg-yellow-100 transition-colors duration-300"
-              >
-                Login
+              <Link to="/login"
+                className="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg">
+                <FaUserCircle size={16} /> Login
               </Link>
             ) : (
-              <div className="relative" ref={dropdownRef}>
-                <button
+              <div className="relative hidden sm:block" ref={dropdownRef}>
+                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 bg-white text-indigo-600 px-4 py-2 rounded-full font-semibold hover:bg-yellow-100 transition-colors duration-300"
-                >
-                  <FaUserCircle size={18} />
-                  {user.name}
-                </button>
+                  className="flex items-center gap-2 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 px-4 py-2.5 rounded-xl font-semibold text-sm hover:from-indigo-100 hover:to-purple-100 transition-all duration-300 border border-indigo-100 shadow-sm">
+                  <FaUserCircle size={18} className="text-indigo-600" />
+                  <span className="max-w-[100px] truncate">{user.name}</span>
+                </motion.button>
 
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-3 w-64 bg-white text-gray-700 rounded-2xl shadow-2xl animate-scale-in overflow-hidden">
-                    {/* USER INFO */}
-                    <div className="px-4 py-4 text-center border-b bg-gray-50">
-                      <FaUserCircle className="mx-auto text-3xl text-indigo-600 mb-1" />
-                      <p className="font-semibold truncate">{user.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                    </div>
-
-                    {/* DROPDOWN ITEMS */}
-                    <div className="flex flex-col py-2">
-                      <Link
-                        to="/profile"
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors rounded-lg"
-                      >
-                        <FaUserCircle className="text-indigo-600" /> Profile
-                      </Link>
-
-                      <Link
-                        to="/orders"
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors rounded-lg"
-                      >
-                        <FaClipboardList className="text-indigo-600" /> Orders
-                      </Link>
-
-                        <Link
-                          to="/admin"
-                          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors rounded-lg text-red-500"
-                        >
-                          <FaUserShield /> Admin Dashboard
-                        </Link>
-
-                      <button
-                        onClick={logout}
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition-colors rounded-lg text-red-600 w-full text-left"
-                      >
-                        <FaSignOutAlt /> Logout
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div initial={{ opacity: 0, y: -10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.95 }} transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                      <div className="px-5 py-5 text-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                        <FaUserCircle className="mx-auto text-4xl mb-2 opacity-90" />
+                        <p className="font-semibold truncate">{user.name}</p>
+                        <p className="text-xs text-white/70 truncate">{user.email}</p>
+                      </div>
+                      <div className="flex flex-col py-2 px-2">
+                        {[
+                          { to: "/profile", icon: <FaUserCircle className="text-indigo-600" />, label: "Profile" },
+                          { to: "/orders", icon: <FaClipboardList className="text-indigo-600" />, label: "Orders" },
+                          ...(user?.isAdmin ? [{ to: "/admin", icon: <FaUserShield className="text-red-500" />, label: "Admin Dashboard", red: true }] : []),
+                        ].map(item => (
+                          <Link key={item.label} to={item.to}
+                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-50 transition-all duration-300 ${item.red ? "text-red-500" : "text-gray-700"}`}>
+                            {item.icon} {item.label}
+                          </Link>
+                        ))}
+                        <hr className="my-2 border-gray-100" />
+                        <button onClick={logout}
+                          className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-300 w-full text-left">
+                          <FaSignOutAlt /> Logout
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
-          </div>
 
-          {/* MOBILE TOGGLE */}
-          <button
-            className="md:hidden p-2 rounded hover:bg-white/20 transition-colors"
-            onClick={() => setMobileOpen(true)}
-          >
-            <FaBars size={24} />
-          </button>
+            {/* MOBILE TOGGLE */}
+            <motion.button whileTap={{ scale: 0.9 }}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300"
+              onClick={() => setMobileOpen(true)}>
+              <FaBars size={18} />
+            </motion.button>
+          </div>
         </div>
+
+        {/* SEARCH BAR */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+              className="border-t border-gray-100 bg-gray-50">
+              <form onSubmit={handleSearch} className="max-w-7xl mx-auto px-4 py-3 flex gap-3">
+                <div className="relative flex-1">
+                  <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search for food, restaurants..."
+                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-gray-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" autoFocus />
+                </div>
+                <button type="submit" className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold text-sm hover:from-purple-600 hover:to-indigo-600 transition-all">
+                  Search
+                </button>
+                <button type="button" onClick={() => setSearchOpen(false)} className="px-4 py-3 rounded-xl bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all text-sm">
+                  <FaTimes />
+                </button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* MOBILE OVERLAY */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+            onClick={() => setMobileOpen(false)} />
+        )}
+      </AnimatePresence>
 
       {/* MOBILE DRAWER */}
-      <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 shadow-2xl ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex justify-between items-center p-5 border-b">
-          <h2 className="text-xl font-bold text-indigo-600">Menu</h2>
-          <FaTimes
-            className="cursor-pointer hover:text-red-500 transition-colors"
-            onClick={() => setMobileOpen(false)}
-          />
+      <motion.div initial={{ x: "100%" }} animate={{ x: mobileOpen ? 0 : "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
+        className={`fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl`}>
+        <div className="flex justify-between items-center p-5 border-b border-gray-100">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm">🍔</div>
+            <span className="font-bold text-indigo-600">Menu</span>
+          </div>
+          <motion.button whileTap={{ scale: 0.9 }}
+            className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors"
+            onClick={() => setMobileOpen(false)}>
+            <FaTimes />
+          </motion.button>
         </div>
 
-        <div className="p-4 space-y-2">
+        {user && (
+          <div className="px-5 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <FaUserCircle className="text-3xl text-indigo-600" />
+              <div>
+                <p className="font-semibold text-gray-800 text-sm">{user.name}</p>
+                <p className="text-xs text-gray-500">{user.email}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="p-4 space-y-1">
           {menuLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
+            <NavLink key={link.name} to={link.path} end={link.path === "/"}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors duration-300"
-            >
-              {link.icon}
-              {link.name}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${isActive ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-gray-700 hover:bg-gray-50"}`
+              }>
+              {link.icon} {link.name}
             </NavLink>
           ))}
 
           {user && (
             <>
-              <Link
-                to="/profile"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors duration-300"
-              >
-                <FaUserCircle /> Profile
+              <hr className="my-2 border-gray-100" />
+              <Link to="/profile" onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all">
+                <FaUserCircle className="text-indigo-600" /> Profile
               </Link>
-
-              <Link
-                to="/orders"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors duration-300"
-              >
-                <FaClipboardList /> Orders
+              <Link to="/orders" onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all">
+                <FaClipboardList className="text-indigo-600" /> Orders
               </Link>
-
-                <Link
-                  to="/admin"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors text-red-500"
-                >
+              {user?.isAdmin && (
+                <Link to="/admin" onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-all">
                   <FaUserShield /> Admin Dashboard
                 </Link>
-
-              <button
-                onClick={() => {
-                  logout();
-                  setMobileOpen(false);
-                }}
-                className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors text-red-600 w-full text-left"
-              >
-                <FaSignOutAlt /> Logout
-              </button>
+              )}
             </>
           )}
 
+          <hr className="my-2 border-gray-100" />
+          <button onClick={() => { navigate("/cart"); setMobileOpen(false); }}
+            className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all w-full">
+            <div className="flex items-center gap-3"><FaShoppingCart className="text-indigo-600" /> Cart</div>
+            {cart?.length > 0 && (
+              <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full font-bold">{cart.length}</span>
+            )}
+          </button>
+
           {!user && (
-            <Link
-              to="/login"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
-            >
-              Login
+            <Link to="/login" onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center px-4 py-3 mt-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md">
+              <FaUserCircle className="mr-2" /> Login
             </Link>
           )}
 
-          <button
-            onClick={() => {
-              navigate("/cart");
-              setMobileOpen(false);
-            }}
-            className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors w-full"
-          >
-            <FaShoppingCart /> Cart {cart?.length > 0 && `(${cart.length})`}
-          </button>
+          {user && (
+            <button onClick={() => { logout(); setMobileOpen(false); }}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all w-full mt-2">
+              <FaSignOutAlt /> Logout
+            </button>
+          )}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

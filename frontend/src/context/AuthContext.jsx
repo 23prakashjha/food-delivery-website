@@ -100,6 +100,26 @@ export const AuthProvider = ({ children }) => {
   };
 
   /* =======================
+     ADMIN REGISTER
+  ======================= */
+  const adminRegister = async (name, email, password) => {
+    try {
+      const response = await API.post("/auth/register-admin", { name, email, password });
+      const data = response.data;
+      setUser(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error.response?.data?.message ||
+          "Admin registration failed. Please try again.",
+      };
+    }
+  };
+
+  /* =======================
      LOGOUT
   ======================= */
   const logout = () => {
@@ -114,6 +134,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
+        adminRegister,
         logout,
         isAuthenticated: !!user,
         isAdmin: !!user?.isAdmin,

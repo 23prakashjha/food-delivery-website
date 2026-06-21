@@ -1,262 +1,337 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FaStar, FaClock, FaUtensils } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaStar, FaClock, FaUtensils, FaAward, FaUsers, FaTruck, FaHeart, FaLeaf, FaShieldAlt, FaQuoteLeft, FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { Sparkles, Zap, Target, Eye, MapPin } from "lucide-react";
+import men from "../assets/men.jpeg";
+import women from "../assets/women.jpeg";
+import pizza from "../assets/pizza.jpeg";
+import burger from "../assets/burger.jpeg";
+import pasta from "../assets/pasta.jpeg";
+import momos from "../assets/momos.jpeg";
+import deserts from "../assets/deserts.jpeg";
+import delivery from "../assets/delivery.jpeg";
+import r1 from "../assets/restaurants/r1.jpeg";
+import r2 from "../assets/restaurants/r2.jpeg";
+import r3 from "../assets/restaurants/r3.jpeg";
+import r5 from "../assets/restaurants/r5.jpeg";
+import r7 from "../assets/restaurants/r7.jpeg";
+import foodbanner from "../assets/foodbanner.jpeg";
 
-const About = () => {
-  const categories = [
-  {
-    title: "Veg Specials 🥦",
-    items: [
-      { name: "Paneer Butter Masala", price: 250 },
-      { name: "Dal Tadka", price: 150 },
-      { name: "Veg Fried Rice", price: 180 },
-      { name: "Chole Bhature", price: 160 },
-      { name: "Aloo Gobi", price: 140 },
-      { name: "Malai Kofta", price: 220 },
-      { name: "Veg Manchurian", price: 200 },
-      { name: "Palak Paneer", price: 240 },
-      { name: "Mixed Veg Curry", price: 180 },
-      { name: "Veg Pulao", price: 170 },
-    ],
-    color: "bg-green-100 text-green-700",
-  },
-  {
-    title: "Non-Veg Delights 🍗",
-    items: [
-      { name: "Chicken Biryani", price: 300 },
-      { name: "Butter Chicken", price: 280 },
-      { name: "Mutton Curry", price: 350 },
-      { name: "Chicken Tikka Masala", price: 320 },
-      { name: "Egg Curry", price: 150 },
-      { name: "Fish Fry", price: 260 },
-      { name: "Prawn Masala", price: 400 },
-      { name: "Chicken Kebab", price: 220 },
-      { name: "Mutton Rogan Josh", price: 380 },
-      { name: "Chicken 65", price: 240 },
-    ],
-    color: "bg-red-100 text-red-700",
-  },
-  {
-    title: "Burgers 🍔",
-    items: [
-      { name: "Veg Burger", price: 120 },
-      { name: "Cheese Burger", price: 150 },
-      { name: "Chicken Burger", price: 180 },
-      { name: "Paneer Burger", price: 160 },
-      { name: "Double Patty Burger", price: 220 },
-      { name: "Egg Burger", price: 140 },
-      { name: "Spicy Chicken Burger", price: 190 },
-    ],
-    color: "bg-yellow-100 text-yellow-700",
-  },
-  {
-    title: "Pizzas 🍕",
-    items: [
-      { name: "Margherita Pizza", price: 220 },
-      { name: "Farmhouse Pizza", price: 260 },
-      { name: "Chicken Tikka Pizza", price: 300 },
-      { name: "Veggie Delight Pizza", price: 250 },
-      { name: "Paneer Makhani Pizza", price: 280 },
-      { name: "Pepperoni Pizza", price: 320 },
-      { name: "Cheese Burst Pizza", price: 350 },
-    ],
-    color: "bg-orange-100 text-orange-700",
-  },
-  {
-    title: "Momos & Rolls 🥟",
-    items: [
-      { name: "Veg Momos", price: 120 },
-      { name: "Chicken Momos", price: 150 },
-      { name: "Paneer Momos", price: 140 },
-      { name: "Fried Momos", price: 160 },
-      { name: "Veg Spring Roll", price: 130 },
-      { name: "Chicken Spring Roll", price: 150 },
-      { name: "Egg Roll", price: 120 },
-      { name: "Paneer Roll", price: 140 },
-      { name: "Chicken Roll", price: 160 },
-      { name: "Schezuan Momos", price: 170 },
-    ],
-    color: "bg-purple-100 text-purple-700",
-  },
-  {
-    title: "Desserts 🍰",
-    items: [
-      { name: "Chocolate Cake", price: 140 },
-      { name: "Ice Cream", price: 100 },
-      { name: "Gulab Jamun", price: 90 },
-      { name: "Rasgulla", price: 100 },
-      { name: "Brownie", price: 120 },
-      { name: "Cheesecake", price: 180 },
-      { name: "Fruit Custard", price: 130 },
-      { name: "Kulfi", price: 110 },
-      { name: "Ladoo", price: 80 },
-      { name: "Jalebi", price: 90 },
-    ],
-    color: "bg-pink-100 text-pink-700",
-  },
-  {
-    title: "Beverages 🥤",
-    items: [
-      { name: "Cold Coffee", price: 120 },
-      { name: "Fresh Lime Soda", price: 80 },
-      { name: "Mojito", price: 110 },
-      { name: "Masala Chai", price: 50 },
-      { name: "Green Tea", price: 60 },
-      { name: "Soft Drink", price: 70 },
-      { name: "Milkshake", price: 130 },
-      { name: "Lassi", price: 100 },
-      { name: "Coffee Latte", price: 140 },
-      { name: "Iced Tea", price: 90 },
-    ],
-    color: "bg-blue-100 text-blue-700",
-  },
-  {
-    title: "South Indian Specials 🍛",
-    items: [
-      { name: "Masala Dosa", price: 120 },
-      { name: "Rava Dosa", price: 110 },
-      { name: "Idli Sambhar", price: 80 },
-      { name: "Vada Sambhar", price: 90 },
-      { name: "Uttapam", price: 100 },
-      { name: "Pongal", price: 95 },
-      { name: "Coconut Chutney", price: 30 },
-      { name: "Filter Coffee", price: 60 },
-      { name: "Medu Vada", price: 70 },
-      { name: "Curd Rice", price: 85 },
-    ],
-    color: "bg-yellow-100 text-yellow-700",
-  },
-  {
-    title: "Punjabi Delights 🍲",
-    items: [
-      { name: "Butter Chicken", price: 280 },
-      { name: "Paneer Butter Masala", price: 250 },
-      { name: "Chole Bhature", price: 160 },
-      { name: "Rajma Chawal", price: 150 },
-      { name: "Sarson Ka Saag", price: 200 },
-      { name: "Makki Ki Roti", price: 50 },
-      { name: "Amritsari Kulcha", price: 120 },
-      { name: "Tandoori Chicken", price: 300 },
-      { name: "Dal Makhani", price: 180 },
-      { name: "Lassi (Sweet/Salty)", price: 100 },
-    ],
-    color: "bg-red-100 text-red-700",
-  },
+const stats = [
+  { value: "50000+", label: "Orders Delivered", icon: <FaTruck />, color: "from-indigo-500 to-blue-500" },
+  { value: "1200+", label: "Restaurant Partners", icon: <FaUtensils />, color: "from-purple-500 to-pink-500" },
+  { value: "350+", label: "Cities Covered", icon: <MapPin />, color: "from-orange-500 to-red-500" },
+  { value: "2L+", label: "Happy Customers", icon: <FaUsers />, color: "from-emerald-500 to-teal-500" },
 ];
 
+const milestones = [
+  { year: "2020", title: "The Beginning", desc: "FoodExpress was founded with a vision to connect food lovers with the best restaurants in their city." },
+  { year: "2021", title: "100 Partners", desc: "We onboarded our 100th restaurant partner and expanded delivery to 25 cities across India." },
+  { year: "2022", title: "1 Million Orders", desc: "Crossed 1 million orders milestone. Launched our loyalty program and referral rewards." },
+  { year: "2023", title: "Nationwide Expansion", desc: "Expanded to 200+ cities. Introduced contactless delivery and real-time order tracking." },
+  { year: "2024", title: "AI-Powered Platform", desc: "Launched AI-based restaurant recommendations, smart search, and personalized meal plans." },
+  { year: "2025", title: "Going Global", desc: "Started operations in 5 international markets. Serving over 50,000 orders daily." },
+  { year: "2026", title: "Industry Leader", desc: "Recognized as India's fastest-growing food delivery platform with 350+ cities and 50000+ orders daily." },
+];
 
-  const whyChoose = [
-    { title: "Fast Delivery 🚀", color: "bg-indigo-100 text-indigo-700" },
-    { title: "Top Quality 👌", color: "bg-green-100 text-green-700" },
-    { title: "Affordable Prices 💰", color: "bg-yellow-100 text-yellow-700" },
-    { title: "Wide Variety 🍴", color: "bg-pink-100 text-pink-700" },
-  ];
+const values = [
+  { icon: <FaTruck className="w-6 h-6" />, title: "Fast Delivery", desc: "We deliver within 30 minutes or it's free. Speed is our promise.", color: "from-indigo-500 to-blue-500", bg: "bg-indigo-50" },
+  { icon: <FaLeaf className="w-6 h-6" />, title: "Fresh & Quality", desc: "Every dish is prepared fresh with premium ingredients sourced daily.", color: "from-emerald-500 to-teal-500", bg: "bg-emerald-50" },
+  { icon: <FaHeart className="w-6 h-6" />, title: "Customer First", desc: "Your satisfaction drives everything we do. 24/7 support, always.", color: "from-pink-500 to-rose-500", bg: "bg-pink-50" },
+  { icon: <FaShieldAlt className="w-6 h-6" />, title: "Trust & Safety", desc: "Secure payments, hygiene-rated restaurants, and contactless delivery.", color: "from-purple-500 to-violet-500", bg: "bg-purple-50" },
+  { icon: <FaAward className="w-6 h-6" />, title: "Best Value", desc: "Great food at great prices. Exclusive deals and rewards for everyone.", color: "from-orange-500 to-red-500", bg: "bg-orange-50" },
+  { icon: <FaUsers className="w-6 h-6" />, title: "Community", desc: "Supporting local restaurants and creating a foodie community across India.", color: "from-cyan-500 to-blue-500", bg: "bg-cyan-50" },
+];
 
-  const chefs = [
-    { name: "Chef Ramesh", role: "Indian Cuisine", emoji: "👨‍🍳" },
-    { name: "Chef Anjali", role: "Italian & Continental", emoji: "👩‍🍳" },
-    { name: "Chef Vikram", role: "Desserts Expert", emoji: "👨‍🍳" },
-  ];
+const team = [
+  { name: "Arjun Mehta", role: "Founder & CEO", emoji: "👨‍💼", desc: "Visionary leader with 15+ years in food tech industry" },
+  { name: "Priya Sharma", role: "Chief Operating Officer", emoji: "👩‍💼", desc: "Operations expert who scaled delivery to 350+ cities" },
+  { name: "Rahul Kapoor", role: "Chief Technology Officer", emoji: "👨‍💻", desc: "Tech architect behind our AI-powered platform" },
+  { name: "Ananya Patel", role: "Head of Culinary", emoji: "👩‍🍳", desc: "Master chef curating menus with 500+ restaurant partners" },
+  { name: "Vikram Singh", role: "VP of Marketing", emoji: "👨‍🎤", desc: "Brand strategist behind our award-winning campaigns" },
+  { name: "Neha Gupta", role: "Head of Customer Experience", emoji: "👩‍💼", desc: "Ensuring world-class support across all channels" },
+];
+
+const reviews = [
+  { name: "Rohit Verma", role: "Food Blogger", text: "FoodExpress has transformed how I discover new restaurants. The recommendations are spot-on!", rating: 5, avatar: men },
+  { name: "Sneha Iyer", role: "Regular Customer", text: "The delivery is always on time and the food is piping hot. Best food delivery app in India!", rating: 5, avatar: women },
+  { name: "Amit Khanna", role: "Busy Professional", text: "As someone who works late, FoodExpress is a lifesaver. Great variety and amazing offers!", rating: 5, avatar: men },
+  { name: "Kavita Joshi", role: "Homemaker", text: "I love the family meal deals. Perfect for dinner with my family. Highly recommended!", rating: 4, avatar: women },
+  { name: "Deepak Malhotra", role: "College Student", text: "Budget-friendly options and frequent discounts make it perfect for students like me.", rating: 5, avatar: men },
+  { name: "Meera Nair", role: "Fitness Coach", text: "Love the healthy bowl and salad options. Clean eating has never been this convenient!", rating: 5, avatar: women },
+];
+
+const partners = [
+  { name: "Tandoori Nights", image: r1 },
+  { name: "Pizza Paradise", image: r2 },
+  { name: "Burger Barn", image: r3 },
+  { name: "Sushi World", image: r5 },
+  { name: "Spice Kitchen", image: r7 },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const About = () => {
+  const [currentReview, setCurrentReview] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentReview(prev => (prev + 1) % reviews.length), 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const handler = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
-      {/* ABOUT */}
-      <section className="text-center max-w-3xl mx-auto space-y-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          About FoodExpress
-        </h1>
-        <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
-          FoodExpress connects food lovers with the best restaurants in the city. 
-          From comfort food to gourmet dishes, we deliver happiness to your doorstep.
-        </p>
-      </section>
+    <div className="relative min-h-screen bg-gradient-to-b from-gray-50 via-indigo-50/20 to-white overflow-hidden">
+      {/* Background Blobs */}
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-400/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-400/10 blur-[120px] rounded-full pointer-events-none" />
 
-      {/* WHY CHOOSE US */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us?</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {whyChoose.map((item, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className={`bg-white ${item.color} p-6 rounded-2xl shadow-lg text-center flex flex-col justify-center items-center`}
-            >
-              <p className="text-lg font-semibold">{item.title}</p>
-            </motion.div>
-          ))}
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-yellow-400/20 blur-[120px] rounded-full" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500/20 blur-[120px] rounded-full" />
+        <div className="relative max-w-7xl mx-auto px-4 py-20 sm:py-28 text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-lg px-5 py-2 rounded-full mb-6 border border-white/10 shadow-lg">
+              <Sparkles className="w-4 h-4 text-yellow-300" />
+              <span className="text-sm font-semibold text-white/90">Our Story</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-5">
+              About{" "}
+              <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-400 bg-clip-text text-transparent">FoodExpress</span>
+            </h1>
+            <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto">
+              We're on a mission to deliver happiness — connecting food lovers with the best restaurants, one delicious meal at a time.
+            </p>
+          </motion.div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent" />
       </section>
 
-      {/* MENU */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Our Menu 🍕🍔🥗
-        </h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
-            >
-              <h3
-                className={`inline-block px-4 py-2 rounded-full text-sm font-bold mb-4 ${category.color}`}
-              >
-                {category.title}
-              </h3>
-              <ul className="space-y-4">
-                {category.items.map((item, i) => (
-                  <motion.li
-                    key={i}
-                    whileHover={{ scale: 1.03 }}
-                    className="flex justify-between items-center border-b pb-2 border-gray-200"
-                  >
-                    <span className="text-gray-700 font-medium flex items-center gap-2">
-                      <FaUtensils className="text-indigo-500" /> {item.name}
-                    </span>
-                    <span className="font-bold text-indigo-600">₹{item.price}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* CHEFS */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Meet Our Chefs 👨‍🍳
-        </h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {chefs.map((chef, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300"
-            >
-              <div className="w-24 h-24 flex items-center justify-center text-4xl mb-4 bg-linear-to-tr from-indigo-100 to-purple-100 rounded-full shadow-inner">
-                {chef.emoji}
+      <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-10">
+        {/* Stats Counter */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-20">
+          {stats.map((stat, index) => (
+            <motion.div key={index} whileHover={{ y: -8, scale: 1.03 }}
+              className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl p-6 text-center transition-all duration-500 border border-gray-100 overflow-hidden group">
+              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${stat.color}`} />
+              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                {stat.icon}
               </div>
-              <h3 className="text-lg font-bold">{chef.name}</h3>
-              <p className="text-gray-500">{chef.role}</p>
+              <h3 className="text-3xl font-extrabold text-gray-800">{stat.value}</h3>
+              <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
+              <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </motion.div>
           ))}
-        </div>
-      </section>
+        </motion.div>
 
-      {/* CALL TO ACTION */}
-      <section className="text-center mt-12">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          className="px-10 py-4 rounded-full bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
-        >
-          Explore All Restaurants 🍽️
-        </motion.button>
-      </section>
+        {/* Mission & Vision */}
+        <div className="grid md:grid-cols-2 gap-8 mb-20">
+          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            className="relative bg-white rounded-4xl shadow-xl border border-gray-100 p-8 md:p-10 overflow-hidden group">
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-indigo-400/10 blur-[80px] rounded-full" />
+            <div className="relative">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-5 shadow-lg">
+                <Target className="w-7 h-7 text-white" />
+              </div>
+              <h2 className="text-2xl font-extrabold text-gray-800 mb-3">Our Mission</h2>
+              <p className="text-gray-600 leading-relaxed">
+                To make great food accessible to everyone, everywhere. We strive to connect people with the 
+                best culinary experiences in their city, support local restaurants, and deliver happiness to 
+                every doorstep with speed, quality, and care.
+              </p>
+            </div>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+            className="relative bg-white rounded-4xl shadow-xl border border-gray-100 p-8 md:p-10 overflow-hidden group">
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-400/10 blur-[80px] rounded-full" />
+            <div className="relative">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-5 shadow-lg">
+                <Eye className="w-7 h-7 text-white" />
+              </div>
+              <h2 className="text-2xl font-extrabold text-gray-800 mb-3">Our Vision</h2>
+              <p className="text-gray-600 leading-relaxed">
+                To become the world's most loved food delivery platform — where every meal brings joy, 
+                every restaurant thrives, and every customer feels valued. We envision a future where 
+                great food is just a tap away, anywhere in the world.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Our Values */}
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">Our Core Values</h2>
+            <p className="text-gray-500 max-w-lg mx-auto">The principles that guide everything we do at FoodExpress</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {values.map((v, index) => (
+              <motion.div key={index} variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="relative bg-white rounded-3xl shadow-md hover:shadow-xl p-6 transition-all duration-500 border border-gray-100 overflow-hidden group">
+                <div className={`w-14 h-14 rounded-2xl ${v.bg} flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  {v.icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">{v.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{v.desc}</p>
+                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Our Journey Timeline */}
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-20">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">Our Journey</h2>
+            <p className="text-gray-500 max-w-lg mx-auto">How FoodExpress grew from an idea to India's favorite food delivery platform</p>
+          </div>
+          <div className="relative">
+            <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 transform sm:-translate-x-1/2" />
+            <div className="space-y-12">
+              {milestones.map((m, index) => (
+                <motion.div key={index} initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+                  className={`relative flex flex-col sm:flex-row items-start gap-6 ${index % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse"}`}>
+                  <div className={`flex-1 ${index % 2 === 0 ? "sm:text-right" : "sm:text-left"}`}>
+                    <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl p-6 transition-all duration-300 border border-gray-100">
+                      <span className="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold mb-2">{m.year}</span>
+                      <h3 className="text-xl font-bold text-gray-800 mb-1">{m.title}</h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">{m.desc}</p>
+                    </div>
+                  </div>
+                  <div className="relative z-10 flex-shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 border-4 border-white shadow-lg flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1 hidden sm:block" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Meet the Team */}
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">Meet Our Leadership</h2>
+            <p className="text-gray-500 max-w-lg mx-auto">The passionate people driving FoodExpress forward</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {team.map((member, index) => (
+              <motion.div key={index} variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl p-6 text-center transition-all duration-500 border border-gray-100 overflow-hidden group">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-4xl mx-auto mb-4 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                  {member.emoji}
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">{member.name}</h3>
+                <p className="text-indigo-600 text-sm font-semibold mb-2">{member.role}</p>
+                <p className="text-gray-500 text-sm">{member.desc}</p>
+                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Customer Reviews Carousel */}
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-20">
+          <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-4xl overflow-hidden shadow-2xl">
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-400/20 blur-[100px] rounded-full" />
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 blur-[100px] rounded-full" />
+            <div className="relative p-10 md:p-16">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white text-center mb-12">What Our Customers Say 💬</h2>
+              <AnimatePresence mode="wait">
+                <motion.div key={currentReview} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}
+                  className="max-w-3xl mx-auto text-center">
+                  <FaQuoteLeft className="text-white/20 text-5xl mb-6 mx-auto" />
+                  <p className="text-white/90 text-lg sm:text-xl leading-relaxed mb-8">"{reviews[currentReview].text}"</p>
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl font-bold text-white border-2 border-white/30">
+                      {reviews[currentReview].name.charAt(0)}
+                    </div>
+                    <div className="text-left">
+                      <h4 className="font-bold text-white">{reviews[currentReview].name}</h4>
+                      <p className="text-white/70 text-sm">{reviews[currentReview].role}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center gap-1 mt-4">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar key={i} className={i < reviews[currentReview].rating ? "text-yellow-400" : "text-white/20"} />
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              <div className="flex justify-center gap-2 mt-10">
+                {reviews.map((_, i) => (
+                  <button key={i} onClick={() => setCurrentReview(i)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${i === currentReview ? "bg-white w-8" : "bg-white/30 hover:bg-white/50"}`} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Our Partners */}
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">Our Restaurant Partners</h2>
+            <p className="text-gray-500 max-w-lg mx-auto">Trusted by India's finest restaurants</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+            {partners.map((p, index) => (
+              <motion.div key={index} whileHover={{ y: -6, scale: 1.03 }}
+                className="bg-white rounded-3xl shadow-md hover:shadow-xl overflow-hidden transition-all duration-500 border border-gray-100 group">
+                <div className="h-32 overflow-hidden">
+                  <img src={p.image} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                </div>
+                <div className="p-3 text-center">
+                  <p className="font-semibold text-gray-800 text-sm">{p.name}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* CTA */}
+        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-20">
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 rounded-4xl p-10 md:p-16 text-center shadow-2xl overflow-hidden">
+            <div className="absolute -top-40 -left-40 w-80 h-80 bg-indigo-500/20 blur-[100px] rounded-full" />
+            <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-purple-500/20 blur-[100px] rounded-full" />
+            <div className="relative">
+              <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="text-6xl mb-5">🍽️</motion.div>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Ready to Explore?</h2>
+              <p className="text-gray-400 max-w-xl mx-auto mb-8">Join millions of food lovers and discover the best restaurants in your city.</p>
+              <button className="px-10 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl inline-flex items-center gap-2">
+                Order Now <Zap className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </motion.section>
+      </div>
+
+      {/* Scroll to Top */}
+      {showScrollTop && (
+        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center">
+          <FaArrowRight className="-rotate-90" />
+        </button>
+      )}
     </div>
   );
 };

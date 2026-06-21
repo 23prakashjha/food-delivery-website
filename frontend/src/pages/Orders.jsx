@@ -49,7 +49,7 @@ const Orders = () => {
           </div>
           <div className="bg-indigo-50 rounded-2xl p-4 text-center shadow hover:shadow-md transition">
             <p className="text-sm text-gray-500">Total Spent</p>
-            <p className="text-xl font-bold text-indigo-600">${totalSpent}</p>
+            <p className="text-xl font-bold text-indigo-600">₹{totalSpent}</p>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ const Orders = () => {
                 {/* Footer */}
                 <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                   <p className="text-lg font-bold text-indigo-600">
-                    Total: ${order.total.toFixed(2)}
+                    Total: ₹{order.total.toFixed(2)}
                   </p>
                   <button className="px-6 py-2 border border-indigo-600 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition font-semibold">
                     View Details

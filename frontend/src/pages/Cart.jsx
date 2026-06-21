@@ -73,7 +73,7 @@ const Cart = () => {
                     {item.name}
                   </h3>
                   <p className="text-gray-500 text-sm">
-                    ${item.discountPrice ?? item.originalPrice}
+                    ₹{item.discountPrice ?? item.originalPrice}
                   </p>
                 </div>
 
@@ -139,7 +139,7 @@ const Cart = () => {
               <div className="flex justify-between text-lg font-semibold">
                 <span>Total</span>
                 <span className="text-orange-600">
-                  ${totalPrice.toFixed(2)}
+                  ₹{totalPrice.toFixed(2)}
                 </span>
               </div>
 

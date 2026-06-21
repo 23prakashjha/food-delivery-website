@@ -67,7 +67,7 @@ const Profile = () => {
           </div>
           <div className="bg-indigo-50 rounded-2xl p-4 shadow hover:shadow-md transition">
             <p className="text-sm text-gray-500">Total Spent</p>
-            <p className="text-xl font-bold text-indigo-600">${totalSpent.toFixed(2)}</p>
+            <p className="text-xl font-bold text-indigo-600">₹{totalSpent.toFixed(2)}</p>
           </div>
         </div>
       </motion.div>
