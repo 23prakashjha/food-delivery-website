@@ -55,10 +55,16 @@ const LoginRegister = () => {
           }
         }
       } else {
+        let result;
         if (isLogin) {
-          await login(formData.email, formData.password);
+          result = await login(formData.email, formData.password);
         } else {
-          await register(formData.name, formData.email, formData.password);
+          result = await register(formData.name, formData.email, formData.password);
+        }
+        if (!result.success) {
+          setError(result.message);
+          setLoading(false);
+          return;
         }
         navigate("/");
       }

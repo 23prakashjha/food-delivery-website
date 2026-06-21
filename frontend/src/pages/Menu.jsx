@@ -318,7 +318,7 @@ const Menu = () => {
             </div>
             <div>
               <p className="text-xs text-gray-500">Cart Total</p>
-              <p className="font-bold text-gray-800">${totalPrice.toFixed(2)}</p>
+              <p className="font-bold text-gray-800">₹{totalPrice.toFixed(2)}</p>
             </div>
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
               <ArrowRight className="w-4 h-4" />
