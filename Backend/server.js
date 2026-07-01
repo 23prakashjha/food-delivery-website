@@ -36,6 +36,9 @@ app.use(
   })
 );
 
+// Handle preflight requests
+app.options("*", cors());
+
 // ===== Middleware =====
 app.use(express.json()); // for parsing JSON
 app.use(express.urlencoded({ extended: true })); // for parsing form-data
