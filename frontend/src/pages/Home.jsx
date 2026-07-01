@@ -285,28 +285,38 @@ const Home = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="flex justify-center lg:justify-end">
-              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl w-full max-w-sm sm:max-w-md border border-white/10">
-                <div className="flex justify-center mb-6">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-5xl shadow-2xl">
-                    🛵
+              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative w-full max-w-sm sm:max-w-md">
+                <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-8 shadow-2xl border border-white/10">
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square">
+                      <img src={pizza} alt="Pizza" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square mt-6">
+                      <img src={burger} alt="Burger" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square -mt-6">
+                      <img src={momos} alt="Momos" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square">
+                      <img src={pasta} alt="Pasta" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                    </div>
+                  </div>
+                  <div className="flex justify-between mb-4">
+                    <div className="bg-white/90 text-black px-4 py-2 rounded-full shadow font-bold flex items-center gap-1 text-sm">
+                      <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
+                    </div>
+                    <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow flex items-center gap-1 text-sm">
+                      <Clock className="w-4 h-4" /> 30 Min
+                    </div>
+                  </div>
+                  <div className="flex justify-center gap-2 flex-wrap">
+                    {["🍕 Pizza", "🍔 Burger", "🥟 Momos", "🍝 Pasta"].map((item, i) => (
+                      <span key={i} className="bg-white/90 text-black px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">{item}</span>
+                    ))}
                   </div>
                 </div>
-                <div className="flex justify-between mb-6">
-                  <div className="bg-white/90 text-black px-4 py-2 rounded-full shadow font-bold flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
-                  </div>
-                  <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow flex items-center gap-1">
-                    <Clock className="w-4 h-4" /> 30 Min
-                  </div>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-2xl font-bold mb-2">Fast & Safe Delivery</h3>
-                  <p className="text-white/70 text-sm">Fresh meals delivered to your doorstep</p>
-                </div>
-                <div className="mt-6 flex justify-center gap-3 flex-wrap">
-                  {["🍕 Pizza", "🍔 Burger", "🥗 Healthy"].map((item, i) => (
-                    <span key={i} className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-semibold shadow-sm">{item}</span>
-                  ))}
+                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-xl flex items-center gap-2 text-sm">
+                  <Zap className="w-4 h-4" /> Free Delivery
                 </div>
               </motion.div>
             </motion.div>
