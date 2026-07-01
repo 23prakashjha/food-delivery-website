@@ -229,9 +229,12 @@ const Home = () => {
           SECTION 1: HERO WITH LIVE STATS
       =============================================== */}
       <section className="relative min-h-screen flex items-center overflow-hidden text-white bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-400/30 blur-[140px] rounded-full" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-500/30 blur-[140px] rounded-full" />
-        <div className="absolute top-1/3 left-1/2 w-64 h-64 bg-cyan-400/20 blur-[120px] rounded-full" />
+        {/* Animated gradient orbs */}
+        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-400/30 blur-[140px] rounded-full" />
+        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-500/30 blur-[140px] rounded-full" />
+        <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }} className="absolute top-1/3 left-1/2 w-64 h-64 bg-cyan-400/20 blur-[120px] rounded-full" />
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
         <div className="relative max-w-7xl mx-auto px-6 py-28 w-full">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -285,30 +288,45 @@ const Home = () => {
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="flex justify-center lg:justify-end">
+            <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="flex justify-center lg:justify-end relative">
+              {/* Floating decorative food emojis */}
+              <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-6 -left-8 text-4xl z-10 hidden sm:block drop-shadow-2xl">🍕</motion.span>
+              <motion.span animate={{ y: [0, -15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-12 -right-8 text-3xl z-10 hidden sm:block drop-shadow-2xl">🌮</motion.span>
+              <motion.span animate={{ y: [0, -25, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute -bottom-4 -left-4 text-3xl z-10 hidden sm:block drop-shadow-2xl">🍦</motion.span>
+
               <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative w-full max-w-lg">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20">
-                  <img src={hero} alt="Delicious fast food spread" className="w-full h-full object-cover aspect-[4/5] sm:aspect-[3/4]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                {/* Glow ring behind image */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-[2rem] blur-2xl" />
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 group">
+                  <img src={hero} alt="Delicious fast food spread" className="w-full h-full object-cover aspect-[4/5] sm:aspect-[3/4] group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Corner accents */}
+                  <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-yellow-400/60 rounded-tl-xl" />
+                  <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-yellow-400/60 rounded-tr-xl" />
+                  <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-yellow-400/60 rounded-bl-xl" />
+                  <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-yellow-400/60 rounded-br-xl" />
+                  {/* Shine overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center justify-between">
-                      <div className="bg-white/90 backdrop-blur-xl text-black px-4 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} className="bg-white/90 backdrop-blur-xl text-black px-4 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
                         <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
-                      </div>
-                      <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
+                      </motion.div>
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7, type: "spring" }} className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
                         <Clock className="w-4 h-4" /> 30 Min
-                      </div>
+                      </motion.div>
                     </div>
-                    <div className="mt-3 flex items-center gap-3">
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mt-3 flex items-center gap-3">
                       <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍔 Burger</span>
                       <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍟 Fries</span>
                       <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🥤 Drink</span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-xl flex items-center gap-2 text-sm">
+                {/* Free Delivery badge */}
+                <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-5 -right-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2.5 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30">
                   <Zap className="w-4 h-4" /> Free Delivery
-                </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           </div>
