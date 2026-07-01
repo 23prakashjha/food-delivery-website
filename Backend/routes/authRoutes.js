@@ -78,7 +78,7 @@ router.post("/login", async (req, res) => {
     }
 
     const user = await User.findOne({ email }).select("+password");
-    if (!user) {
+    if (!user || !user.password) {
       return res.status(401).json({
         message: "Invalid credentials",
       });
@@ -105,7 +105,7 @@ router.post("/login", async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error("Login error:", error.message);
+    console.error("Login error:", error);
     res.status(500).json({
       message: "Login failed",
     });

@@ -20,6 +20,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://food-delivery-website-self-chi.vercel.app",
+  "https://food-delivery-website-2-qpp0.onrender.com",
 ];
 
 app.use(
@@ -34,9 +35,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// Handle preflight requests
-app.options("*", cors());
 
 // ===== Middleware =====
 app.use(express.json()); // for parsing JSON
