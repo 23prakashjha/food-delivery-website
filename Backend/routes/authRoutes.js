@@ -7,6 +7,8 @@ import adminMiddleware from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
+const JWT_SECRET = process.env.JWT_SECRET || "food_delivery_jwt_secret_key_2026";
+
 /* =======================
    REGISTER
 ======================= */
@@ -27,10 +29,6 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({ message: "Server configuration error" });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -41,7 +39,7 @@ router.post("/register", async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 
@@ -73,10 +71,6 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({ message: "Server configuration error" });
-    }
-
     const user = await User.findOne({ email }).select("+password");
     if (!user || !user.password) {
       return res.status(401).json({
@@ -93,7 +87,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 
@@ -128,10 +122,6 @@ router.post("/register-admin", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({ message: "Server configuration error" });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -143,7 +133,7 @@ router.post("/register-admin", async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 

@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.js"; // Make sure this path is correct
+import User from "../models/User.js";
+
+const JWT_SECRET = process.env.JWT_SECRET || "food_delivery_jwt_secret_key_2026";
 
 const authMiddleware = async (req, res, next) => {
   try {
-    // Get token from Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "Not authorized, no token" });
@@ -11,8 +12,7 @@ const authMiddleware = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     // Fetch user from database (exclude password)
     const user = await User.findById(decoded.id).select("-password");
