@@ -17,6 +17,7 @@ import pasta from "../assets/pasta.jpeg";
 import brevage from "../assets/brevage.jpeg";
 import panneertikka from "../assets/panneertikka.jpeg";
 import deserts from "../assets/deserts.jpeg";
+import hero from "../assets/hero.jpeg";
 import foodbanner from "../assets/foodbanner.jpeg";
 import mobileapp from "../assets/mobileapp.jpeg";
 import delivery from "../assets/delivery.jpeg";
@@ -285,34 +286,24 @@ const Home = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="flex justify-center lg:justify-end">
-              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative w-full max-w-sm sm:max-w-md">
-                <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-8 shadow-2xl border border-white/10">
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square">
-                      <img src={pizza} alt="Pizza" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative w-full max-w-lg">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+                  <img src={hero} alt="Delicious fast food spread" className="w-full h-full object-cover aspect-[4/5] sm:aspect-[3/4]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="bg-white/90 backdrop-blur-xl text-black px-4 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
+                        <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
+                      </div>
+                      <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
+                        <Clock className="w-4 h-4" /> 30 Min
+                      </div>
                     </div>
-                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square mt-6">
-                      <img src={burger} alt="Burger" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                    <div className="mt-3 flex items-center gap-3">
+                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍔 Burger</span>
+                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍟 Fries</span>
+                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🥤 Drink</span>
                     </div>
-                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square -mt-6">
-                      <img src={momos} alt="Momos" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div className="rounded-2xl overflow-hidden shadow-lg aspect-square">
-                      <img src={pasta} alt="Pasta" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-                    </div>
-                  </div>
-                  <div className="flex justify-between mb-4">
-                    <div className="bg-white/90 text-black px-4 py-2 rounded-full shadow font-bold flex items-center gap-1 text-sm">
-                      <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
-                    </div>
-                    <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow flex items-center gap-1 text-sm">
-                      <Clock className="w-4 h-4" /> 30 Min
-                    </div>
-                  </div>
-                  <div className="flex justify-center gap-2 flex-wrap">
-                    {["🍕 Pizza", "🍔 Burger", "🥟 Momos", "🍝 Pasta"].map((item, i) => (
-                      <span key={i} className="bg-white/90 text-black px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">{item}</span>
-                    ))}
                   </div>
                 </div>
                 <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-xl flex items-center gap-2 text-sm">
