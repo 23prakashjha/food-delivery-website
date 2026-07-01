@@ -24,7 +24,7 @@ const Profile = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/orders");
+        const res = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/orders");
         setOrders(res.data || []);
       } catch (error) {
         console.error("Failed to fetch orders:", error);

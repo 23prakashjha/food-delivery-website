@@ -152,7 +152,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/foods");
+        const { data } = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/foods");
         if (data && data.length > 0) setFoods(data);
       } catch {
         /* no fallback */
@@ -399,7 +399,7 @@ const Home = () => {
                     <motion.div key={food._id} variants={itemVariants} whileHover={{ y: -8, scale: 1.03 }}
                       className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group border border-white/60">
                       <div className="h-44 overflow-hidden">
-                        <img src={food.image ? `https://food-delivery-website-j8y3.onrender.com/uploads/${food.image}` : food.image} alt={food.name}
+                        <img src={food.image ? `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}` : food.image} alt={food.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                       </div>
                       <div className="p-5">

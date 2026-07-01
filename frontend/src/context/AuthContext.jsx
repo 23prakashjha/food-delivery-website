@@ -10,7 +10,7 @@ import axios from "axios";
    AXIOS INSTANCE
 ======================= */
 const API = axios.create({
-  baseURL: "https://food-delivery-website-j8y3.onrender.com/api",
+  baseURL: "https://food-delivery-website-2-qpp0.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },

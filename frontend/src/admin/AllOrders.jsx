@@ -27,7 +27,7 @@ const AllOrders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/orders");
+        const res = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/orders");
         setOrders(res.data || []);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
@@ -51,7 +51,7 @@ const AllOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.put(`https://food-delivery-website-j8y3.onrender.com/api/orders/${orderId}/status`, { status: newStatus });
+      await axios.put(`https://food-delivery-website-2-qpp0.onrender.com/api/orders/${orderId}/status`, { status: newStatus });
       setOrders(prev => prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
       showToast(`Order marked as ${newStatus}`);
     } catch (err) {

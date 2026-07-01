@@ -13,7 +13,7 @@ const ManageFood = () => {
   const [toast, setToast] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
-  const backendURL = "https://food-delivery-website-j8y3.onrender.com";
+  const backendURL = "https://food-delivery-website-2-qpp0.onrender.com";
   const apiURL = `${backendURL}/api/foods`;
 
   const showToast = (message, type = "success") => {

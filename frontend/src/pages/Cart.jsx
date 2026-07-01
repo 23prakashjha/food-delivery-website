@@ -61,7 +61,7 @@ const Cart = () => {
                 {/* IMAGE */}
                 {item.image && (
                   <img
-                    src={`https://food-delivery-website-j8y3.onrender.com/uploads/${item.image}`}
+                    src={`https://food-delivery-website-2-qpp0.onrender.com/uploads/${item.image}`}
                     alt={item.name}
                     className="w-24 h-24 rounded-xl object-cover"
                   />

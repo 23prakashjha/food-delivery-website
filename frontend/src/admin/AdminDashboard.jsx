@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { PlusCircle, Utensils, ShoppingBag, Users } from "lucide-react";
 import { FaTrash, FaUserShield, FaUser, FaSearch, FaCheckCircle, FaTimes } from "react-icons/fa";
 
-const API_BASE = "https://food-delivery-website-j8y3.onrender.com/api";
+const API_BASE = "https://food-delivery-website-2-qpp0.onrender.com/api";
 
 const AdminDashboard = () => {
   const { user: currentUser } = useAuth();

@@ -102,7 +102,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("https://food-delivery-website-j8y3.onrender.com/api/foods");
+        const { data } = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/foods");
         const apiFoods = (data || []).map(f => ({ ...f, _id: `api-${f._id}` }));
         setFoods(apiFoods);
       } catch {
@@ -335,7 +335,7 @@ const FoodCard = ({ food, onAdd }) => {
   const imgSrc = food.image
     ? (typeof food.image === "string" && (food.image.startsWith("http") || food.image.startsWith("data:"))
       ? food.image
-      : `https://food-delivery-website-j8y3.onrender.com/uploads/${food.image}`)
+      : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`)
     : null;
   const gradient = categoryGradients[food.category] || "from-indigo-400 to-purple-500";
 
