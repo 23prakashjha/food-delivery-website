@@ -27,6 +27,10 @@ router.post("/register", async (req, res) => {
       });
     }
 
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "Server configuration error" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -34,10 +38,6 @@ router.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
     });
-
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET missing");
-    }
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
@@ -61,7 +61,7 @@ router.post("/register", async (req, res) => {
 });
 
 /* =======================
-   LOGIN (FIXED)
+   LOGIN
 ======================= */
 router.post("/login", async (req, res) => {
   try {
@@ -73,7 +73,10 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // 🔴 IMPORTANT FIX
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "Server configuration error" });
+    }
+
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(401).json({
@@ -86,10 +89,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({
         message: "Invalid credentials",
       });
-    }
-
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET missing");
     }
 
     const token = jwt.sign(
@@ -127,6 +126,10 @@ router.post("/register-admin", async (req, res) => {
     const exist = await User.findOne({ email });
     if (exist) {
       return res.status(400).json({ message: "User already exists" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "Server configuration error" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
