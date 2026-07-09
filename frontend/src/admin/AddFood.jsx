@@ -66,10 +66,7 @@ const AddFood = () => {
 
       const res = await axios.post(
         "https://food-delivery-website-2-qpp0.onrender.com/api/foods",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        formData
       );
 
       if (res.status === 201 || res.status === 200) {
