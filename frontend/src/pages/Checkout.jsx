@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
+const API = "https://food-delivery-website-2-qpp0.onrender.com/api";
+
 const Checkout = () => {
   const { cart, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
@@ -19,53 +21,84 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  /* Redirect if cart empty */
   useEffect(() => {
     if (cart.length === 0) navigate("/cart");
   }, [cart, navigate]);
 
-  /* ================= PLACE ORDER + PAYMENT ================= */
   const handlePlaceOrder = async () => {
     if (cart.length === 0) return;
 
     try {
       setLoading(true);
 
-      // 1️⃣ Create Order
-      const orderRes = await axios.post(
-        "https://food-delivery-website-2-qpp0.onrender.com/api/orders",
-        {
-          items: cart,
-          totalAmount: totalPrice,
-          paymentMethod,
-        }
-      );
+      const orderRes = await axios.post(`${API}/orders`, {
+        items: cart,
+        totalAmount: totalPrice,
+        paymentMethod,
+      });
 
       const orderId = orderRes.data.order._id;
 
-      // 2️⃣ Process Payment (if not COD)
-      if (paymentMethod !== "cod") {
-        await axios.post("https://food-delivery-website-2-qpp0.onrender.com/api/payment/create", {
-          orderId,
-          paymentMethod,
-        });
+      if (paymentMethod === "cod") {
+        clearCart();
+        setSuccess(true);
+        setTimeout(() => navigate("/orders"), 2500);
+        return;
       }
 
-      clearCart();
-      setSuccess(true);
+      const payRes = await axios.post(`${API}/payment/create`, { orderId });
+      const { id: razorpayOrderId, amount, currency, key_id } = payRes.data;
 
-      setTimeout(() => navigate("/orders"), 2500);
+      const options = {
+        key: key_id,
+        amount,
+        currency,
+        name: "Food Express",
+        description: "Food Order Payment",
+        order_id: razorpayOrderId,
+        handler: async function (response) {
+          try {
+            await axios.post(`${API}/payment/verify`, {
+              orderId,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            clearCart();
+            setSuccess(true);
+            setTimeout(() => navigate("/orders"), 2500);
+          } catch {
+            alert("Payment verification failed. Please contact support.");
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+          },
+        },
+        prefill: {
+          contact: "",
+        },
+        theme: {
+          color: "#f97316",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.on("payment.failed", function (response) {
+        alert(response.error.description || "Payment failed. Please try again.");
+        setLoading(false);
+      });
+      razorpay.open();
     } catch (error) {
       alert(
-        error?.response?.data?.message ||
-          "❌ Payment failed. Please try again."
+        error?.response?.data?.message || "Payment failed. Please try again."
       );
-    } finally {
       setLoading(false);
     }
   };
 
-  /* ================= UI ================= */
   return (
     <AnimatePresence mode="wait">
       {success ? (
@@ -79,7 +112,7 @@ const Checkout = () => {
           <div className="bg-white rounded-3xl shadow-2xl p-10 text-center max-w-md w-full">
             <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
             <h2 className="text-3xl font-extrabold mb-2">
-              Payment Successful 🎉
+              Payment Successful
             </h2>
             <p className="text-gray-500 mb-6">
               Your order has been confirmed!
@@ -98,15 +131,11 @@ const Checkout = () => {
           className="max-w-7xl mx-auto px-4 py-12"
         >
           <h1 className="text-4xl font-extrabold text-center mb-12">
-            Secure Checkout 🔒
+            Secure Checkout
           </h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
-            {/* LEFT */}
             <div className="lg:col-span-2 space-y-8">
-
-              {/* ORDER SUMMARY */}
               <div className="bg-white rounded-3xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold mb-6">
                   Order Summary
@@ -142,7 +171,6 @@ const Checkout = () => {
                 ))}
               </div>
 
-              {/* PAYMENT METHOD */}
               <div className="bg-white rounded-3xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold mb-6">
                   Payment Method
@@ -203,7 +231,6 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* RIGHT */}
             <div className="bg-white rounded-3xl shadow-xl p-6 h-fit sticky top-24">
               <h2 className="text-2xl font-bold mb-6">
                 Price Details
@@ -247,7 +274,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-
-
-
