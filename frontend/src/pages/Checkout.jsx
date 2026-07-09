@@ -46,51 +46,57 @@ const Checkout = () => {
         return;
       }
 
-      const payRes = await axios.post(`${API}/payment/create`, { orderId });
-      const { id: razorpayOrderId, amount, currency, key_id } = payRes.data;
+      const payRes = await axios.post(`${API}/payment/create`, { orderId, paymentMethod });
+      const data = payRes.data;
 
-      const options = {
-        key: key_id,
-        amount,
-        currency,
-        name: "Food Express",
-        description: "Food Order Payment",
-        order_id: razorpayOrderId,
-        handler: async function (response) {
-          try {
-            await axios.post(`${API}/payment/verify`, {
-              orderId,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-            });
+      if (data.id && data.key_id) {
+        const options = {
+          key: data.key_id,
+          amount: data.amount,
+          currency: data.currency,
+          name: "Food Express",
+          description: "Food Order Payment",
+          order_id: data.id,
+          handler: async function (response) {
+            try {
+              await axios.post(`${API}/payment/verify`, {
+                orderId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              });
 
-            clearCart();
-            setSuccess(true);
-            setTimeout(() => navigate("/orders"), 2500);
-          } catch {
-            alert("Payment verification failed. Please contact support.");
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
+              clearCart();
+              setSuccess(true);
+              setTimeout(() => navigate("/orders"), 2500);
+            } catch {
+              alert("Payment verification failed. Please contact support.");
+            }
           },
-        },
-        prefill: {
-          contact: "",
-        },
-        theme: {
-          color: "#f97316",
-        },
-      };
+          modal: {
+            ondismiss: function () {
+              setLoading(false);
+            },
+          },
+          prefill: {
+            contact: "",
+          },
+          theme: {
+            color: "#f97316",
+          },
+        };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.on("payment.failed", function (response) {
-        alert(response.error.description || "Payment failed. Please try again.");
-        setLoading(false);
-      });
-      razorpay.open();
+        const razorpay = new window.Razorpay(options);
+        razorpay.on("payment.failed", function (response) {
+          alert(response.error.description || "Payment failed. Please try again.");
+          setLoading(false);
+        });
+        razorpay.open();
+      } else {
+        clearCart();
+        setSuccess(true);
+        setTimeout(() => navigate("/orders"), 2500);
+      }
     } catch (error) {
       alert(
         error?.response?.data?.message || "Payment failed. Please try again."
