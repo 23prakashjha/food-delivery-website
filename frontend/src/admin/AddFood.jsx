@@ -87,7 +87,7 @@ const AddFood = () => {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to add food. Please try again.");
+      alert(err?.response?.data?.message || "Failed to add food. Please try again.");
     } finally {
       setLoading(false);
     }
