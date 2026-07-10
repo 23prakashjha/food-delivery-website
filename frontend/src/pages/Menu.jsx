@@ -355,6 +355,9 @@ const FoodCard = ({ food, onAdd }) => {
     return food.discountPrice ?? food.originalPrice;
   };
 
+  const hasDiscount = !hasSizes && food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice;
+  const discountPercent = hasDiscount ? Math.round((1 - food.discountPrice / food.originalPrice) * 100) : 0;
+
   const handleAdd = () => {
     onAdd({
       ...food,
@@ -380,28 +383,27 @@ const FoodCard = ({ food, onAdd }) => {
         <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-indigo-600 shadow-sm">
           {food.category}
         </span>
-        {food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice && !hasSizes && (
-          <span className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
-            -{Math.round((1 - food.discountPrice / food.originalPrice) * 100)}%
+        {hasDiscount && (
+          <span className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+            {discountPercent}% OFF
           </span>
+        )}
+        {food.rating > 0 && (
+          <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-bold flex items-center gap-1 shadow-lg">
+            <FaStar className="text-yellow-400" /> {food.rating.toFixed(1)}
+          </div>
         )}
       </div>
       <div className="p-5 flex flex-col flex-1 space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors truncate">{food.name}</h3>
-          {food.rating > 0 && (
-            <div className="flex items-center gap-1 text-yellow-500 text-xs font-semibold bg-yellow-50 px-2 py-1 rounded-full flex-shrink-0">
-              <FaStar className="text-yellow-500" /> {food.rating.toFixed(1)}
-            </div>
-          )}
+        <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{food.name}</h3>
+        <p className="text-gray-500 text-sm flex-1 line-clamp-2 leading-relaxed">{food.description || "Delicious food item"}</p>
+        <div className="flex items-center gap-1">
+          {[...Array(5)].map((_, i) => (
+            <FaStar key={i} className={`text-sm ${i < Math.round(food.rating || 4) ? "text-yellow-400" : "text-gray-200"}`} />
+          ))}
+          <span className="text-gray-500 text-xs ml-1 font-medium">({food.rating > 0 ? food.rating.toFixed(1) : "4.0"})</span>
+          {food.rating > 0 && <span className="text-gray-400 text-xs ml-1">• {food.rating > 4 ? "Popular" : "Good"}</span>}
         </div>
-        <p className="text-gray-500 text-sm flex-1 line-clamp-2">{food.description}</p>
-        {(!food.rating || food.rating === 0) && (
-          <div className="flex items-center gap-1 text-yellow-400 text-xs">
-            {[...Array(5)].map((_, i) => <FaStar key={i} className={i < 4 ? "text-yellow-400" : "text-gray-200"} />)}
-            <span className="text-gray-500 ml-1">(4.0)</span>
-          </div>
-        )}
         {hasSizes && sizes.length > 0 && (
           <div className="flex gap-1.5 flex-wrap">
             {sizes.map((s) => (
@@ -419,11 +421,16 @@ const FoodCard = ({ food, onAdd }) => {
             ))}
           </div>
         )}
-        <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-50">
-          <div>
-            <span className="text-xl font-bold text-indigo-600">₹{getCurrentPrice()}</span>
-            {!hasSizes && food.discountPrice && food.originalPrice > food.discountPrice && (
-              <span className="text-gray-400 line-through text-sm ml-2">₹{food.originalPrice}</span>
+        <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-100">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-extrabold text-indigo-600">₹{getCurrentPrice()}</span>
+              {hasDiscount && (
+                <span className="text-gray-400 line-through text-sm font-medium">₹{food.originalPrice}</span>
+              )}
+            </div>
+            {hasDiscount && (
+              <span className="text-green-600 text-xs font-bold mt-0.5">You save ₹{(food.originalPrice - food.discountPrice).toFixed(0)}</span>
             )}
           </div>
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}

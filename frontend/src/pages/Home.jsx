@@ -18,6 +18,7 @@ import brevage from "../assets/brevage.jpeg";
 import panneertikka from "../assets/panneertikka.jpeg";
 import deserts from "../assets/deserts.jpeg";
 import heroBg from "../assets/hero-bg.jpeg";
+import heroPanel from "../assets/hero-panel.jpeg";
 import foodbanner from "../assets/foodbanner.jpeg";
 import mobileapp from "../assets/mobileapp.jpeg";
 import delivery from "../assets/delivery.jpeg";
@@ -226,109 +227,155 @@ const Home = () => {
     <div className="space-y-0 overflow-hidden">
 
       {/* ===============================================
-          SECTION 1: HERO WITH FULL BACKGROUND IMAGE
+          SECTION 1: STUNNING HERO SECTION
       =============================================== */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden text-white">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden text-white">
         {/* Full Background Image */}
         <div className="absolute inset-0">
           <img src={heroBg} alt="Delicious food background" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
-        {/* Animated gradient orbs */}
-        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-400/20 blur-[140px] rounded-full" />
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-500/20 blur-[140px] rounded-full" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-28 w-full">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="max-w-xl">
-              <div className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-xl px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
-                <span className="relative flex h-3 w-3">
+        {/* Animated glow orbs */}
+        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-32 -left-32 w-80 h-80 bg-yellow-400/25 blur-[120px] rounded-full" />
+        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-32 -right-32 w-80 h-80 bg-orange-500/25 blur-[120px] rounded-full" />
+        <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }} className="absolute top-1/4 left-1/3 w-64 h-64 bg-pink-400/15 blur-[100px] rounded-full" />
+
+        <div className="relative max-w-7xl mx-auto px-6 py-20 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+            {/* LEFT: Text Content */}
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="space-y-7">
+              {/* Badge */}
+              <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-lg border border-white/15">
+                <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
                 </span>
-                <span className="font-semibold tracking-wide">Live Order Tracking</span>
-              </div>
+                <span className="font-semibold tracking-wide text-sm">Live Order Tracking • Fast Delivery</span>
+              </motion.div>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight">
-                Delicious Food <br />
+              {/* Heading */}
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.1]">
+                Taste the{" "}
+                <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
+                  Best Food
+                </span>
+                <br />
                 Delivered{" "}
-                <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">Fresh & Fast</span>
+                <span className="bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
+                  Fresh & Fast
+                </span>
               </h1>
 
-              <p className="mt-6 text-lg sm:text-xl text-white/80 leading-relaxed">
-                Discover top restaurants near you and enjoy hot, delicious meals delivered in under{" "}
+              {/* Subtitle */}
+              <p className="text-lg sm:text-xl text-white/75 leading-relaxed max-w-lg">
+                Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
                 <span className="text-yellow-400 font-bold">30 minutes</span>.
               </p>
 
-              <div className="mt-10 flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-lg border border-white/20">
-                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none" />
-                <button className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 text-white font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300">Search</button>
+              {/* Search Bar */}
+              <div className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-lg border border-white/20">
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
+                <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
+                  <Search className="w-4 h-4" /> Search
+                </button>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-5">
-                <Link to="/menu" className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-10 py-4 rounded-xl font-bold text-lg shadow-xl hover:from-yellow-500 hover:to-orange-600 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
-                  Order Now <ArrowRight className="w-5 h-5" />
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4">
+                <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+                  Order Now
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/menu" className="border-2 border-white/40 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300">
+                <Link to="/menu" className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm">
                   View Menu
                 </Link>
               </div>
 
-              <div className="mt-10 flex items-center gap-8 text-white/70">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-green-400" />
-                  <span className="text-sm">Secure</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Truck className="w-5 h-5 text-yellow-400" />
-                  <span className="text-sm">Free Delivery</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm">4.9 Rating</span>
-                </div>
+              {/* Trust Badges */}
+              <div className="flex flex-wrap items-center gap-6 pt-2">
+                {[
+                  { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
+                  { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
+                  { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
+                ].map((badge, i) => (
+                  <div key={i} className="flex items-center gap-2 text-white/60 text-sm">
+                    {badge.icon}
+                    <span>{badge.label}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="hidden lg:flex justify-end relative">
+            {/* RIGHT: Image Panel + Floating Cards */}
+            <motion.div initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.2 }} className="hidden lg:flex justify-center relative">
               {/* Floating food emojis */}
-              <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-6 -left-8 text-4xl z-10 drop-shadow-2xl">🍕</motion.span>
-              <motion.span animate={{ y: [0, -15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-12 -right-8 text-3xl z-10 drop-shadow-2xl">🌮</motion.span>
-              <motion.span animate={{ y: [0, -25, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute -bottom-4 -left-4 text-3xl z-10 drop-shadow-2xl">🍦</motion.span>
+              <motion.span animate={{ y: [0, -18, 0], rotate: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-4 left-0 text-4xl z-20 drop-shadow-2xl">🍕</motion.span>
+              <motion.span animate={{ y: [0, -14, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-8 -right-6 text-3xl z-20 drop-shadow-2xl">🌮</motion.span>
+              <motion.span animate={{ y: [0, -22, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute bottom-12 -left-2 text-3xl z-20 drop-shadow-2xl">🍦</motion.span>
+              <motion.span animate={{ y: [0, -16, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }} className="absolute top-1/3 -right-10 text-2xl z-20 drop-shadow-2xl">🍔</motion.span>
 
-              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative">
-                {/* Glow ring */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-[2rem] blur-2xl" />
-                <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl w-full max-w-sm text-white border border-white/10">
-                  <div className="flex justify-between mb-6">
-                    <span className="bg-white/90 text-orange-600 px-4 py-2 rounded-full font-bold shadow flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-orange-500 text-orange-500" /> 4.8
-                    </span>
-                    <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow">Hot</span>
-                  </div>
-                  <div className="text-center text-7xl mb-6">🍽️</div>
-                  <h3 className="text-2xl font-bold text-center mb-2">Today's Top Picks</h3>
-                  <p className="text-white/70 text-center text-sm mb-6">Loved by thousands of foodies</p>
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {["🍕 Pizza", "🍔 Burger", "🍜 Noodles", "🍰 Desserts"].map((item, i) => (
-                      <span key={i} className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-semibold">{item}</span>
-                    ))}
-                  </div>
-                  <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-                    {[
-                      { value: "10K+", label: "Orders" },
-                      { value: "500+", label: "Restaurants" },
-                      { value: "30 min", label: "Delivery" },
-                    ].map((s, i) => (
-                      <div key={i}>
-                        <h4 className="text-xl font-extrabold">{s.value}</h4>
-                        <p className="text-xs text-white/70">{s.label}</p>
-                      </div>
-                    ))}
+              {/* Main Image Panel */}
+              <motion.div animate={{ y: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative">
+                {/* Glow behind */}
+                <div className="absolute -inset-6 bg-gradient-to-r from-orange-400/30 via-yellow-500/20 to-pink-500/30 rounded-[2.5rem] blur-3xl" />
+
+                {/* Image Card */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 group w-80 h-96">
+                  <img src={heroPanel} alt="Tasty food panel" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                  {/* Overlay Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} className="bg-white/90 backdrop-blur text-black px-3 py-1.5 rounded-full font-bold flex items-center gap-1 text-xs shadow-lg">
+                        <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" /> 4.9
+                      </motion.div>
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7, type: "spring" }} className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-1.5 rounded-full font-bold text-xs shadow-lg">
+                        🔥 Hot Deal
+                      </motion.div>
+                    </div>
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="flex flex-wrap gap-2">
+                      {["🍔 Burger", "🍕 Pizza", "🍟 Fries", "🥤 Shake"].map((item, i) => (
+                        <span key={i} className="bg-white/85 backdrop-blur text-black px-3 py-1 rounded-full text-xs font-semibold shadow">{item}</span>
+                      ))}
+                    </motion.div>
                   </div>
                 </div>
-                {/* Free Delivery badge */}
-                <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-5 -right-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2.5 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30">
+
+                {/* Floating Stats Card */}
+                <motion.div initial={{ scale: 0, x: 20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.4, type: "spring" }}
+                  className="absolute -bottom-6 -left-8 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center text-white">
+                      <Truck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Delivery</p>
+                      <p className="font-bold text-gray-800 text-sm">30 Min</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Floating Rating Card */}
+                <motion.div initial={{ scale: 0, x: -20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.6, type: "spring" }}
+                  className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-white">
+                      <Star className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Rating</p>
+                      <p className="font-bold text-gray-800 text-sm">4.9/5.0</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Free Delivery Badge */}
+                <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30 z-20">
                   <Zap className="w-4 h-4" /> Free Delivery
                 </motion.div>
               </motion.div>
