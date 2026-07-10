@@ -339,6 +339,30 @@ const FoodCard = ({ food, onAdd }) => {
     : null;
   const gradient = categoryGradients[food.category] || "from-indigo-400 to-purple-500";
 
+  const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);
+  const sizes = [];
+  if (food.quarterPrice > 0) sizes.push({ label: "Quarter", value: "quarter", price: food.quarterPrice });
+  if (food.halfPrice > 0) sizes.push({ label: "Half", value: "half", price: food.halfPrice });
+  if (food.fullPrice > 0) sizes.push({ label: "Full", value: "full", price: food.fullPrice });
+
+  const [selectedSize, setSelectedSize] = React.useState(sizes.length > 0 ? sizes[0].value : "");
+
+  const getCurrentPrice = () => {
+    if (hasSizes && selectedSize) {
+      const s = sizes.find((sz) => sz.value === selectedSize);
+      return s ? s.price : food.discountPrice || food.originalPrice;
+    }
+    return food.discountPrice ?? food.originalPrice;
+  };
+
+  const handleAdd = () => {
+    onAdd({
+      ...food,
+      size: selectedSize,
+      unitPrice: getCurrentPrice(),
+    });
+  };
+
   return (
     <motion.div variants={itemVariants} whileHover={{ y: -6, scale: 1.02 }}
       className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col hover:shadow-2xl transition-all duration-300 group border border-gray-50">
@@ -356,28 +380,54 @@ const FoodCard = ({ food, onAdd }) => {
         <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-indigo-600 shadow-sm">
           {food.category}
         </span>
-        {food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice && (
+        {food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice && !hasSizes && (
           <span className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
             -{Math.round((1 - food.discountPrice / food.originalPrice) * 100)}%
           </span>
         )}
       </div>
       <div className="p-5 flex flex-col flex-1 space-y-2">
-        <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors truncate">{food.name}</h3>
-        <p className="text-gray-500 text-sm flex-1 line-clamp-2">{food.description}</p>
-        <div className="flex items-center gap-1 text-yellow-400 text-xs">
-          {[...Array(5)].map((_, i) => <FaStar key={i} className={i < 4 ? "text-yellow-400" : "text-gray-200"} />)}
-          <span className="text-gray-500 ml-1">(4.0)</span>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors truncate">{food.name}</h3>
+          {food.rating > 0 && (
+            <div className="flex items-center gap-1 text-yellow-500 text-xs font-semibold bg-yellow-50 px-2 py-1 rounded-full flex-shrink-0">
+              <FaStar className="text-yellow-500" /> {food.rating.toFixed(1)}
+            </div>
+          )}
         </div>
+        <p className="text-gray-500 text-sm flex-1 line-clamp-2">{food.description}</p>
+        {(!food.rating || food.rating === 0) && (
+          <div className="flex items-center gap-1 text-yellow-400 text-xs">
+            {[...Array(5)].map((_, i) => <FaStar key={i} className={i < 4 ? "text-yellow-400" : "text-gray-200"} />)}
+            <span className="text-gray-500 ml-1">(4.0)</span>
+          </div>
+        )}
+        {hasSizes && sizes.length > 0 && (
+          <div className="flex gap-1.5 flex-wrap">
+            {sizes.map((s) => (
+              <button
+                key={s.value}
+                onClick={() => setSelectedSize(s.value)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                  selectedSize === s.value
+                    ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+                }`}
+              >
+                {s.label} ₹{s.price}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-50">
           <div>
-            <span className="text-xl font-bold text-indigo-600">₹{food.discountPrice ?? food.originalPrice}</span>
-            {food.discountPrice && food.originalPrice > food.discountPrice && (
+            <span className="text-xl font-bold text-indigo-600">₹{getCurrentPrice()}</span>
+            {!hasSizes && food.discountPrice && food.originalPrice > food.discountPrice && (
               <span className="text-gray-400 line-through text-sm ml-2">₹{food.originalPrice}</span>
             )}
           </div>
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-            onClick={() => onAdd(food)}
+            onClick={handleAdd}
             className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:from-purple-600 hover:to-indigo-600">
             <FaShoppingCart className="text-xs" /> Add
           </motion.button>

@@ -27,6 +27,11 @@ export const useCart = () => {
 };
 
 /* =========================
+   HELPER: get cart item key
+========================= */
+const cartItemKey = (item) => `${item._id}__${item.size || ""}`;
+
+/* =========================
    PROVIDER
 ========================= */
 export const CartProvider = ({ children }) => {
@@ -56,14 +61,16 @@ export const CartProvider = ({ children }) => {
 
   /* -------------------------
      ADD TO CART
+     item must include: _id, name, image, originalPrice, size, unitPrice
   -------------------------- */
   const addToCart = (item) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i._id === item._id);
+      const key = cartItemKey(item);
+      const existing = prev.find((i) => cartItemKey(i) === key);
 
       if (existing) {
         return prev.map((i) =>
-          i._id === item._id
+          cartItemKey(i) === key
             ? { ...i, quantity: i.quantity + 1 }
             : i
         );
@@ -72,7 +79,14 @@ export const CartProvider = ({ children }) => {
       return [
         ...prev,
         {
-          ...item,
+          _id: item._id,
+          name: item.name,
+          image: item.image,
+          originalPrice: item.originalPrice,
+          discountPrice: item.discountPrice,
+          category: item.category,
+          size: item.size || "",
+          unitPrice: item.unitPrice,
           quantity: 1,
         },
       ];
@@ -82,17 +96,19 @@ export const CartProvider = ({ children }) => {
   /* -------------------------
      REMOVE ITEM
   -------------------------- */
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((i) => i._id !== id));
+  const removeFromCart = (id, size) => {
+    setCart((prev) =>
+      prev.filter((i) => !(i._id === id && (i.size || "") === (size || "")))
+    );
   };
 
   /* -------------------------
      INCREASE QTY
   -------------------------- */
-  const increaseQty = (id) => {
+  const increaseQty = (id, size) => {
     setCart((prev) =>
       prev.map((i) =>
-        i._id === id
+        i._id === id && (i.size || "") === (size || "")
           ? { ...i, quantity: i.quantity + 1 }
           : i
       )
@@ -102,11 +118,11 @@ export const CartProvider = ({ children }) => {
   /* -------------------------
      DECREASE QTY
   -------------------------- */
-  const decreaseQty = (id) => {
+  const decreaseQty = (id, size) => {
     setCart((prev) =>
       prev
         .map((i) =>
-          i._id === id
+          i._id === id && (i.size || "") === (size || "")
             ? { ...i, quantity: i.quantity - 1 }
             : i
         )
@@ -120,14 +136,10 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => setCart([]);
 
   /* -------------------------
-     TOTAL PRICE (FIXED)
+     TOTAL PRICE
   -------------------------- */
   const totalPrice = cart.reduce((sum, item) => {
-    const price =
-      item.discountPrice !== undefined && item.discountPrice !== null
-        ? item.discountPrice
-        : item.originalPrice;
-
+    const price = item.unitPrice ?? item.discountPrice ?? item.originalPrice;
     return sum + price * item.quantity;
   }, 0);
 

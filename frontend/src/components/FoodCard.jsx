@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaShoppingCart, FaStar, FaHeart } from "react-icons/fa";
 import { Clock, TrendingUp } from "lucide-react";
@@ -18,6 +18,32 @@ const categoryColors = {
 
 const FoodCard = ({ food, onAddToCart, featured = false }) => {
   const categoryClass = categoryColors[food.type || food.category] || "bg-gradient-to-r from-gray-400 to-gray-500 text-white";
+
+  const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);
+
+  const sizes = [];
+  if (food.quarterPrice > 0) sizes.push({ label: "Quarter", value: "quarter", price: food.quarterPrice });
+  if (food.halfPrice > 0) sizes.push({ label: "Half", value: "half", price: food.halfPrice });
+  if (food.fullPrice > 0) sizes.push({ label: "Full", value: "full", price: food.fullPrice });
+
+  const [selectedSize, setSelectedSize] = useState(sizes.length > 0 ? sizes[0].value : "");
+
+  const getCurrentPrice = () => {
+    if (hasSizes && selectedSize) {
+      const s = sizes.find((sz) => sz.value === selectedSize);
+      return s ? s.price : food.discountPrice || food.originalPrice;
+    }
+    return food.discountPrice || food.originalPrice;
+  };
+
+  const handleAdd = () => {
+    const item = {
+      ...food,
+      size: selectedSize,
+      unitPrice: getCurrentPrice(),
+    };
+    onAddToCart(item);
+  };
 
   return (
     <motion.div
@@ -60,14 +86,14 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
 
       {/* CONTENT */}
       <div className="p-5 flex flex-col grow space-y-3">
-        {/* Category Badge */}
+        {/* Category Badge + Rating */}
         <div className="flex items-center justify-between">
           <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${categoryClass}`}>
             {food.type || food.category}
           </span>
-          {food.rating && (
+          {food.rating > 0 && (
             <div className="flex items-center gap-1 text-yellow-500 text-xs font-semibold bg-yellow-50 px-2 py-1 rounded-full">
-              <FaStar className="text-yellow-500" /> {food.rating}
+              <FaStar className="text-yellow-500" /> {food.rating.toFixed(1)}
             </div>
           )}
         </div>
@@ -84,8 +110,8 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
           </p>
         )}
 
-        {/* RATING STARS (if no rating prop, show static) */}
-        {!food.rating && (
+        {/* RATING STARS (fallback if no rating) */}
+        {(!food.rating || food.rating === 0) && (
           <div className="flex items-center gap-1 text-yellow-400 text-xs">
             {[...Array(5)].map((_, i) => (
               <FaStar key={i} className={i < 4 ? "text-yellow-400" : "text-gray-200"} />
@@ -94,22 +120,41 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
           </div>
         )}
 
+        {/* SIZE SELECTOR */}
+        {hasSizes && sizes.length > 0 && (
+          <div className="flex gap-1.5 flex-wrap">
+            {sizes.map((s) => (
+              <button
+                key={s.value}
+                onClick={() => setSelectedSize(s.value)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                  selectedSize === s.value
+                    ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
+                }`}
+              >
+                {s.label} ₹{s.price}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* PRICE + ADD TO CART */}
         <div className="mt-auto flex justify-between items-center pt-2">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold text-indigo-600">
-                ₹{food.discountPrice || food.price || food.originalPrice}
+                ₹{getCurrentPrice()}
               </span>
-              {(food.discountPrice || food.price) && food.originalPrice && (
+              {!hasSizes && food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice && (
                 <span className="text-gray-400 line-through text-sm">
                   ₹{food.originalPrice}
                 </span>
               )}
             </div>
-            {(food.discountPrice || food.price) && food.originalPrice && (
+            {!hasSizes && food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice && (
               <span className="text-green-600 text-xs font-semibold">
-                Save ₹{(food.originalPrice - (food.discountPrice || food.price)).toFixed(0)}
+                Save ₹{(food.originalPrice - food.discountPrice).toFixed(0)}
               </span>
             )}
           </div>
@@ -117,7 +162,7 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => onAddToCart(food)}
+            onClick={handleAdd}
             className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:from-purple-600 hover:to-indigo-600"
           >
             <FaShoppingCart className="text-xs" />

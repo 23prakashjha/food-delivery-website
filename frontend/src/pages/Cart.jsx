@@ -72,15 +72,20 @@ const Cart = () => {
                   <h3 className="text-lg font-semibold text-gray-800">
                     {item.name}
                   </h3>
+                  {item.size && (
+                    <span className="inline-block text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold mt-1 capitalize">
+                      {item.size}
+                    </span>
+                  )}
                   <p className="text-gray-500 text-sm">
-                    ₹{item.discountPrice ?? item.originalPrice}
+                    ₹{(item.unitPrice ?? item.discountPrice ?? item.originalPrice).toFixed(2)}
                   </p>
                 </div>
 
                 {/* QTY CONTROLS */}
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => decreaseQty(item._id)}
+                    onClick={() => decreaseQty(item._id, item.size)}
                     className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
                   >
                     <FaMinus />
@@ -91,7 +96,7 @@ const Cart = () => {
                   </span>
 
                   <button
-                    onClick={() => increaseQty(item._id)}
+                    onClick={() => increaseQty(item._id, item.size)}
                     className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
                   >
                     <FaPlus />
@@ -100,7 +105,7 @@ const Cart = () => {
 
                 {/* REMOVE */}
                 <button
-                  onClick={() => removeFromCart(item._id)}
+                  onClick={() => removeFromCart(item._id, item.size)}
                   className="text-red-500 hover:text-red-700 transition"
                 >
                   <FaTrash />

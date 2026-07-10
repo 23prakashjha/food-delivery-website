@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaPlus, FaUpload } from "react-icons/fa";
+import { FaPlus, FaUpload, FaStar } from "react-icons/fa";
 import axios from "axios";
 
 const defaultCategories = ["Veg", "Non-Veg", "Pizza", "Burger", "Desserts"];
@@ -17,6 +17,10 @@ const AddFood = () => {
     name: "",
     originalPrice: "",
     discountPrice: "",
+    quarterPrice: "",
+    halfPrice: "",
+    fullPrice: "",
+    rating: "",
     category: "",
     description: "",
   });
@@ -60,6 +64,10 @@ const AddFood = () => {
       formData.append("name", food.name);
       formData.append("originalPrice", food.originalPrice);
       formData.append("discountPrice", food.discountPrice || 0);
+      formData.append("quarterPrice", food.quarterPrice || 0);
+      formData.append("halfPrice", food.halfPrice || 0);
+      formData.append("fullPrice", food.fullPrice || 0);
+      formData.append("rating", food.rating || 0);
       formData.append("category", food.category);
       formData.append("description", food.description);
       formData.append("image", imageFile);
@@ -70,12 +78,15 @@ const AddFood = () => {
       );
 
       if (res.status === 201 || res.status === 200) {
-        alert("Food added successfully ✅");
-        // Reset form
+        alert("Food added successfully");
         setFood({
           name: "",
           originalPrice: "",
           discountPrice: "",
+          quarterPrice: "",
+          halfPrice: "",
+          fullPrice: "",
+          rating: "",
           category: "",
           description: "",
         });
@@ -99,7 +110,7 @@ const AddFood = () => {
         className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 md:p-10"
       >
         <h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-center text-gray-800">
-          Add New Food 🍔
+          Add New Food
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -114,7 +125,7 @@ const AddFood = () => {
             required
           />
 
-          {/* Prices */}
+          {/* Original + Discount Price */}
           <div className="flex gap-2 flex-col sm:flex-row">
             <input
               type="number"
@@ -132,6 +143,64 @@ const AddFood = () => {
               placeholder="Discount Price (Rs)"
               onChange={handleChange}
               className="flex-1 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          {/* Quarter / Half / Full Prices */}
+          <div className="space-y-2">
+            <p className="text-sm font-semibold text-gray-600">Size Prices (Optional)</p>
+            <div className="flex gap-2 flex-col sm:flex-row">
+              <div className="flex-1 relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">Q</span>
+                <input
+                  type="number"
+                  name="quarterPrice"
+                  value={food.quarterPrice}
+                  placeholder="Quarter Price"
+                  onChange={handleChange}
+                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+              </div>
+              <div className="flex-1 relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">H</span>
+                <input
+                  type="number"
+                  name="halfPrice"
+                  value={food.halfPrice}
+                  placeholder="Half Price"
+                  onChange={handleChange}
+                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+              </div>
+              <div className="flex-1 relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">F</span>
+                <input
+                  type="number"
+                  name="fullPrice"
+                  value={food.fullPrice}
+                  placeholder="Full Price"
+                  onChange={handleChange}
+                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Rating */}
+          <div className="space-y-2">
+            <p className="text-sm font-semibold text-gray-600 flex items-center gap-1">
+              <FaStar className="text-yellow-500" /> Rating (0-5)
+            </p>
+            <input
+              type="number"
+              name="rating"
+              value={food.rating}
+              placeholder="Rating (e.g. 4.5)"
+              min="0"
+              max="5"
+              step="0.1"
+              onChange={handleChange}
+              className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 

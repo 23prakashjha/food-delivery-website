@@ -115,7 +115,7 @@ const Orders = () => {
                       <div className="flex-1 space-y-2">
                         {order.items?.slice(0, 3).map((item, idx) => (
                           <div key={idx} className="flex justify-between text-sm">
-                            <span className="text-gray-700">{item.name} <span className="text-gray-400">×{item.quantity}</span></span>
+                            <span className="text-gray-700">{item.name}{item.size ? <span className="text-indigo-500 text-xs ml-1 capitalize">({item.size})</span> : ""} <span className="text-gray-400">×{item.quantity}</span></span>
                             {item.price && <span className="text-gray-600 font-medium">₹{item.price}</span>}
                           </div>
                         ))}
@@ -225,7 +225,7 @@ const Orders = () => {
                             {item.name?.charAt(0)}
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-800 text-sm">{item.name}</p>
+                            <p className="font-semibold text-gray-800 text-sm">{item.name} {item.size && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold capitalize ml-1">{item.size}</span>}</p>
                             <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                           </div>
                         </div>

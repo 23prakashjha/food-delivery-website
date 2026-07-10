@@ -185,7 +185,7 @@ const AllOrders = () => {
                         <div className="space-y-1.5">
                           {order.items?.map((item, idx) => (
                             <div key={idx} className="flex justify-between text-sm">
-                              <span className="text-gray-700">{item.name} <span className="text-gray-400">×{item.quantity}</span></span>
+                              <span className="text-gray-700">{item.name}{item.size ? <span className="text-indigo-500 text-xs ml-1 capitalize">({item.size})</span> : ""} <span className="text-gray-400">×{item.quantity}</span></span>
                               {item.price && <span className="text-gray-600 font-medium">₹{item.price}</span>}
                             </div>
                           ))}

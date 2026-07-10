@@ -10,6 +10,7 @@ const orderSchema = new mongoose.Schema(
         quantity: { type: Number, required: true },
         originalPrice: { type: Number, required: true },
         discountPrice: { type: Number },
+        size: { type: String, enum: ["quarter", "half", "full", ""], default: "" },
       },
     ],
     total: { type: Number, required: true },

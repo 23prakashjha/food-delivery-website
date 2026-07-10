@@ -17,7 +17,7 @@ import pasta from "../assets/pasta.jpeg";
 import brevage from "../assets/brevage.jpeg";
 import panneertikka from "../assets/panneertikka.jpeg";
 import deserts from "../assets/deserts.jpeg";
-import hero from "../assets/hero.jpeg";
+import heroBg from "../assets/hero-bg.jpeg";
 import foodbanner from "../assets/foodbanner.jpeg";
 import mobileapp from "../assets/mobileapp.jpeg";
 import delivery from "../assets/delivery.jpeg";
@@ -226,15 +226,17 @@ const Home = () => {
     <div className="space-y-0 overflow-hidden">
 
       {/* ===============================================
-          SECTION 1: HERO WITH LIVE STATS
+          SECTION 1: HERO WITH FULL BACKGROUND IMAGE
       =============================================== */}
-      <section className="relative min-h-screen flex items-center overflow-hidden text-white bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden text-white">
+        {/* Full Background Image */}
+        <div className="absolute inset-0">
+          <img src={heroBg} alt="Delicious food background" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
+        </div>
         {/* Animated gradient orbs */}
-        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-400/30 blur-[140px] rounded-full" />
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-500/30 blur-[140px] rounded-full" />
-        <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }} className="absolute top-1/3 left-1/2 w-64 h-64 bg-cyan-400/20 blur-[120px] rounded-full" />
-        {/* Subtle grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-400/20 blur-[140px] rounded-full" />
+        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-500/20 blur-[140px] rounded-full" />
 
         <div className="relative max-w-7xl mx-auto px-6 py-28 w-full">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -288,39 +290,41 @@ const Home = () => {
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="flex justify-center lg:justify-end relative">
-              {/* Floating decorative food emojis */}
-              <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-6 -left-8 text-4xl z-10 hidden sm:block drop-shadow-2xl">🍕</motion.span>
-              <motion.span animate={{ y: [0, -15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-12 -right-8 text-3xl z-10 hidden sm:block drop-shadow-2xl">🌮</motion.span>
-              <motion.span animate={{ y: [0, -25, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute -bottom-4 -left-4 text-3xl z-10 hidden sm:block drop-shadow-2xl">🍦</motion.span>
+            <motion.div initial={{ opacity: 0, x: 80 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} className="hidden lg:flex justify-end relative">
+              {/* Floating food emojis */}
+              <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-6 -left-8 text-4xl z-10 drop-shadow-2xl">🍕</motion.span>
+              <motion.span animate={{ y: [0, -15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-12 -right-8 text-3xl z-10 drop-shadow-2xl">🌮</motion.span>
+              <motion.span animate={{ y: [0, -25, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute -bottom-4 -left-4 text-3xl z-10 drop-shadow-2xl">🍦</motion.span>
 
-              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative w-full max-w-lg">
-                {/* Glow ring behind image */}
+              <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative">
+                {/* Glow ring */}
                 <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-[2rem] blur-2xl" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 group">
-                  <img src={hero} alt="Delicious fast food spread" className="w-full h-full object-cover aspect-[4/5] sm:aspect-[3/4] group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  {/* Corner accents */}
-                  <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-yellow-400/60 rounded-tl-xl" />
-                  <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-yellow-400/60 rounded-tr-xl" />
-                  <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-yellow-400/60 rounded-bl-xl" />
-                  <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-yellow-400/60 rounded-br-xl" />
-                  {/* Shine overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <div className="flex items-center justify-between">
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} className="bg-white/90 backdrop-blur-xl text-black px-4 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
-                        <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" /> 4.9
-                      </motion.div>
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7, type: "spring" }} className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold flex items-center gap-1 shadow-lg text-sm">
-                        <Clock className="w-4 h-4" /> 30 Min
-                      </motion.div>
-                    </div>
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mt-3 flex items-center gap-3">
-                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍔 Burger</span>
-                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🍟 Fries</span>
-                      <span className="bg-white/90 backdrop-blur-xl text-black px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg">🥤 Drink</span>
-                    </motion.div>
+                <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl w-full max-w-sm text-white border border-white/10">
+                  <div className="flex justify-between mb-6">
+                    <span className="bg-white/90 text-orange-600 px-4 py-2 rounded-full font-bold shadow flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-orange-500 text-orange-500" /> 4.8
+                    </span>
+                    <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow">Hot</span>
+                  </div>
+                  <div className="text-center text-7xl mb-6">🍽️</div>
+                  <h3 className="text-2xl font-bold text-center mb-2">Today's Top Picks</h3>
+                  <p className="text-white/70 text-center text-sm mb-6">Loved by thousands of foodies</p>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {["🍕 Pizza", "🍔 Burger", "🍜 Noodles", "🍰 Desserts"].map((item, i) => (
+                      <span key={i} className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-semibold">{item}</span>
+                    ))}
+                  </div>
+                  <div className="mt-8 grid grid-cols-3 gap-4 text-center">
+                    {[
+                      { value: "10K+", label: "Orders" },
+                      { value: "500+", label: "Restaurants" },
+                      { value: "30 min", label: "Delivery" },
+                    ].map((s, i) => (
+                      <div key={i}>
+                        <h4 className="text-xl font-extrabold">{s.value}</h4>
+                        <p className="text-xs text-white/70">{s.label}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 {/* Free Delivery badge */}
@@ -424,9 +428,21 @@ const Home = () => {
                       <div className="p-5">
                         <div className="flex items-center gap-2 mb-2">
                           <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-2 py-0.5 rounded-full">{food.category}</span>
+                          {food.rating > 0 && (
+                            <span className="flex items-center gap-0.5 text-xs text-yellow-500 font-semibold">
+                              <Star className="w-3 h-3 fill-yellow-400" /> {food.rating.toFixed(1)}
+                            </span>
+                          )}
                         </div>
                         <h4 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{food.name}</h4>
                         <p className="text-gray-500 text-sm mt-1 line-clamp-2">{food.description}</p>
+                        {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
+                          <div className="flex gap-1.5 mt-2 flex-wrap">
+                            {food.quarterPrice > 0 && <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">Q ₹{food.quarterPrice}</span>}
+                            {food.halfPrice > 0 && <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">H ₹{food.halfPrice}</span>}
+                            {food.fullPrice > 0 && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">F ₹{food.fullPrice}</span>}
+                          </div>
+                        )}
                         <div className="flex items-center justify-between mt-4">
                           <div className="flex items-center gap-2">
                             <span className="text-2xl font-bold text-indigo-600">₹{food.discountPrice ?? food.originalPrice}</span>
@@ -562,13 +578,27 @@ const Home = () => {
                     }`}>
                       {food.category === "Non-Veg" ? "Non-Veg" : "Veg"}
                     </span>
+                    {food.rating > 0 && (
+                      <span className="flex items-center gap-0.5 text-xs text-yellow-500 font-semibold">
+                        <Star className="w-3 h-3 fill-yellow-400" /> {food.rating.toFixed(1)}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-lg font-bold text-gray-800">{food.name}</h3>
                   <p className="text-gray-500 mt-1 text-sm flex-1">{food.description}</p>
+                  {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
+                    <div className="flex gap-1.5 mt-2 flex-wrap">
+                      {food.quarterPrice > 0 && <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">Q ₹{food.quarterPrice}</span>}
+                      {food.halfPrice > 0 && <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">H ₹{food.halfPrice}</span>}
+                      {food.fullPrice > 0 && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">F ₹{food.fullPrice}</span>}
+                    </div>
+                  )}
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice}</span>
-                      <span className="text-gray-400 line-through text-sm ml-2">₹{food.originalPrice}</span>
+                      <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice || food.originalPrice}</span>
+                      {food.discountPrice && food.originalPrice > food.discountPrice && (
+                        <span className="text-gray-400 line-through text-sm ml-2">₹{food.originalPrice}</span>
+                      )}
                     </div>
                     <button onClick={() => navigate("/menu")}
                       className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-red-500 hover:to-orange-500 transition-all duration-300 shadow-md hover:shadow-lg">

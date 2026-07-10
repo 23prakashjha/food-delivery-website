@@ -67,7 +67,7 @@ router.post("/", (req, res, next) => {
   });
 }, async (req, res) => {
   try {
-    const { name, originalPrice, discountPrice, category, description } = req.body;
+    const { name, originalPrice, discountPrice, quarterPrice, halfPrice, fullPrice, rating, category, description } = req.body;
 
     if (!name || !originalPrice || !category)
       return res.status(400).json({ message: "Name, price, and category are required" });
@@ -79,6 +79,10 @@ router.post("/", (req, res, next) => {
       name,
       originalPrice,
       discountPrice: discountPrice || 0,
+      quarterPrice: quarterPrice || 0,
+      halfPrice: halfPrice || 0,
+      fullPrice: fullPrice || 0,
+      rating: rating || 0,
       category,
       description: description || "",
       image: req.file.filename,

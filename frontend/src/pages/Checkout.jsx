@@ -160,6 +160,11 @@ const Checkout = () => {
                       />
                       <div>
                         <p className="font-semibold">{item.name}</p>
+                        {item.size && (
+                          <span className="inline-block text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold capitalize">
+                            {item.size}
+                          </span>
+                        )}
                         <p className="text-sm text-gray-500">
                           Qty: {item.quantity}
                         </p>
@@ -169,7 +174,7 @@ const Checkout = () => {
                     <p className="font-semibold text-orange-600">
                       ₹
                       {(
-                        (item.discountPrice ?? item.originalPrice) *
+                        (item.unitPrice ?? item.discountPrice ?? item.originalPrice) *
                         item.quantity
                       ).toFixed(2)}
                     </p>

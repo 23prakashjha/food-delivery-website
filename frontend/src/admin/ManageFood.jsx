@@ -180,12 +180,27 @@ const ManageFood = () => {
                   </div>
                   <div className="p-5 flex flex-col flex-1">
                     <h3 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{food.name}</h3>
+                    {food.rating > 0 && (
+                      <div className="flex items-center gap-1 mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={`text-xs ${i < Math.round(food.rating) ? "text-yellow-400" : "text-gray-200"}`}>&#9733;</span>
+                        ))}
+                        <span className="text-xs text-gray-500 ml-1">{food.rating}</span>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2 mt-2">
                       <span className="text-2xl font-extrabold text-orange-600">₹{food.originalPrice}</span>
                       {food.discountPrice && food.originalPrice > food.discountPrice && (
                         <span className="text-gray-400 line-through text-sm">₹{food.discountPrice}</span>
                       )}
                     </div>
+                    {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
+                      <div className="flex gap-2 mt-2 flex-wrap">
+                        {food.quarterPrice > 0 && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-semibold">Q: ₹{food.quarterPrice}</span>}
+                        {food.halfPrice > 0 && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-semibold">H: ₹{food.halfPrice}</span>}
+                        {food.fullPrice > 0 && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">F: ₹{food.fullPrice}</span>}
+                      </div>
+                    )}
                     <p className="text-gray-500 text-sm mt-2 flex-1 line-clamp-2">{food.description || "No description available"}</p>
                     <div className="flex gap-2 mt-5">
                       {deleteConfirm === food._id ? (
