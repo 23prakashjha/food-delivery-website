@@ -229,85 +229,79 @@ const Home = () => {
       {/* ===============================================
           SECTION 1: STUNNING HERO SECTION
       =============================================== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden text-white">
-        {/* Background Image — fully visible */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        {/* Background Image — crystal clear */}
         <img src={heroChatgpt} alt="" className="absolute inset-0 w-full h-full object-cover" />
 
+        {/* Subtle left gradient — only covers text area, rest of image stays clear */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent w-full md:w-3/5" />
+
         <div className="relative max-w-7xl mx-auto px-6 py-20 w-full">
-          <div className="max-w-xl">
+          <div className="max-w-xl text-white" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.7), 0 1px 6px rgba(0,0,0,0.5)" }}>
 
-            {/* Glass Card wrapping all content */}
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}
-              className="bg-white/10 backdrop-blur-2xl rounded-[2rem] p-10 md:p-14 border border-white/20 shadow-[0_8px_60px_rgba(0,0,0,0.3)]">
-
-              {/* Badge */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20 mb-8">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-                </span>
-                <span className="font-semibold tracking-wide text-sm text-white/90">Live Order Tracking &bull; Fast Delivery</span>
-              </motion.div>
-
-              {/* Heading */}
-              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }}
-                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
-                Taste the{" "}
-                <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
-                  Best Food
-                </span>
-                <br />
-                Delivered{" "}
-                <span className="bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
-                  Fresh & Fast
-                </span>
-              </motion.h1>
-
-              {/* Subtitle */}
-              <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-                className="text-lg sm:text-xl text-white/75 leading-relaxed max-w-md mb-8">
-                Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
-                <span className="text-yellow-300 font-bold">30 minutes</span>.
-              </motion.p>
-
-              {/* Search Bar */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
-                className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mb-8">
-                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
-                <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
-                  <Search className="w-4 h-4" /> Search
-                </button>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-                className="flex flex-wrap gap-4 mb-8">
-                <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
-                  Order Now
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link to="/menu" className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm">
-                  View Menu
-                </Link>
-              </motion.div>
-
-              {/* Trust Badges */}
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.85 }}
-                className="flex flex-wrap items-center gap-6">
-                {[
-                  { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
-                  { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
-                  { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
-                ].map((badge, i) => (
-                  <div key={i} className="flex items-center gap-2 text-white/60 text-sm">
-                    {badge.icon}
-                    <span>{badge.label}</span>
-                  </div>
-                ))}
-              </motion.div>
-
+            {/* Badge */}
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-sm px-5 py-2.5 rounded-full border border-white/20 mb-8">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+              </span>
+              <span className="font-semibold tracking-wide text-sm">Live Order Tracking &bull; Fast Delivery</span>
             </motion.div>
+
+            {/* Heading */}
+            <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
+              Taste the{" "}
+              <span className="text-yellow-300">Best Food</span>
+              <br />
+              Delivered{" "}
+              <span className="text-green-300">Fresh &amp; Fast</span>
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48 }}
+              className="text-lg sm:text-xl text-white/85 leading-relaxed max-w-md mb-8">
+              Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
+              <span className="text-yellow-300 font-bold">30 minutes</span>.
+            </motion.p>
+
+            {/* Search Bar */}
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58 }}
+              className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mb-8">
+              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
+              <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
+                <Search className="w-4 h-4" /> Search
+              </button>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
+              className="flex flex-wrap gap-4 mb-8">
+              <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+                Order Now
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link to="/menu" className="border-2 border-white/40 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300">
+                View Menu
+              </Link>
+            </motion.div>
+
+            {/* Trust Badges */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.82 }}
+              className="flex flex-wrap items-center gap-6">
+              {[
+                { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
+                { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
+                { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
+              ].map((badge, i) => (
+                <div key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                  {badge.icon}
+                  <span>{badge.label}</span>
+                </div>
+              ))}
+            </motion.div>
+
           </div>
         </div>
       </section>
