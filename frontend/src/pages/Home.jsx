@@ -230,97 +230,84 @@ const Home = () => {
           SECTION 1: STUNNING HERO SECTION
       =============================================== */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden text-white">
-        {/* Background Image */}
+        {/* Background Image — fully visible */}
         <img src={heroChatgpt} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        {/* Overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-        {/* Animated glow orbs */}
-        <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-32 -left-32 w-96 h-96 bg-yellow-500/20 blur-[140px] rounded-full" />
-        <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 2 }} className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500/20 blur-[140px] rounded-full" />
-        <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.25, 0.1] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }} className="absolute top-1/3 left-1/2 w-72 h-72 bg-red-400/15 blur-[120px] rounded-full" />
-
-        {/* Floating food emojis across the whole hero */}
-        <motion.span animate={{ y: [0, -20, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-[15%] right-[8%] text-6xl z-10 drop-shadow-2xl opacity-80">🍕</motion.span>
-        <motion.span animate={{ y: [0, -16, 0], rotate: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-[25%] right-[20%] text-5xl z-10 drop-shadow-2xl opacity-70">🌮</motion.span>
-        <motion.span animate={{ y: [0, -24, 0], rotate: [0, 18, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute bottom-[20%] right-[12%] text-5xl z-10 drop-shadow-2xl opacity-75">🍔</motion.span>
-        <motion.span animate={{ y: [0, -14, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }} className="absolute top-[40%] right-[5%] text-4xl z-10 drop-shadow-2xl opacity-60">🍗</motion.span>
-        <motion.span animate={{ y: [0, -18, 0], rotate: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-[30%] right-[25%] text-4xl z-10 drop-shadow-2xl opacity-65">🍦</motion.span>
-        <motion.span animate={{ y: [0, -12, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.8 }} className="absolute top-[60%] right-[15%] text-4xl z-10 drop-shadow-2xl opacity-55">🥤</motion.span>
-        <motion.span animate={{ y: [0, -22, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 1.2 }} className="absolute top-[10%] right-[30%] text-3xl z-10 drop-shadow-2xl opacity-50">🍟</motion.span>
-        <motion.span animate={{ y: [0, -15, 0], rotate: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 5.2, ease: "easeInOut", delay: 0.3 }} className="absolute bottom-[15%] right-[35%] text-3xl z-10 drop-shadow-2xl opacity-50">🥗</motion.span>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20 w-full">
-          <div className="max-w-2xl">
+          <div className="max-w-xl">
 
-            {/* Badge */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-lg border border-white/10 mb-8">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-              </span>
-              <span className="font-semibold tracking-wide text-sm text-white/90">Live Order Tracking &bull; Fast Delivery</span>
+            {/* Glass Card wrapping all content */}
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}
+              className="bg-white/10 backdrop-blur-2xl rounded-[2rem] p-10 md:p-14 border border-white/20 shadow-[0_8px_60px_rgba(0,0,0,0.3)]">
+
+              {/* Badge */}
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+                className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20 mb-8">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                </span>
+                <span className="font-semibold tracking-wide text-sm text-white/90">Live Order Tracking &bull; Fast Delivery</span>
+              </motion.div>
+
+              {/* Heading */}
+              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }}
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
+                Taste the{" "}
+                <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
+                  Best Food
+                </span>
+                <br />
+                Delivered{" "}
+                <span className="bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
+                  Fresh & Fast
+                </span>
+              </motion.h1>
+
+              {/* Subtitle */}
+              <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                className="text-lg sm:text-xl text-white/75 leading-relaxed max-w-md mb-8">
+                Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
+                <span className="text-yellow-300 font-bold">30 minutes</span>.
+              </motion.p>
+
+              {/* Search Bar */}
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+                className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mb-8">
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
+                <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
+                  <Search className="w-4 h-4" /> Search
+                </button>
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
+                className="flex flex-wrap gap-4 mb-8">
+                <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+                  Order Now
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link to="/menu" className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm">
+                  View Menu
+                </Link>
+              </motion.div>
+
+              {/* Trust Badges */}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.85 }}
+                className="flex flex-wrap items-center gap-6">
+                {[
+                  { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
+                  { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
+                  { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
+                ].map((badge, i) => (
+                  <div key={i} className="flex items-center gap-2 text-white/60 text-sm">
+                    {badge.icon}
+                    <span>{badge.label}</span>
+                  </div>
+                ))}
+              </motion.div>
+
             </motion.div>
-
-            {/* Heading */}
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.08] mb-6">
-              Taste the{" "}
-              <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
-                Best Food
-              </span>
-              <br />
-              Delivered{" "}
-              <span className="bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
-                Fresh & Fast
-              </span>
-            </motion.h1>
-
-            {/* Subtitle */}
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
-              className="text-lg sm:text-xl text-white/70 leading-relaxed max-w-lg mb-8">
-              Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
-              <span className="text-yellow-400 font-bold">30 minutes</span>.
-            </motion.p>
-
-            {/* Search Bar */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
-              className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-lg mb-8">
-              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
-              <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
-                <Search className="w-4 h-4" /> Search
-              </button>
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}
-              className="flex flex-wrap gap-4 mb-8">
-              <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
-                Order Now
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link to="/menu" className="border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm">
-                View Menu
-              </Link>
-            </motion.div>
-
-            {/* Trust Badges */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
-              className="flex flex-wrap items-center gap-6">
-              {[
-                { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
-                { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
-                { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 text-white/50 text-sm">
-                  {badge.icon}
-                  <span>{badge.label}</span>
-                </div>
-              ))}
-            </motion.div>
-
           </div>
         </div>
       </section>
