@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Truck, Clock, Star, MapPin, ChefHat, Award,
   ShieldCheck, Zap, Heart, Leaf, Users, Quote, ArrowRight,
-  Smartphone, Search, Gift, TrendingUp, Sparkles, Utensils
+  Smartphone, Search, Gift, TrendingUp, Sparkles, Utensils, Mail
 } from "lucide-react";
 import { FaCheck, FaHeadset } from "react-icons/fa";
 import axios from "axios";
@@ -110,10 +110,10 @@ const blogPosts = [
 ];
 
 const awards = [
-  { title: "Best Food App 2026", org: "Tech Awards", icon: "🏆" },
-  { title: "Fastest Delivery", org: "Food Industry 2025", icon: "⚡" },
-  { title: "Top Rated Service", org: "Customer Choice", icon: "⭐" },
-  { title: "Best Quality Food", org: "Chef's Association", icon: "👨‍🍳" },
+    { title: "Best Food App 2026", org: "Tech Awards", icon: <Award className="w-10 h-10 text-orange-500" /> },
+  { title: "Fastest Delivery", org: "Food Industry 2025", icon: <Zap className="w-10 h-10 text-orange-500" /> },
+  { title: "Top Rated Service", org: "Customer Choice", icon: <Star className="w-10 h-10 text-yellow-500 fill-yellow-500" /> },
+  { title: "Best Quality Food", org: "Chef's Association", icon: <ChefHat className="w-10 h-10 text-orange-500" /> },
 ];
 
 const reviews = [
@@ -148,6 +148,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [showAllCombos, setShowAllCombos] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [copiedCode, setCopiedCode] = useState(null);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [stats, setStats] = useState({ orders: 0, restaurants: 0, cities: 0, users: 0 });
 
@@ -229,22 +230,110 @@ const Home = () => {
       {/* ===============================================
           SECTION 1: STUNNING HERO SECTION
       =============================================== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        {/* Background Image — crystal clear */}
-        <img src={heroChatgpt} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#1a0a00] via-[#4a1200] to-[#7c2d00]">
+        {/* Animated background orbs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-red-600/40 to-orange-500/30 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-yellow-500/30 to-amber-400/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-gradient-to-r from-orange-600/25 to-red-500/20 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] bg-gradient-to-r from-yellow-400/20 to-orange-400/15 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }} />
+          {/* Subtle mesh pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        </div>
 
-        {/* Subtle left gradient — only covers text area, rest of image stays clear */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent w-full md:w-3/5" />
+        {/* Right Side Food Banner - Merged Background */}
+        <motion.div initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+          className="absolute right-0 top-0 w-full md:w-[55%] lg:w-[50%] h-full hidden md:block">
+          <div className="relative w-full h-full">
+            {/* Main food image */}
+            <img src={foodbanner} alt="Delicious Food Variety" 
+              className="absolute inset-0 w-full h-full object-cover object-center" />
+            {/* Left edge fade - merges into dark background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a0a00] via-[#4a1200]/90 via-25% to-transparent" />
+            {/* Bottom warm glow */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#7c2d00]/80 via-orange-900/20 to-transparent" />
+            {/* Top fade */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#4a1200]/60 via-transparent to-transparent" />
+            {/* Warm color overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/15 to-red-600/10 mix-blend-overlay" />
+            {/* Vignette effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(26,10,0,0.6)_100%)]" />
+          </div>
+        </motion.div>
 
-        <div className="relative max-w-7xl mx-auto px-6 py-20 w-full">
-          <div className="max-w-xl text-white" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.7), 0 1px 6px rgba(0,0,0,0.5)" }}>
+        {/* Mobile: Full background image with heavy fade */}
+        <div className="absolute inset-0 md:hidden">
+          <img src={foodbanner} alt="" className="w-full h-full object-cover opacity-25" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a00] via-[#4a1200]/95 to-[#7c2d00]/90" />
+        </div>
+
+        {/* Floating Food Images */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Top Left - Pizza */}
+          <motion.div initial={{ opacity: 0, y: -50, rotate: -15 }} animate={{ opacity: 1, y: 0, rotate: -12 }} transition={{ delay: 0.5, duration: 0.8, type: "spring" }}
+            className="absolute top-20 left-10 w-32 h-32 lg:w-40 lg:h-40 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-1">
+            <img src={pizza} alt="Pizza" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Top Right - Burger */}
+          <motion.div initial={{ opacity: 0, x: 50, rotate: 15 }} animate={{ opacity: 1, x: 0, rotate: 12 }} transition={{ delay: 0.7, duration: 0.8, type: "spring" }}
+            className="absolute top-32 right-20 w-28 h-28 lg:w-36 lg:h-36 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-2">
+            <img src={burger} alt="Burger" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Middle Left - Momos */}
+          <motion.div initial={{ opacity: 0, x: -50, rotate: -10 }} animate={{ opacity: 1, x: 0, rotate: -8 }} transition={{ delay: 0.9, duration: 0.8, type: "spring" }}
+            className="absolute top-1/2 left-20 w-24 h-24 lg:w-32 lg:h-32 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden lg:block animate-float-3">
+            <img src={momos} alt="Momos" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Middle Right - Chicken Tikka */}
+          <motion.div initial={{ opacity: 0, x: 50, rotate: 10 }} animate={{ opacity: 1, x: 0, rotate: 8 }} transition={{ delay: 1.1, duration: 0.8, type: "spring" }}
+            className="absolute top-1/3 right-10 w-28 h-28 lg:w-36 lg:h-36 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-4">
+            <img src={chickentikka} alt="Chicken Tikka" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Bottom Left - Roll */}
+          <motion.div initial={{ opacity: 0, y: 50, rotate: -5 }} animate={{ opacity: 1, y: 0, rotate: -3 }} transition={{ delay: 1.3, duration: 0.8, type: "spring" }}
+            className="absolute bottom-40 left-32 w-24 h-24 lg:w-28 lg:h-28 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-5">
+            <img src={roll} alt="Roll" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Bottom Right - Pasta */}
+          <motion.div initial={{ opacity: 0, y: 50, rotate: 5 }} animate={{ opacity: 1, y: 0, rotate: 3 }} transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
+            className="absolute bottom-32 right-32 w-24 h-24 lg:w-32 lg:h-32 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden lg:block animate-float-1" style={{ animationDelay: '1s' }}>
+            <img src={pasta} alt="Pasta" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Center Top - Beverages */}
+          <motion.div initial={{ opacity: 0, y: -30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 1.7, duration: 0.8, type: "spring" }}
+            className="absolute top-16 left-1/2 -translate-x-1/2 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-3" style={{ animationDelay: '0.5s' }}>
+            <img src={brevage} alt="Beverages" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Bottom Center - Desserts */}
+          <motion.div initial={{ opacity: 0, y: 30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 1.9, duration: 0.8, type: "spring" }}
+            className="absolute bottom-20 left-1/2 -translate-x-1/2 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-2" style={{ animationDelay: '1.5s' }}>
+            <img src={deserts} alt="Desserts" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* Paneer Tikka */}
+          <motion.div initial={{ opacity: 0, x: -30, rotate: -12 }} animate={{ opacity: 1, x: 0, rotate: -10 }} transition={{ delay: 2.1, duration: 0.8, type: "spring" }}
+            className="absolute bottom-60 left-1/4 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-4" style={{ animationDelay: '2s' }}>
+            <img src={panneertikka} alt="Paneer Tikka" className="w-full h-full object-cover" />
+          </motion.div>
+        </div>
+
+        {/* Main Content - Left Aligned */}
+        <div className="relative max-w-7xl mx-auto px-6 py-20 w-full z-10">
+          <div className="max-w-xl text-white" style={{ textShadow: "0 2px 30px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.6)" }}>
 
             {/* Badge */}
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-sm px-5 py-2.5 rounded-full border border-white/20 mb-8">
-              <span className="relative flex h-2.5 w-2.5">
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-md px-6 py-3 rounded-full border border-green-400/30 mb-8 shadow-lg shadow-green-500/10">
+              <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
               </span>
               <span className="font-semibold tracking-wide text-sm">Live Order Tracking &bull; Fast Delivery</span>
             </motion.div>
@@ -253,24 +342,24 @@ const Home = () => {
             <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
               Taste the{" "}
-              <span className="text-yellow-300">Best Food</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300 drop-shadow-lg">Best Food</span>
               <br />
               Delivered{" "}
-              <span className="text-green-300">Fresh &amp; Fast</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-300 to-teal-300 drop-shadow-lg">Fresh &amp; Fast</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48 }}
-              className="text-lg sm:text-xl text-white/85 leading-relaxed max-w-md mb-8">
+              className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-md mb-8 drop-shadow-md">
               Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
-              <span className="text-yellow-300 font-bold">30 minutes</span>.
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300 font-bold">30 minutes</span>.
             </motion.p>
 
             {/* Search Bar */}
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58 }}
               className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mb-8">
-              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm" />
-              <button className="bg-gradient-to-r from-orange-500 to-red-500 px-8 text-white font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center gap-2">
+              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm placeholder:text-gray-400" />
+              <button className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 px-8 text-white font-semibold hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-red-500/30">
                 <Search className="w-4 h-4" /> Search
               </button>
             </motion.div>
@@ -278,11 +367,11 @@ const Home = () => {
             {/* CTA Buttons */}
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
               className="flex flex-wrap gap-4 mb-8">
-              <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+              <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-2xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
                 Order Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/menu" className="border-2 border-white/40 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-black transition-all duration-300">
+              <Link to="/menu" className="border-2 border-orange-400/50 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 backdrop-blur-sm shadow-lg shadow-orange-500/10">
                 View Menu
               </Link>
             </motion.div>
@@ -291,11 +380,11 @@ const Home = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.82 }}
               className="flex flex-wrap items-center gap-6">
               {[
-                { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, label: "Secure Payment" },
-                { icon: <Truck className="w-4 h-4 text-yellow-400" />, label: "Free Delivery" },
-                { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
+                { icon: <ShieldCheck className="w-5 h-5 text-green-400" />, label: "Secure Payment" },
+                { icon: <Truck className="w-5 h-5 text-yellow-400" />, label: "Free Delivery" },
+                { icon: <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />, label: "4.9 Rating" },
               ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 text-white/70 text-sm">
+                <div key={i} className="flex items-center gap-2 text-white/90 text-sm font-medium bg-white/10 px-4 py-2 rounded-full backdrop-blur-md border border-white/10 shadow-lg shadow-black/10">
                   {badge.icon}
                   <span>{badge.label}</span>
                 </div>
@@ -311,17 +400,17 @@ const Home = () => {
       =============================================== */}
       <section className="relative -mt-20 z-10 max-w-7xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white/90 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 border border-white/60">
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
           {[
-            { value: stats.orders, label: "Orders Delivered", suffix: "+", icon: <Truck className="w-6 h-6 text-indigo-600" /> },
-            { value: stats.restaurants, label: "Restaurants", suffix: "+", icon: <Utensils className="w-6 h-6 text-purple-600" /> },
-            { value: stats.cities, label: "Cities Covered", suffix: "+", icon: <MapPin className="w-6 h-6 text-pink-600" /> },
-            { value: stats.users, label: "Happy Users", suffix: "+", icon: <Users className="w-6 h-6 text-orange-600" /> },
+            { value: stats.orders, label: "Orders Delivered", suffix: "+", icon: <Truck className="w-6 h-6 text-orange-500" /> },
+            { value: stats.restaurants, label: "Restaurants", suffix: "+", icon: <Utensils className="w-6 h-6 text-orange-500" /> },
+            { value: stats.cities, label: "Cities Covered", suffix: "+", icon: <MapPin className="w-6 h-6 text-orange-500" /> },
+            { value: stats.users, label: "Happy Users", suffix: "+", icon: <Users className="w-6 h-6 text-orange-500" /> },
           ].map((stat, i) => (
             <motion.div key={i} initial={{ scale: 0 }} whileInView={{ scale: 1 }} transition={{ delay: i * 0.1, type: "spring" }} viewport={{ once: true }}
-              className="text-center p-4 rounded-2xl hover:bg-gray-50 transition-colors">
+              className="text-center p-4 rounded-2xl hover:bg-orange-50 transition-colors">
               <div className="flex justify-center mb-3">{stat.icon}</div>
-              <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <div className="text-3xl md:text-4xl font-extrabold text-orange-600">
                 {stat.value.toLocaleString()}{stat.suffix}
               </div>
               <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
@@ -335,9 +424,9 @@ const Home = () => {
       =============================================== */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-32 pb-8">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
-          <span className="inline-block px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full text-sm font-semibold mb-4">What's on your mind?</span>
+          <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">What's on your mind?</span>
           <h2 className="text-4xl sm:text-5xl font-extrabold">
-            Browse <span className="bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">Categories</span>
+            Browse <span className="text-orange-500">Categories</span>
           </h2>
           <p className="text-gray-500 mt-3 max-w-lg mx-auto">Click any category to filter dishes instantly</p>
         </motion.div>
@@ -347,16 +436,16 @@ const Home = () => {
             <motion.button key={cat.name} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04, duration: 0.5 }} whileHover={{ y: -6, scale: 1.06 }} whileTap={{ scale: 0.95 }} viewport={{ once: true }}
               onClick={() => handleCategoryClick(cat.name)}
               className={`group relative overflow-hidden rounded-2xl p-4 sm:p-5 transition-all duration-300 flex flex-col items-center text-center
-                ${selectedCategory === cat.name ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-2xl shadow-indigo-500/40 scale-105 ring-4 ring-indigo-300" : "bg-white/80 backdrop-blur-xl shadow-md hover:shadow-xl border border-white/60"}`}>
-              <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${selectedCategory === cat.name ? "opacity-100" : "opacity-0 group-hover:opacity-100"} bg-gradient-to-br from-indigo-500/10 to-purple-500/10`} />
+                ${selectedCategory === cat.name ? "bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xl shadow-orange-500/40 scale-105 ring-4 ring-orange-300" : "bg-white/80 backdrop-blur-xl shadow-md hover:shadow-xl border border-white/60"}`}>
+              <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${selectedCategory === cat.name ? "opacity-100" : "opacity-0 group-hover:opacity-100"} bg-gradient-to-br from-orange-500/10 to-red-500/10`} />
               <div className="relative z-10 flex flex-col items-center">
                 <div className="relative mb-3">
-                  <div className={`absolute inset-0 rounded-full blur-md transition-all duration-300 ${selectedCategory === cat.name ? "bg-white/30 opacity-100" : "bg-indigo-500 opacity-0 group-hover:opacity-50"}`} />
+                  <div className={`absolute inset-0 rounded-full blur-md transition-all duration-300 ${selectedCategory === cat.name ? "bg-white/30 opacity-100" : "bg-orange-500 opacity-0 group-hover:opacity-50"}`} />
                   <img src={cat.image} alt={cat.name}
                     className={`relative h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover ring-2 transition-all duration-300 ${selectedCategory === cat.name ? "ring-white shadow-lg" : "ring-white shadow-md group-hover:shadow-lg"}`} />
                 </div>
                 <span className="text-2xl sm:hidden mb-1">{cat.icon}</span>
-                <p className={`font-semibold text-sm sm:text-base transition-colors duration-300 ${selectedCategory === cat.name ? "text-white" : "text-gray-800 group-hover:text-indigo-600"}`}>
+                <p className={`font-semibold text-sm sm:text-base transition-colors duration-300 ${selectedCategory === cat.name ? "text-white" : "text-gray-800 group-hover:text-orange-600"}`}>
                   {cat.name}
                 </p>
               </div>
@@ -372,18 +461,18 @@ const Home = () => {
         {selectedCategory && (
           <motion.section key={selectedCategory} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }}
             className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
-            <div className="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-6 sm:p-8 border border-indigo-100">
+            <div className="bg-orange-50/80 rounded-3xl p-6 sm:p-8 border border-orange-100">
               <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-2xl font-bold text-gray-800">🍽️ {selectedCategory} Dishes</h3>
-                  <span className="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-sm font-semibold">{filteredFoods.length} items</span>
+                  <h3 className="text-2xl font-bold text-gray-800">{selectedCategory} Dishes</h3>
+                  <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-semibold">{filteredFoods.length} items</span>
                 </div>
                 <button onClick={() => setSelectedCategory(null)} className="text-sm text-gray-500 hover:text-red-500 transition-colors flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-sm hover:shadow">Clear Filter ✕</button>
               </div>
 
               {loading ? (
                 <div className="flex justify-center py-12">
-                  <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+                  <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin" />
                 </div>
               ) : filteredFoods.length > 0 ? (
                 <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -391,19 +480,19 @@ const Home = () => {
                     <motion.div key={food._id} variants={itemVariants} whileHover={{ y: -8, scale: 1.03 }}
                       className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group border border-white/60">
                       <div className="h-44 overflow-hidden">
-                        <img src={food.image ? `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}` : food.image} alt={food.name}
+                        <img src={food.image ? (food.image.startsWith("http") || food.image.startsWith("data:") ? food.image : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`) : ""} alt={food.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                       </div>
                       <div className="p-5">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-2 py-0.5 rounded-full">{food.category}</span>
+                          <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">{food.category}</span>
                           {food.rating > 0 && (
                             <span className="flex items-center gap-0.5 text-xs text-yellow-500 font-semibold">
                               <Star className="w-3 h-3 fill-yellow-400" /> {food.rating.toFixed(1)}
                             </span>
                           )}
                         </div>
-                        <h4 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{food.name}</h4>
+                        <h4 className="text-lg font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{food.name}</h4>
                         <p className="text-gray-500 text-sm mt-1 line-clamp-2">{food.description}</p>
                         {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
                           <div className="flex gap-1.5 mt-2 flex-wrap">
@@ -414,12 +503,12 @@ const Home = () => {
                         )}
                         <div className="flex items-center justify-between mt-4">
                           <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-indigo-600">₹{food.discountPrice > 0 ? food.discountPrice : food.originalPrice}</span>
+                            <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice > 0 ? food.discountPrice : food.originalPrice}</span>
                             {!(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && food.discountPrice > 0 && food.originalPrice > food.discountPrice && (
                               <span className="text-gray-400 line-through text-sm">₹{food.originalPrice}</span>
                             )}
                           </div>
-                          <button onClick={() => navigate("/menu")} className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2 rounded-xl font-semibold text-sm hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg">
+                          <button onClick={() => navigate("/menu")} className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-2 rounded-xl font-semibold text-sm hover:from-red-500 hover:to-orange-500 transition-all duration-300 shadow-md hover:shadow-lg">
                             Order
                           </button>
                         </div>
@@ -442,11 +531,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 5: TRENDING OFFER BANNER
       =============================================== */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-orange-500 via-pink-500 to-rose-500">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-yellow-400/30 blur-[140px] rounded-full" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-white/20 blur-[140px] rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-300/20 blur-[160px] rounded-full" />
-
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-orange-500 via-red-500 to-orange-600">
         <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
           <div className="grid lg:grid-cols-2 items-center gap-20">
             <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-white max-w-xl">
@@ -478,11 +563,11 @@ const Home = () => {
                   </span>
                   <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow">Hot 🔥</span>
                 </div>
-                <div className="text-center text-7xl mb-6">🍽️</div>
+                <div className="text-center text-7xl mb-6">🔥</div>
                 <h3 className="text-2xl font-bold text-center mb-2">Today's Top Picks</h3>
                 <p className="text-white/70 text-center text-sm mb-6">Loved by thousands of foodies</p>
                 <div className="flex flex-wrap justify-center gap-3">
-                  {["🍕 Pizza", "🍔 Burger", "🍜 Noodles", "🍰 Desserts"].map((item, i) => (
+                  {["Pizza", "Burger", "Noodles", "Desserts"].map((item, i) => (
                     <span key={i} className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-semibold">{item}</span>
                   ))}
                 </div>
@@ -582,7 +667,7 @@ const Home = () => {
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-16 flex justify-center">
             <button onClick={() => navigate("/menu")}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden">
+              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden">
               <span className="absolute inset-0 bg-white/10 transform -skew-x-12 -translate-x-full group-hover:translate-x-[200%] transition-transform duration-700 pointer-events-none" />
               <span className="relative z-10">View Full Menu</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
@@ -594,11 +679,11 @@ const Home = () => {
       {/* ===============================================
           SECTION 7: HOW IT WORKS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+      <section className="relative py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full text-sm font-semibold mb-4">Simple Process</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold">How It <span className="bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">Works</span></h2>
+            <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Simple Process</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold">How It <span className="text-orange-500">Works</span></h2>
             <p className="mt-4 text-gray-500 max-w-lg mx-auto">Get your favorite food delivered in 4 simple steps</p>
           </motion.div>
 
@@ -606,10 +691,10 @@ const Home = () => {
             {howItWorks.map((step, index) => (
               <motion.div key={step.step} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: index * 0.15, duration: 0.6 }} whileHover={{ y: -8 }}
-                className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-white/60 transition-all duration-300 text-center group">
-                <div className="relative mx-auto mb-6 w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-300 text-center group">
+                <div className="relative mx-auto mb-6 w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <span className="text-white text-3xl">{step.icon}</span>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-sm font-bold text-indigo-600 border-2 border-indigo-200">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-sm font-bold text-orange-600 border-2 border-orange-200">
                     {step.step}
                   </div>
                 </div>
@@ -628,13 +713,10 @@ const Home = () => {
           SECTION 8: SPECIAL DEALS & OFFERS
       =============================================== */}
       <section className="relative py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-pink-500/20 blur-[140px] rounded-full" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/20 blur-[140px] rounded-full" />
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-block px-4 py-2 bg-yellow-400/20 text-yellow-300 rounded-full text-sm font-semibold mb-4 border border-yellow-400/30">Limited Time</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold">Special <span className="text-yellow-400">Deals & Offers</span></h2>
+            <span className="inline-block px-4 py-2 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-4 border border-orange-500/30">Limited Time</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold">Special <span className="text-orange-400">Deals & Offers</span></h2>
             <p className="text-white/60 mt-3 max-w-lg mx-auto">Grab these exclusive offers before they're gone!</p>
           </motion.div>
 
@@ -646,7 +728,7 @@ const Home = () => {
                 <div className={`absolute inset-0 bg-gradient-to-br ${offer.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-4xl">🎁</span>
+                    <span className="text-4xl"><Gift className="w-8 h-8 text-orange-400" /></span>
                     <span className="bg-white/20 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">Use Code</span>
                   </div>
                   <h3 className="text-2xl font-bold mb-2">{offer.title}</h3>
@@ -655,9 +737,9 @@ const Home = () => {
                     <code className="bg-white/10 px-4 py-2 rounded-xl text-yellow-300 font-mono font-bold text-lg tracking-wider border border-white/10">
                       {offer.code}
                     </code>
-                    <button onClick={() => { navigator.clipboard.writeText(offer.code); }}
-                      className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 backdrop-blur-sm">
-                      Copy
+                    <button onClick={() => { navigator.clipboard.writeText(offer.code); setCopiedCode(offer.code); setTimeout(() => setCopiedCode(null), 2000); }}
+                      className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 backdrop-blur-sm ${copiedCode === offer.code ? "bg-green-500 text-white" : "bg-white/20 hover:bg-white/30 text-white"}`}>
+                      {copiedCode === offer.code ? "Copied!" : "Copy"}
                     </button>
                   </div>
                 </div>
@@ -673,8 +755,8 @@ const Home = () => {
       <section className="relative py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-green-100 text-green-600 rounded-full text-sm font-semibold mb-4">Why FoodExpress</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold">Why Choose <span className="bg-gradient-to-r from-green-500 to-teal-500 bg-clip-text text-transparent">Us?</span></h2>
+            <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Why FoodExpress</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold">Why Choose <span className="text-orange-500">Us?</span></h2>
             <p className="mt-4 text-gray-500 max-w-lg mx-auto">Here's why thousands of customers trust us every day</p>
           </motion.div>
 
@@ -683,12 +765,12 @@ const Home = () => {
               <motion.div key={index} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08, duration: 0.6 }}
                 whileHover={{ y: -8, scale: 1.02 }}
                 className="group relative bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-300">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   {item.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/5 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               </motion.div>
             ))}
           </div>
@@ -698,11 +780,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 10: APP EXPERIENCE
       =============================================== */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-indigo-700 via-purple-700 to-fuchsia-700">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-cyan-400/30 blur-[140px] rounded-full" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-400/30 blur-[140px] rounded-full" />
-        <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-violet-400/20 blur-[120px] rounded-full" />
-
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-orange-600 via-red-500 to-orange-700">
         <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
           <div className="grid lg:grid-cols-2 items-center gap-20">
             <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="max-w-xl text-white">
@@ -726,7 +804,7 @@ const Home = () => {
               <div className="flex flex-wrap gap-6">
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-3 bg-black px-8 py-4 rounded-xl shadow-xl font-semibold hover:bg-gray-900 transition-all duration-300 border border-white/10">
-                  <span className="text-2xl">🤖</span>
+                  <span className="text-2xl">▶</span>
                   <div className="text-left">
                     <p className="text-xs text-gray-400">Download on</p>
                     <p className="font-bold">Google Play</p>
@@ -749,7 +827,7 @@ const Home = () => {
                 <div className="relative mx-auto w-56 bg-gradient-to-b from-gray-900 to-gray-800 rounded-[40px] p-4 shadow-inner border-2 border-gray-700">
                   <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-3 bg-black rounded-full" />
                   <div className="mt-8 bg-white/10 rounded-2xl p-5 text-center text-white">
-                    <div className="text-5xl mb-4">🍔</div>
+                    <div className="text-5xl mb-4"><Utensils className="w-12 h-12 mx-auto text-orange-400" /></div>
                     <h4 className="font-bold text-lg mb-1">Order in Seconds</h4>
                     <p className="text-white/60 text-xs">Simple • Fast • Secure</p>
                   </div>
@@ -766,8 +844,8 @@ const Home = () => {
                     ))}
                   </div>
                 </div>
-                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-5 py-2 rounded-full font-bold shadow-lg text-sm">
-                  App Only 🔥
+                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-lg text-sm">
+                  App Only
                 </div>
               </motion.div>
             </motion.div>
@@ -779,16 +857,13 @@ const Home = () => {
           SECTION 11: TOP RESTAURANTS
       =============================================== */}
       <section className="relative py-20 bg-gradient-to-b from-white via-gray-50 to-white">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 -right-40 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse" />
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="inline-block px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full text-sm font-semibold mb-4">Partners</motion.span>
+              className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Partners</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
               className="text-4xl md:text-5xl font-extrabold">
-              Top Restaurants <span className="text-indigo-500">🍽️</span>
+              Top Restaurants
             </motion.h2>
             <p className="mt-5 text-gray-500 max-w-2xl mx-auto">Discover hand-picked restaurants loved by food enthusiasts</p>
           </div>
@@ -797,7 +872,7 @@ const Home = () => {
             {(showAllRestaurants ? filteredRestaurants : filteredRestaurants.slice(0, 8)).map((res, index) => (
               <motion.div key={res.id} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05 }}
                 whileHover={{ y: -10 }}
-                className="group relative rounded-3xl bg-white/90 backdrop-blur-xl border border-white/40 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
+                className="group relative rounded-3xl bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
                 <div className="relative h-48 sm:h-52 overflow-hidden rounded-t-3xl">
                   <img src={res.image} alt={res.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -809,13 +884,13 @@ const Home = () => {
                   </span>
                 </div>
                 <div className="p-5 flex flex-col h-full">
-                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">{res.name}</h3>
+                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">{res.name}</h3>
                   <div className="mt-3 space-y-2 text-sm text-gray-500">
-                    <p className="flex items-center gap-2"><MapPin size={14} className="text-indigo-500" /> {res.location}</p>
-                    <p className="flex items-center gap-2"><Clock size={14} className="text-indigo-500" /> {res.timing}</p>
+                    <p className="flex items-center gap-2"><MapPin size={14} className="text-orange-500" /> {res.location}</p>
+                    <p className="flex items-center gap-2"><Clock size={14} className="text-orange-500" /> {res.timing}</p>
                   </div>
                   <button onClick={() => navigate("/menu", { state: { restaurant: res } })}
-                    className="mt-auto relative w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold tracking-wide shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group/btn">
+                    className="mt-auto relative w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold tracking-wide shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group/btn">
                     <span className="absolute inset-0 bg-white/10 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-[200%] transition-transform duration-700 pointer-events-none" />
                     <span className="relative z-10 flex items-center justify-center gap-2">View Menu <ArrowRight className="w-4 h-4" /></span>
                   </button>
@@ -826,7 +901,7 @@ const Home = () => {
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-center mt-14">
             <button onClick={() => setShowAllRestaurants(prev => !prev)}
-              className="px-10 py-4 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              className="px-10 py-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
               {showAllRestaurants ? "Show Less" : "View More"}
             </button>
           </motion.div>
@@ -876,8 +951,8 @@ const Home = () => {
       <section className="relative py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-pink-100 text-pink-600 rounded-full text-sm font-semibold mb-4">Best Value</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold">Popular <span className="bg-gradient-to-r from-pink-500 to-rose-600 bg-clip-text text-transparent">Combos</span></h2>
+            <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Best Value</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold">Popular <span className="text-orange-500">Combos</span></h2>
             <p className="mt-4 text-gray-500 max-w-lg mx-auto">Save more with our specially curated combo meals</p>
           </motion.div>
 
@@ -890,20 +965,20 @@ const Home = () => {
                   <img src={combo.image} alt={combo.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 </div>
                 <div className="flex-1 p-6 flex flex-col justify-center">
-                  <div className="inline-block px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-xs font-semibold mb-2 w-fit">
+                    <span className="inline-block px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold mb-2 w-fit">
                     Save ₹{combo.originalPrice - combo.price}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 group-hover:text-pink-600 transition-colors">{combo.name}</h3>
+                  </span>
+                  <h3 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{combo.name}</h3>
                   <p className="text-gray-500 text-sm mt-1">{combo.items}</p>
                   <div className="flex items-center gap-3 mt-4">
-                    <span className="text-2xl font-bold text-pink-600">₹{combo.price}</span>
+                    <span className="text-2xl font-bold text-orange-600">₹{combo.price}</span>
                     <span className="text-gray-400 line-through">₹{combo.originalPrice}</span>
                     <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full font-semibold ml-auto">
                       {Math.round((1 - combo.price / combo.originalPrice) * 100)}% OFF
                     </span>
                   </div>
                   <button onClick={() => navigate("/menu")}
-                    className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:from-rose-600 hover:to-pink-500 transition-all duration-300 shadow-md hover:shadow-lg">
+                    className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold hover:from-red-500 hover:to-orange-500 transition-all duration-300 shadow-md hover:shadow-lg">
                     Order Now
                   </button>
                 </div>
@@ -914,7 +989,7 @@ const Home = () => {
           {combos.length > 2 && (
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex justify-center mt-10">
               <button onClick={() => setShowAllCombos(prev => !prev)}
-                className="px-8 py-3 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 text-white font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
                 {showAllCombos ? "Show Less" : "View All Combos"}
               </button>
             </motion.div>
@@ -925,15 +1000,15 @@ const Home = () => {
       {/* ===============================================
           SECTION 14: CATERING SERVICES
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      <section className="relative py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-              <span className="inline-block px-4 py-2 bg-emerald-100 text-emerald-600 rounded-full text-sm font-semibold mb-4">
+              <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">
                 <Gift className="w-4 h-4 inline mr-1" /> Catering Services
               </span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">
-                We Cater Your <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Special Events</span>
+                We Cater Your <span className="text-orange-500">Special Events</span>
               </h2>
               <p className="text-gray-500 leading-relaxed mb-8">
                 From corporate events to family gatherings, our catering service brings restaurant-quality food to your special occasions. Custom menus, bulk orders, and timely delivery guaranteed.
@@ -946,14 +1021,14 @@ const Home = () => {
                   "Timely delivery & setup",
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <FaCheck className="w-3 h-3 text-emerald-600" />
+                    <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
+                      <FaCheck className="w-3 h-3 text-orange-600" />
                     </div>
                     <span className="text-gray-700">{item}</span>
                   </div>
                 ))}
               </div>
-              <button className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <button className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Contact Catering <ArrowRight className="w-5 h-5" />
               </button>
             </motion.div>
@@ -970,14 +1045,14 @@ const Home = () => {
                     { value: "98%", label: "Satisfaction" },
                   ].map((s, i) => (
                     <div key={i} className="bg-white rounded-2xl p-6 shadow-md border border-gray-50">
-                      <div className="text-3xl font-extrabold text-emerald-600">{s.value}</div>
+                      <div className="text-3xl font-extrabold text-orange-600">{s.value}</div>
                       <p className="text-gray-500 text-sm mt-1">{s.label}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-6 text-center">
-                  <span className="inline-block px-6 py-3 bg-emerald-50 text-emerald-700 rounded-full font-semibold text-sm">
-                    🎉 Book now for your next event!
+                  <span className="inline-block px-6 py-3 bg-orange-50 text-orange-700 rounded-full font-semibold text-sm">
+                    Book now for your next event!
                   </span>
                 </div>
               </div>
@@ -989,10 +1064,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 15: CUSTOMER TESTIMONIALS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-400/20 blur-[140px] rounded-full" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-400/20 blur-[140px] rounded-full" />
-
+      <section className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
             <span className="inline-block px-4 py-2 bg-white/10 text-white rounded-full text-sm font-semibold mb-4 border border-white/10">
@@ -1043,14 +1115,14 @@ const Home = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: "5M+", label: "Orders Completed", icon: "🚀" },
-              { value: "50K+", label: "5-Star Reviews", icon: "⭐" },
-              { value: "1M+", label: "App Downloads", icon: "📱" },
-              { value: "99.9%", label: "On-Time Delivery", icon: "⏱️" },
+              { value: "5M+", label: "Orders Completed", icon: <Zap className="w-8 h-8 text-white" /> },
+              { value: "50K+", label: "5-Star Reviews", icon: <Star className="w-8 h-8 text-yellow-300 fill-yellow-300" /> },
+              { value: "1M+", label: "App Downloads", icon: <Smartphone className="w-8 h-8 text-white" /> },
+              { value: "99%", label: "On-Time Delivery", icon: <Clock className="w-8 h-8 text-white" /> },
             ].map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1, type: "spring" }}
                 className="bg-white/15 backdrop-blur-xl rounded-2xl p-6 text-center text-white border border-white/20 hover:bg-white/25 transition-all duration-300">
-                <span className="text-4xl mb-3 block">{stat.icon}</span>
+                <div className="mb-3">{stat.icon}</div>
                 <div className="text-3xl md:text-4xl font-extrabold mb-1">{stat.value}</div>
                 <p className="text-white/70 text-sm">{stat.label}</p>
               </motion.div>
@@ -1065,8 +1137,8 @@ const Home = () => {
       <section className="relative py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
-            <span className="inline-block px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full text-sm font-semibold mb-4">Got Questions?</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold">Frequently Asked <span className="bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">Questions</span></h2>
+            <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Got Questions?</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold">Frequently Asked <span className="text-orange-500">Questions</span></h2>
           </motion.div>
 
           <div className="space-y-4">
@@ -1077,7 +1149,7 @@ const Home = () => {
                   className="w-full flex items-center justify-between p-5 sm:p-6 text-left">
                   <span className="font-semibold text-gray-800 text-base sm:text-lg pr-4">{faq.q}</span>
                   <motion.span animate={{ rotate: openFaq === index ? 45 : 0 }} transition={{ duration: 0.2 }}
-                    className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl font-bold">
+                    className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold">
                     +
                   </motion.span>
                 </button>
@@ -1150,7 +1222,7 @@ const Home = () => {
                 className="relative text-center p-8 bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl shadow-lg hover:shadow-2xl border border-amber-100 transition-all duration-300 group">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
-                  <span className="text-5xl block mb-4 group-hover:scale-110 transition-transform duration-300">{award.icon}</span>
+                  <div className="mb-4 group-hover:scale-110 transition-transform duration-300">{award.icon}</div>
                   <h3 className="font-bold text-gray-800 text-lg">{award.title}</h3>
                   <p className="text-gray-500 text-sm mt-1">{award.org}</p>
                 </div>
@@ -1164,18 +1236,15 @@ const Home = () => {
           SECTION 20: USER REVIEWS
       =============================================== */}
       <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-400/10 rounded-full blur-3xl" />
-
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="inline-block px-4 py-2 bg-pink-100 text-pink-600 rounded-full text-sm font-semibold mb-4">
+              className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">
               <Heart className="w-4 h-4 inline mr-1" /> Reviews
             </motion.span>
             <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
               className="text-4xl md:text-5xl font-extrabold text-gray-800">
-              What Our Foodies Say <span className="text-pink-500">❤️</span>
+              What Our Foodies Say
             </motion.h2>
             <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
               Real reviews from happy customers who love our food & delivery service.
@@ -1209,11 +1278,11 @@ const Home = () => {
       {/* ===============================================
           SECTION 21 (BONUS): NEWSLETTER BANNER
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-r from-orange-500 to-red-500 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_60%)]" />
         <div className="relative max-w-4xl mx-auto px-6 text-center text-white">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-            <span className="text-5xl block mb-6">📬</span>
+            <span className="text-5xl block mb-6"><Mail className="w-12 h-12 mx-auto" /></span>
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
               Stay <span className="text-yellow-300">Updated</span>
             </h2>
@@ -1222,7 +1291,7 @@ const Home = () => {
             </p>
             <div className="flex max-w-lg mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl">
               <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 text-gray-800 outline-none" />
-              <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300">
+              <button className="bg-gradient-to-r from-white to-orange-100 text-orange-600 px-8 py-4 font-semibold hover:from-orange-50 hover:to-orange-200 transition-all duration-300">
                 Subscribe
               </button>
             </div>
