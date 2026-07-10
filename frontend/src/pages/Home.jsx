@@ -328,38 +328,7 @@ const Home = () => {
               <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-1/3 left-1/4 text-3xl z-20 drop-shadow-2xl">🍗</motion.span>
               <motion.span animate={{ y: [0, -12, 0], rotate: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.8 }} className="absolute top-1/4 left-1/2 text-3xl z-20 drop-shadow-2xl">🥤</motion.span>
 
-              {/* Floating Stats Card */}
-              <motion.div initial={{ scale: 0, x: 20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.4, type: "spring" }}
-                className="absolute -bottom-6 -left-8 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center text-white">
-                    <Truck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">Delivery</p>
-                    <p className="font-bold text-gray-800 text-sm">30 Min</p>
-                  </div>
-                </div>
-              </motion.div>
 
-              {/* Floating Rating Card */}
-              <motion.div initial={{ scale: 0, x: -20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.6, type: "spring" }}
-                className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-white">
-                    <Star className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">Rating</p>
-                    <p className="font-bold text-gray-800 text-sm">4.9/5.0</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Free Delivery Badge */}
-              <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30 z-20">
-                <Zap className="w-4 h-4" /> Free Delivery
-              </motion.div>
             </motion.div>
           </div>
         </div>
