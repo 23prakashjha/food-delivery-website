@@ -149,7 +149,7 @@ const Checkout = () => {
 
                 {cart.map((item) => (
                   <div
-                    key={item._id}
+                    key={`${item._id}__${item.size || ""}`}
                     className="flex items-center justify-between border-b pb-4 mb-4 last:border-none"
                   >
                     <div className="flex items-center gap-4">

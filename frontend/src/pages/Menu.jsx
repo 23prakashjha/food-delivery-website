@@ -337,7 +337,7 @@ const FoodCard = ({ food, onAdd }) => {
       ? food.image
       : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`)
     : null;
-  const gradient = categoryGradients[food.category] || "from-indigo-400 to-purple-500";
+  const gradient = categoryGradients[food.category || food.type] || "from-indigo-400 to-purple-500";
 
   const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);
   const sizes = [];
@@ -350,12 +350,12 @@ const FoodCard = ({ food, onAdd }) => {
   const getCurrentPrice = () => {
     if (hasSizes && selectedSize) {
       const s = sizes.find((sz) => sz.value === selectedSize);
-      return s ? s.price : food.discountPrice || food.originalPrice;
+      return s ? s.price : (food.discountPrice > 0 ? food.discountPrice : food.originalPrice);
     }
-    return food.discountPrice ?? food.originalPrice;
+    return food.discountPrice > 0 ? food.discountPrice : food.originalPrice;
   };
 
-  const hasDiscount = !hasSizes && food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice;
+  const hasDiscount = !hasSizes && food.discountPrice > 0 && food.originalPrice > 0 && food.originalPrice > food.discountPrice;
   const discountPercent = hasDiscount ? Math.round((1 - food.discountPrice / food.originalPrice) * 100) : 0;
 
   const handleAdd = () => {
@@ -375,13 +375,13 @@ const FoodCard = ({ food, onAdd }) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-white">
-            <span className="text-6xl mb-2 drop-shadow-lg">{categoryIcons[food.category] || "🍽️"}</span>
-            <span className="text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">{food.category}</span>
+            <span className="text-6xl mb-2 drop-shadow-lg">{categoryIcons[food.category || food.type] || "🍽️"}</span>
+            <span className="text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">{food.category || food.type}</span>
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-indigo-600 shadow-sm">
-          {food.category}
+          {food.category || food.type}
         </span>
         {hasDiscount && (
           <span className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">

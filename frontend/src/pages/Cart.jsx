@@ -53,7 +53,7 @@ const Cart = () => {
           <div className="flex-1 space-y-6">
             {cart.map((item) => (
               <motion.div
-                key={item._id}
+                key={`${item._id}__${item.size || ""}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-3xl shadow-md p-4 flex flex-col sm:flex-row items-center gap-4 hover:shadow-xl transition"

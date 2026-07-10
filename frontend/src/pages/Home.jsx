@@ -17,8 +17,7 @@ import pasta from "../assets/pasta.jpeg";
 import brevage from "../assets/brevage.jpeg";
 import panneertikka from "../assets/panneertikka.jpeg";
 import deserts from "../assets/deserts.jpeg";
-import heroBg from "../assets/hero-bg.jpeg";
-import heroPanel from "../assets/hero-panel.jpeg";
+
 import foodbanner from "../assets/foodbanner.jpeg";
 import mobileapp from "../assets/mobileapp.jpeg";
 import delivery from "../assets/delivery.jpeg";
@@ -227,15 +226,24 @@ const Home = () => {
     <div className="space-y-0 overflow-hidden">
 
       {/* ===============================================
-          SECTION 1: STUNNING HERO SECTION
+          SECTION 1: STUNNING HERO SECTION (VIDEO)
       =============================================== */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden text-white">
-        {/* Full Background Image */}
-        <div className="absolute inset-0">
-          <img src={heroBg} alt="Delicious food background" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-        </div>
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden text-white">
+        {/* Full Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          {/* ⚠️ REPLACE the src below with your generated AI video URL */}
+          <source src="YOUR_AI_VIDEO_URL_HERE.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
         {/* Animated glow orbs */}
         <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute -top-32 -left-32 w-80 h-80 bg-yellow-400/25 blur-[120px] rounded-full" />
@@ -310,74 +318,47 @@ const Home = () => {
               </div>
             </motion.div>
 
-            {/* RIGHT: Image Panel + Floating Cards */}
+            {/* RIGHT: Floating Cards */}
             <motion.div initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.2 }} className="hidden lg:flex justify-center relative">
               {/* Floating food emojis */}
-              <motion.span animate={{ y: [0, -18, 0], rotate: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-4 left-0 text-4xl z-20 drop-shadow-2xl">🍕</motion.span>
-              <motion.span animate={{ y: [0, -14, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-8 -right-6 text-3xl z-20 drop-shadow-2xl">🌮</motion.span>
-              <motion.span animate={{ y: [0, -22, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute bottom-12 -left-2 text-3xl z-20 drop-shadow-2xl">🍦</motion.span>
-              <motion.span animate={{ y: [0, -16, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }} className="absolute top-1/3 -right-10 text-2xl z-20 drop-shadow-2xl">🍔</motion.span>
+              <motion.span animate={{ y: [0, -18, 0], rotate: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute -top-4 left-0 text-5xl z-20 drop-shadow-2xl">🍕</motion.span>
+              <motion.span animate={{ y: [0, -14, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} className="absolute top-8 -right-6 text-4xl z-20 drop-shadow-2xl">🌮</motion.span>
+              <motion.span animate={{ y: [0, -22, 0], rotate: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 2 }} className="absolute bottom-12 -left-2 text-4xl z-20 drop-shadow-2xl">🍦</motion.span>
+              <motion.span animate={{ y: [0, -16, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }} className="absolute top-1/3 -right-10 text-3xl z-20 drop-shadow-2xl">🍔</motion.span>
+              <motion.span animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-1/3 left-1/4 text-3xl z-20 drop-shadow-2xl">🍗</motion.span>
+              <motion.span animate={{ y: [0, -12, 0], rotate: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.8 }} className="absolute top-1/4 left-1/2 text-3xl z-20 drop-shadow-2xl">🥤</motion.span>
 
-              {/* Main Image Panel */}
-              <motion.div animate={{ y: [0, -12, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="relative">
-                {/* Glow behind */}
-                <div className="absolute -inset-6 bg-gradient-to-r from-orange-400/30 via-yellow-500/20 to-pink-500/30 rounded-[2.5rem] blur-3xl" />
-
-                {/* Image Card */}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 group w-80 h-96">
-                  <img src={heroPanel} alt="Tasty food panel" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                  {/* Overlay Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} className="bg-white/90 backdrop-blur text-black px-3 py-1.5 rounded-full font-bold flex items-center gap-1 text-xs shadow-lg">
-                        <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" /> 4.9
-                      </motion.div>
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7, type: "spring" }} className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-1.5 rounded-full font-bold text-xs shadow-lg">
-                        🔥 Hot Deal
-                      </motion.div>
-                    </div>
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="flex flex-wrap gap-2">
-                      {["🍔 Burger", "🍕 Pizza", "🍟 Fries", "🥤 Shake"].map((item, i) => (
-                        <span key={i} className="bg-white/85 backdrop-blur text-black px-3 py-1 rounded-full text-xs font-semibold shadow">{item}</span>
-                      ))}
-                    </motion.div>
+              {/* Floating Stats Card */}
+              <motion.div initial={{ scale: 0, x: 20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.4, type: "spring" }}
+                className="absolute -bottom-6 -left-8 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center text-white">
+                    <Truck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Delivery</p>
+                    <p className="font-bold text-gray-800 text-sm">30 Min</p>
                   </div>
                 </div>
+              </motion.div>
 
-                {/* Floating Stats Card */}
-                <motion.div initial={{ scale: 0, x: 20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.4, type: "spring" }}
-                  className="absolute -bottom-6 -left-8 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center text-white">
-                      <Truck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Delivery</p>
-                      <p className="font-bold text-gray-800 text-sm">30 Min</p>
-                    </div>
+              {/* Floating Rating Card */}
+              <motion.div initial={{ scale: 0, x: -20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.6, type: "spring" }}
+                className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-white">
+                    <Star className="w-5 h-5" />
                   </div>
-                </motion.div>
-
-                {/* Floating Rating Card */}
-                <motion.div initial={{ scale: 0, x: -20 }} animate={{ scale: 1, x: 0 }} transition={{ delay: 0.6, type: "spring" }}
-                  className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 z-10 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-white">
-                      <Star className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Rating</p>
-                      <p className="font-bold text-gray-800 text-sm">4.9/5.0</p>
-                    </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Rating</p>
+                    <p className="font-bold text-gray-800 text-sm">4.9/5.0</p>
                   </div>
-                </motion.div>
+                </div>
+              </motion.div>
 
-                {/* Free Delivery Badge */}
-                <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30 z-20">
-                  <Zap className="w-4 h-4" /> Free Delivery
-                </motion.div>
+              {/* Free Delivery Badge */}
+              <motion.div initial={{ scale: 0, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }} className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-2xl flex items-center gap-2 text-sm border-2 border-white/30 z-20">
+                <Zap className="w-4 h-4" /> Free Delivery
               </motion.div>
             </motion.div>
           </div>
@@ -492,8 +473,8 @@ const Home = () => {
                         )}
                         <div className="flex items-center justify-between mt-4">
                           <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-indigo-600">₹{food.discountPrice ?? food.originalPrice}</span>
-                            {food.originalPrice && food.discountPrice && food.originalPrice !== food.discountPrice && (
+                            <span className="text-2xl font-bold text-indigo-600">₹{food.discountPrice > 0 ? food.discountPrice : food.originalPrice}</span>
+                            {!(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && food.discountPrice > 0 && food.originalPrice > food.discountPrice && (
                               <span className="text-gray-400 line-through text-sm">₹{food.originalPrice}</span>
                             )}
                           </div>
@@ -610,7 +591,7 @@ const Home = () => {
                 whileHover={{ y: -10, scale: 1.03 }}
                 className="group relative bg-white/90 backdrop-blur-xl rounded-3xl p-5 shadow-lg hover:shadow-2xl border border-white/60 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 overflow-hidden rounded-2xl mb-5">
-                  <img src={food.image} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <img src={food.image ? (food.image.startsWith("http") || food.image.startsWith("data:") ? food.image : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`) : ""} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   {index < 2 && (
                     <span className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg flex items-center gap-1">
@@ -642,8 +623,8 @@ const Home = () => {
                   )}
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice || food.originalPrice}</span>
-                      {food.discountPrice && food.originalPrice > food.discountPrice && (
+                      <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice > 0 ? food.discountPrice : food.originalPrice}</span>
+                      {!(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && food.discountPrice > 0 && food.originalPrice > food.discountPrice && (
                         <span className="text-gray-400 line-through text-sm ml-2">₹{food.originalPrice}</span>
                       )}
                     </div>

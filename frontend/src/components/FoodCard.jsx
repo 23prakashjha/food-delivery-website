@@ -31,12 +31,12 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
   const getCurrentPrice = () => {
     if (hasSizes && selectedSize) {
       const s = sizes.find((sz) => sz.value === selectedSize);
-      return s ? s.price : food.discountPrice || food.originalPrice;
+      return s ? s.price : (food.discountPrice > 0 ? food.discountPrice : food.originalPrice);
     }
-    return food.discountPrice || food.originalPrice;
+    return food.discountPrice > 0 ? food.discountPrice : food.originalPrice;
   };
 
-  const hasDiscount = !hasSizes && food.discountPrice && food.originalPrice && food.originalPrice > food.discountPrice;
+  const hasDiscount = !hasSizes && food.discountPrice > 0 && food.originalPrice > 0 && food.originalPrice > food.discountPrice;
   const discountPercent = hasDiscount ? Math.round((1 - food.discountPrice / food.originalPrice) * 100) : 0;
 
   const handleAdd = () => {
