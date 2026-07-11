@@ -10,6 +10,7 @@ import {
   FaLock,
 } from "react-icons/fa";
 import axios from "axios";
+import { getFoodImageUrl } from "../utils/image";
 
 const API = "https://food-delivery-website-2-qpp0.onrender.com/api";
 
@@ -154,7 +155,7 @@ const Checkout = () => {
                   >
                     <div className="flex items-center gap-4">
                       <img
-                        src={`https://food-delivery-website-2-qpp0.onrender.com/uploads/${item.image}`}
+                        src={getFoodImageUrl(item.image)}
                         alt={item.name}
                         className="w-16 h-16 rounded-xl object-cover"
                       />

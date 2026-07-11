@@ -1,24 +1,26 @@
 import express from "express";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import Food from "../models/Food.js";
 
 const router = express.Router();
 
-// ===== Multer Setup =====
-const uploadsDir = path.join(process.cwd(), "uploads");
+// ===== Cloudinary Config =====
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-try {
-  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-} catch (err) {
-  console.error("Failed to create uploads directory:", err.message);
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + "-" + file.originalname.replace(/\s+/g, "_")),
+// ===== Multer + Cloudinary Storage =====
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "food-delivery",
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
+    transformation: [{ width: 800, height: 600, crop: "limit" }],
+  },
 });
 
 const upload = multer({
@@ -28,8 +30,7 @@ const upload = multer({
     const allowedMimes = [
       "image/jpeg", "image/png", "image/webp",
       "image/gif", "image/bmp", "image/svg+xml",
-      "image/avif", "image/heic", "image/heif",
-      "image/tiff", "image/x-icon",
+      "image/avif",
     ];
     if (!allowedMimes.includes(file.mimetype)) {
       return cb(new Error("Only images are allowed"));
@@ -75,6 +76,9 @@ router.post("/", (req, res, next) => {
     if (!req.file)
       return res.status(400).json({ message: "Image is required" });
 
+    // req.file.path contains the full Cloudinary URL
+    const imageUrl = req.file.path;
+
     const newFood = await Food.create({
       name,
       originalPrice,
@@ -85,7 +89,7 @@ router.post("/", (req, res, next) => {
       rating: rating || 0,
       category,
       description: description || "",
-      image: req.file.filename,
+      image: imageUrl,
     });
 
     res.status(201).json(newFood);
@@ -101,8 +105,17 @@ router.delete("/:id", async (req, res) => {
     const food = await Food.findById(req.params.id);
     if (!food) return res.status(404).json({ message: "Food not found" });
 
-    const imagePath = path.join(uploadsDir, food.image);
-    if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
+    // Delete from Cloudinary if image is a Cloudinary URL
+    if (food.image && food.image.includes("cloudinary.com")) {
+      try {
+        const urlParts = food.image.split("/");
+        const folderAndFile = urlParts.slice(urlParts.indexOf("upload") + 1).join("/");
+        const publicId = folderAndFile.replace(/\.[^/.]+$/, "");
+        await cloudinary.uploader.destroy(publicId);
+      } catch (e) {
+        console.error("Cloudinary delete error:", e.message);
+      }
+    }
 
     await Food.findByIdAndDelete(req.params.id);
 
@@ -114,6 +127,3 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
-
-
-

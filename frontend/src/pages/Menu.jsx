@@ -14,6 +14,7 @@ import dessertsImg from "../assets/deserts.jpeg";
 import axios from "axios";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { getFoodImageUrl } from "../utils/image";
 
 
 
@@ -332,11 +333,7 @@ const Menu = () => {
 
 /* -------- FOOD CARD (LOCAL) -------- */
 const FoodCard = ({ food, onAdd }) => {
-  const imgSrc = food.image
-    ? (typeof food.image === "string" && (food.image.startsWith("http") || food.image.startsWith("data:"))
-      ? food.image
-      : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`)
-    : null;
+  const imgSrc = getFoodImageUrl(food.image);
   const gradient = categoryGradients[food.category || food.type] || "from-indigo-400 to-purple-500";
 
   const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);

@@ -4,6 +4,7 @@ import { FaEdit, FaTrash, FaSearch, FaUtensils, FaCheckCircle, FaTimesCircle, Fa
 import { Plus, Utensils } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { getFoodImageUrl } from "../utils/image";
 
 const ManageFood = () => {
   const [foods, setFoods] = useState([]);
@@ -161,7 +162,7 @@ const ManageFood = () => {
                   className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                   <div className="relative overflow-hidden">
                     {food.image && !failedImages.has(food._id) ? (
-                      <img src={`${backendURL}/uploads/${food.image}`} alt={food.name}
+                      <img src={getFoodImageUrl(food.image)} alt={food.name}
                         onError={() => setFailedImages(prev => new Set([...prev, food._id]))}
                         className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (

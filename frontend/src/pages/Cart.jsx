@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { getFoodImageUrl } from "../utils/image";
 
 const Cart = () => {
   const {
@@ -61,7 +62,7 @@ const Cart = () => {
                 {/* IMAGE */}
                 {item.image && (
                   <img
-                    src={`https://food-delivery-website-2-qpp0.onrender.com/uploads/${item.image}`}
+                    src={getFoodImageUrl(item.image)}
                     alt={item.name}
                     className="w-24 h-24 rounded-xl object-cover"
                   />

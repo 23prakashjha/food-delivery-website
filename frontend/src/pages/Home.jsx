@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { FaCheck, FaHeadset } from "react-icons/fa";
 import axios from "axios";
+import { getFoodImageUrl } from "../utils/image";
 import pizza from "../assets/pizza.jpeg";
 import burger from "../assets/burger.jpeg";
 import roll from "../assets/roll.jpeg";
@@ -575,7 +576,7 @@ const Home = () => {
                 whileHover={{ y: -10, scale: 1.03 }}
                 className="group relative bg-white/90 backdrop-blur-xl rounded-3xl p-5 shadow-lg hover:shadow-2xl border border-white/60 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 overflow-hidden rounded-2xl mb-5">
-                  <img src={food.image ? (food.image.startsWith("http") || food.image.startsWith("data:") ? food.image : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`) : ""} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <img src={getFoodImageUrl(food.image)} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   {index < 2 && (
                     <span className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow-lg flex items-center gap-1">
