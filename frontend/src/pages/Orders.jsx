@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBoxOpen, FaTimes, FaClock, FaCheckCircle, FaSpinner, FaTimesCircle, FaCalendarAlt, FaUser, FaMapMarkerAlt, FaPhone, FaShoppingBag, FaClipboardList } from "react-icons/fa";
+import { FaBoxOpen, FaTimes, FaClock, FaCheckCircle, FaSpinner, FaTimesCircle, FaCalendarAlt, FaUser, FaMapMarkerAlt, FaPhone, FaShoppingBag, FaClipboardList, FaMapMarkedAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -126,10 +126,18 @@ const Orders = () => {
 
                       <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
                         <span className="text-lg font-bold text-indigo-600">₹{order.total?.toFixed(2)}</span>
-                        <button onClick={() => setSelectedOrder(order)}
-                          className="px-5 py-2 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 transition shadow-lg shadow-indigo-500/30">
-                          View Details
-                        </button>
+                        <div className="flex gap-2">
+                          {order.status !== "delivered" && order.status !== "cancelled" && (
+                            <Link to={`/track/${order._id}`}
+                              className="px-4 py-2 bg-green-500 text-white rounded-xl font-semibold text-sm hover:bg-green-600 transition shadow-lg shadow-green-500/30 flex items-center gap-1.5">
+                              <FaMapMarkedAlt size={12} /> Track
+                            </Link>
+                          )}
+                          <button onClick={() => setSelectedOrder(order)}
+                            className="px-5 py-2 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 transition shadow-lg shadow-indigo-500/30">
+                            View Details
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

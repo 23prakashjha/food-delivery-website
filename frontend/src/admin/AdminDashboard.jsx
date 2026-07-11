@@ -25,8 +25,17 @@ const AdminDashboard = () => {
       const res = await fetch(`${API_BASE}/auth/users`, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        showToast(errData.message || "Failed to fetch users", "error");
+        return;
+      }
       const data = await res.json();
-      if (Array.isArray(data)) setUsers(data);
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        showToast("Unexpected response from server", "error");
+      }
     } catch {
       showToast("Failed to fetch users", "error");
     } finally {

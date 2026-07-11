@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Truck, Clock, Star, MapPin, ChefHat, Award,
   ShieldCheck, Zap, Heart, Leaf, Users, Quote, ArrowRight,
-  Smartphone, Search, Gift, TrendingUp, Sparkles, Utensils, Mail
+  Smartphone, Search, Gift, TrendingUp, Sparkles, Utensils, Mail, Download
 } from "lucide-react";
 import { FaCheck, FaHeadset } from "react-icons/fa";
 import axios from "axios";
@@ -21,9 +21,78 @@ import heroChatgpt from "../assets/hero-chatgpt.jpg";
 
 import foodbanner from "../assets/foodbanner.jpeg";
 import mobileapp from "../assets/mobileapp.jpeg";
+import appDownload from "../assets/app-download.jpg.png";
+import trandingMeals from "../assets/tranding meals.png";
 import delivery from "../assets/delivery.jpeg";
 import men from "../assets/men.jpeg";
 import women from "../assets/women.jpeg";
+
+import trending1 from "../assets/sections/trending1.jpg";
+import trending2 from "../assets/sections/trending2.jpg";
+import trending3 from "../assets/sections/trending3.jpg";
+import trending4 from "../assets/sections/trending4.jpg";
+import trending5 from "../assets/sections/trending5.jpg";
+
+import offer1 from "../assets/sections/offer1.jpg";
+import offer2 from "../assets/sections/offer2.jpg";
+import offer3 from "../assets/sections/offer3.jpg";
+import offer4 from "../assets/sections/offer4.jpg";
+import offer5 from "../assets/sections/offer5.jpg";
+import offer6 from "../assets/sections/offer6.jpg";
+
+import step1 from "../assets/sections/step1.jpg";
+import step2 from "../assets/sections/step2.jpg";
+import step3 from "../assets/sections/step3.jpg";
+import step4 from "../assets/sections/step4.jpg";
+
+import app1 from "../assets/sections/app1.jpg";
+import app2 from "../assets/sections/app2.jpg";
+import app3 from "../assets/sections/app3.jpg";
+
+import avatar1 from "../assets/sections/avatar1.jpg";
+import avatar2 from "../assets/sections/avatar2.jpg";
+import avatar3 from "../assets/sections/avatar3.jpg";
+import avatar4 from "../assets/sections/avatar4.jpg";
+import avatar5 from "../assets/sections/avatar5.jpg";
+import avatar6 from "../assets/sections/avatar6.jpg";
+
+import food1 from "../assets/sections/food1.jpg";
+import food2 from "../assets/sections/food2.jpg";
+import food3 from "../assets/sections/food3.jpg";
+import food4 from "../assets/sections/food4.jpg";
+import food5 from "../assets/sections/food5.jpg";
+import food6 from "../assets/sections/food6.jpg";
+import food7 from "../assets/sections/food7.jpg";
+import food8 from "../assets/sections/food8.jpg";
+
+import review1 from "../assets/sections/review1.jpg";
+import review2 from "../assets/sections/review2.jpg";
+import review3 from "../assets/sections/review3.jpg";
+import review4 from "../assets/sections/review4.jpg";
+import review5 from "../assets/sections/review5.jpg";
+import review6 from "../assets/sections/review6.jpg";
+
+import newsletter1 from "../assets/sections/newsletter1.jpg";
+import newsletter2 from "../assets/sections/newsletter2.jpg";
+import newsletter3 from "../assets/sections/newsletter3.jpg";
+
+import combo1 from "../assets/sections/combo1.jpg";
+import combo2 from "../assets/sections/combo2.jpg";
+import combo3 from "../assets/sections/combo3.jpg";
+import combo4 from "../assets/sections/combo4.jpg";
+
+import chef1 from "../assets/sections/chef1.jpg";
+import chef2 from "../assets/sections/chef2.jpg";
+import chef3 from "../assets/sections/chef3.jpg";
+import chef4 from "../assets/sections/chef4.jpg";
+
+import blog1 from "../assets/sections/blog1.jpg";
+import blog2 from "../assets/sections/blog2.jpg";
+import blog3 from "../assets/sections/blog3.jpg";
+
+import heroFloat1 from "../assets/sections/hero-float1.jpg";
+import heroFloat2 from "../assets/sections/hero-float2.jpg";
+import heroFloat3 from "../assets/sections/hero-float3.jpg";
 import r1 from "../assets/restaurants/r1.jpeg";
 import r2 from "../assets/restaurants/r2.jpeg";
 import r3 from "../assets/restaurants/r3.jpeg";
@@ -40,20 +109,30 @@ import r12 from "../assets/restaurants/r12.jpeg";
 const categories = [
   { name: "Pizza", image: pizza, icon: "🍕" },
   { name: "Burger", image: burger, icon: "🍔" },
+  { name: "Biryani", image: chickentikka, icon: "🍚" },
+  { name: "Momos", image: momos, icon: "🥟" },
   { name: "Veg", image: panneertikka, icon: "🥬" },
   { name: "Non-Veg", image: chickentikka, icon: "🍗" },
+  { name: "Chinese", image: momos, icon: "🥠" },
+  { name: "South Indian", image: panneertikka, icon: "🥘" },
+  { name: "Punjabi Food", image: chickentikka, icon: "🫓" },
+  { name: "North Indian", image: chickentikka, icon: "🍛" },
   { name: "Roll", image: roll, icon: "🌯" },
   { name: "Pasta", image: pasta, icon: "🍝" },
+  { name: "Patties", image: roll, icon: "🥮" },
+  { name: "Fish", image: chickentikka, icon: "🐟" },
+  { name: "Eggs", image: panneertikka, icon: "🥚" },
   { name: "Desserts", image: deserts, icon: "🍰" },
   { name: "Beverages", image: brevage, icon: "🥤" },
-  { name: "Snacks", image: momos, icon: "🥟" },
+  { name: "Salads", image: panneertikka, icon: "🥗" },
+  { name: "Soups", image: momos, icon: "🍜" },
 ];
 
 const howItWorks = [
-  { step: 1, title: "Choose Food", desc: "Browse hundreds of dishes from top restaurants near you.", icon: "🍽️", color: "from-indigo-500 to-blue-500" },
-  { step: 2, title: "Place Order", desc: "Add to cart and checkout in just a few taps.", icon: "🛒", color: "from-purple-500 to-pink-500" },
-  { step: 3, title: "Fast Delivery", desc: "Our riders deliver hot & fresh in under 30 minutes.", icon: "🛵", color: "from-orange-500 to-red-500" },
-  { step: 4, title: "Enjoy Meal", desc: "Sit back, relax and enjoy your delicious meal!", icon: "😋", color: "from-green-500 to-teal-500" },
+  { step: 1, title: "Choose Food", desc: "Browse hundreds of dishes from top restaurants near you.", icon: "🍽️", color: "from-indigo-500 to-blue-500", image: step1 },
+  { step: 2, title: "Place Order", desc: "Add to cart and checkout in just a few taps.", icon: "🛒", color: "from-purple-500 to-pink-500", image: step2 },
+  { step: 3, title: "Fast Delivery", desc: "Our riders deliver hot & fresh in under 30 minutes.", icon: "🛵", color: "from-orange-500 to-red-500", image: step3 },
+  { step: 4, title: "Enjoy Meal", desc: "Sit back, relax and enjoy your delicious meal!", icon: "😋", color: "from-green-500 to-teal-500", image: step4 },
 ];
 
 const whyChooseUs = [
@@ -66,33 +145,33 @@ const whyChooseUs = [
 ];
 
 const specialOffers = [
-  { id: 1, title: "Free Delivery", desc: "On first 3 orders", code: "FIRST3", color: "from-blue-600 to-indigo-600" },
-  { id: 2, title: "50% Off", desc: "On orders ₹500+", code: "HALF50", color: "from-purple-600 to-pink-600" },
-  { id: 3, title: "Combo Deal", desc: "Burger + Fries + Drink", code: "COMBO99", color: "from-orange-600 to-red-600" },
-  { id: 4, title: "Weekend Offer", desc: "Extra 10% off on weekends", code: "WEEKEND", color: "from-teal-600 to-cyan-600" },
-  { id: 5, title: "Loyalty Bonus", desc: "Earn points on every order", code: "LOYAL", color: "from-rose-600 to-pink-600" },
-  { id: 6, title: "Midnight Deal", desc: "Free drink after 10 PM", code: "MIDNIGHT", color: "from-violet-600 to-purple-600" },
+  { id: 1, title: "Free Delivery", desc: "On first 3 orders", code: "FIRST3", color: "from-blue-600 to-indigo-600", image: offer1 },
+  { id: 2, title: "50% Off", desc: "On orders ₹500+", code: "HALF50", color: "from-purple-600 to-pink-600", image: offer2 },
+  { id: 3, title: "Combo Deal", desc: "Burger + Fries + Drink", code: "COMBO99", color: "from-orange-600 to-red-600", image: offer3 },
+  { id: 4, title: "Weekend Offer", desc: "Extra 10% off on weekends", code: "WEEKEND", color: "from-teal-600 to-cyan-600", image: offer4 },
+  { id: 5, title: "Loyalty Bonus", desc: "Earn points on every order", code: "LOYAL", color: "from-rose-600 to-pink-600", image: offer5 },
+  { id: 6, title: "Midnight Deal", desc: "Free drink after 10 PM", code: "MIDNIGHT", color: "from-violet-600 to-purple-600", image: offer6 },
 ];
 
 const chefs = [
-  { name: "Chef Marco", specialty: "Italian Cuisine", image: men, rating: 4.9 },
-  { name: "Chef Priya", specialty: "Indian Cuisine", image: women, rating: 4.8 },
-  { name: "Chef Tanaka", specialty: "Japanese Cuisine", image: men, rating: 4.7 },
-  { name: "Chef Sophie", specialty: "French Pastry", image: women, rating: 4.9 },
+  { name: "Chef Marco", specialty: "Italian Cuisine", image: chef1, rating: 4.9 },
+  { name: "Chef Priya", specialty: "Indian Cuisine", image: chef2, rating: 4.8 },
+  { name: "Chef Tanaka", specialty: "Japanese Cuisine", image: chef3, rating: 4.7 },
+  { name: "Chef Sophie", specialty: "French Pastry", image: chef4, rating: 4.9 },
 ];
 
 const combos = [
-  { id: 1, name: "Pizza Combo", items: "2 Pizzas + Garlic Bread + Drink", price: 24, originalPrice: 35, image: pizza },
-  { id: 2, name: "Burger Feast", items: "3 Burgers + Fries + 2 Shakes", price: 28, originalPrice: 40, image: burger },
-  { id: 3, name: "Family Pack", items: "4 Biryani + Raita + Salad", price: 32, originalPrice: 48, image: chickentikka },
-  { id: 4, name: "Dessert Box", items: "6 Pastries + Brownie + Ice Cream", price: 18, originalPrice: 26, image: deserts },
+  { id: 1, name: "Pizza Combo", items: "2 Pizzas + Garlic Bread + Drink", price: 24, originalPrice: 35, image: combo1 },
+  { id: 2, name: "Burger Feast", items: "3 Burgers + Fries + 2 Shakes", price: 28, originalPrice: 40, image: combo2 },
+  { id: 3, name: "Family Pack", items: "4 Biryani + Raita + Salad", price: 32, originalPrice: 48, image: combo3 },
+  { id: 4, name: "Dessert Box", items: "6 Pastries + Brownie + Ice Cream", price: 18, originalPrice: 26, image: combo4 },
 ];
 
 const testimonials = [
-  { id: 1, name: "Rahul Mehta", text: "Best food delivery service! The food arrived hot and fresh. Highly recommended!", rating: 5, role: "Software Engineer" },
-  { id: 2, name: "Neha Kapoor", text: "The combo deals are amazing value. I order at least 3 times a week!", rating: 5, role: "Fitness Coach" },
-  { id: 3, name: "Amit Sharma", text: "Great variety of cuisines. The delivery is always on time.", rating: 4, role: "Business Analyst" },
-  { id: 4, name: "Kiran Patel", text: "Love the app interface! So easy to track orders in real-time.", rating: 5, role: "Designer" },
+  { id: 1, name: "Rahul Mehta", text: "Best food delivery service! The food arrived hot and fresh. Highly recommended!", rating: 5, role: "Software Engineer", avatar: avatar1, foodImage: food1 },
+  { id: 2, name: "Neha Kapoor", text: "The combo deals are amazing value. I order at least 3 times a week!", rating: 5, role: "Fitness Coach", avatar: avatar2, foodImage: food2 },
+  { id: 3, name: "Amit Sharma", text: "Great variety of cuisines. The delivery is always on time.", rating: 4, role: "Business Analyst", avatar: avatar3, foodImage: food3 },
+  { id: 4, name: "Kiran Patel", text: "Love the app interface! So easy to track orders in real-time.", rating: 5, role: "Designer", avatar: avatar4, foodImage: food4 },
 ];
 
 const faqs = [
@@ -104,9 +183,9 @@ const faqs = [
 ];
 
 const blogPosts = [
-  { id: 1, title: "10 Healthy Meals Under ₹200", desc: "Eating healthy doesn't have to break the bank.", image: panneertikka, date: "Jun 15, 2026" },
-  { id: 2, title: "Perfect Pizza at Home", desc: "Tips to reheat pizza for that fresh-from-oven taste.", image: pizza, date: "Jun 12, 2026" },
-  { id: 3, title: "Best Street Foods", desc: "Top 5 street foods you must try this summer.", image: momos, date: "Jun 8, 2026" },
+  { id: 1, title: "10 Healthy Meals Under ₹200", desc: "Eating healthy doesn't have to break the bank.", image: blog1, date: "Jun 15, 2026" },
+  { id: 2, title: "Perfect Pizza at Home", desc: "Tips to reheat pizza for that fresh-from-oven taste.", image: blog2, date: "Jun 12, 2026" },
+  { id: 3, title: "Best Street Foods", desc: "Top 5 street foods you must try this summer.", image: blog3, date: "Jun 8, 2026" },
 ];
 
 const awards = [
@@ -117,12 +196,12 @@ const awards = [
 ];
 
 const reviews = [
-  { id: 1, name: "Prakash Jha", role: "Web Developer", text: "The burger was juicy, cheesy, and perfectly grilled. Delivery was super fast!", rating: 5, avatar: men },
-  { id: 2, name: "Sourav Singh", role: "Doctor", text: "Pizza crust was crisp, toppings were generous, and flavors were amazing.", rating: 5, avatar: men },
-  { id: 3, name: "Anita Paswan", role: "Teacher", text: "Didn't expect the pasta to arrive this hot and fresh. Garlic bread was perfect!", rating: 4, avatar: women },
-  { id: 4, name: "Aman Kumar", role: "Designer", text: "Best food delivery experience so far. Smooth app, fast delivery & great food!", rating: 5, avatar: men },
-  { id: 5, name: "Sheetal Sharma", role: "Student", text: "Affordable prices, great taste and amazing offers. Highly recommended!", rating: 4, avatar: women },
-  { id: 6, name: "Vikas Jha", role: "Physics Teacher", text: "Affordable prices, great taste and amazing offers. Highly recommended!", rating: 5, avatar: men },
+  { id: 1, name: "Prakash Jha", role: "Web Developer", text: "The burger was juicy, cheesy, and perfectly grilled. Delivery was super fast!", rating: 5, avatar: avatar1, bgImage: review1 },
+  { id: 2, name: "Sourav Singh", role: "Doctor", text: "Pizza crust was crisp, toppings were generous, and flavors were amazing.", rating: 5, avatar: avatar3, bgImage: review2 },
+  { id: 3, name: "Anita Paswan", role: "Teacher", text: "Didn't expect the pasta to arrive this hot and fresh. Garlic bread was perfect!", rating: 4, avatar: avatar4, bgImage: review3 },
+  { id: 4, name: "Aman Kumar", role: "Designer", text: "Best food delivery experience so far. Smooth app, fast delivery & great food!", rating: 5, avatar: avatar5, bgImage: review4 },
+  { id: 5, name: "Sheetal Sharma", role: "Student", text: "Affordable prices, great taste and amazing offers. Highly recommended!", rating: 4, avatar: avatar6, bgImage: review5 },
+  { id: 6, name: "Vikas Jha", role: "Physics Teacher", text: "Affordable prices, great taste and amazing offers. Highly recommended!", rating: 5, avatar: avatar2, bgImage: review6 },
 ];
 
 const restaurantImages = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12];
@@ -143,10 +222,16 @@ const Home = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [showAllRestaurants, setShowAllRestaurants] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAllCombos, setShowAllCombos] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const [openFaq, setOpenFaq] = useState(null);
   const [copiedCode, setCopiedCode] = useState(null);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
@@ -209,17 +294,8 @@ const Home = () => {
     return restaurants.filter(r => r.name.toLowerCase().includes(query.toLowerCase()));
   }, [query, restaurants]);
 
-  const filteredFoods = useMemo(() => {
-    if (!selectedCategory || selectedCategory === "All") return [];
-    return foods.filter(f => f.category === selectedCategory);
-  }, [selectedCategory, foods]);
-
   const handleCategoryClick = (catName) => {
-    if (selectedCategory === catName) {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(catName);
-    }
+    navigate("/menu", { state: { category: catName } });
   };
 
   const displayedCombos = showAllCombos ? combos : combos.slice(0, 2);
@@ -230,16 +306,11 @@ const Home = () => {
       {/* ===============================================
           SECTION 1: STUNNING HERO SECTION
       =============================================== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#1a0a00] via-[#4a1200] to-[#7c2d00]">
-        {/* Animated background orbs */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-r from-red-600/40 to-orange-500/30 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-yellow-500/30 to-amber-400/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-gradient-to-r from-orange-600/25 to-red-500/20 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] bg-gradient-to-r from-yellow-400/20 to-orange-400/15 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }} />
-          {/* Subtle mesh pattern overlay */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        </div>
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        {/* Full background image */}
+        <img src={heroChatgpt} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1a0a00]/95 via-[#1a0a00]/80 to-[#1a0a00]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a0a00]/70 via-transparent to-[#1a0a00]/30" />
 
         {/* Right Side Food Banner - Merged Background */}
         <motion.div initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
@@ -267,66 +338,9 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a00] via-[#4a1200]/95 to-[#7c2d00]/90" />
         </div>
 
-        {/* Floating Food Images */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Top Left - Pizza */}
-          <motion.div initial={{ opacity: 0, y: -50, rotate: -15 }} animate={{ opacity: 1, y: 0, rotate: -12 }} transition={{ delay: 0.5, duration: 0.8, type: "spring" }}
-            className="absolute top-20 left-10 w-32 h-32 lg:w-40 lg:h-40 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-1">
-            <img src={pizza} alt="Pizza" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Top Right - Burger */}
-          <motion.div initial={{ opacity: 0, x: 50, rotate: 15 }} animate={{ opacity: 1, x: 0, rotate: 12 }} transition={{ delay: 0.7, duration: 0.8, type: "spring" }}
-            className="absolute top-32 right-20 w-28 h-28 lg:w-36 lg:h-36 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-2">
-            <img src={burger} alt="Burger" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Middle Left - Momos */}
-          <motion.div initial={{ opacity: 0, x: -50, rotate: -10 }} animate={{ opacity: 1, x: 0, rotate: -8 }} transition={{ delay: 0.9, duration: 0.8, type: "spring" }}
-            className="absolute top-1/2 left-20 w-24 h-24 lg:w-32 lg:h-32 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden lg:block animate-float-3">
-            <img src={momos} alt="Momos" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Middle Right - Chicken Tikka */}
-          <motion.div initial={{ opacity: 0, x: 50, rotate: 10 }} animate={{ opacity: 1, x: 0, rotate: 8 }} transition={{ delay: 1.1, duration: 0.8, type: "spring" }}
-            className="absolute top-1/3 right-10 w-28 h-28 lg:w-36 lg:h-36 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-4">
-            <img src={chickentikka} alt="Chicken Tikka" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Bottom Left - Roll */}
-          <motion.div initial={{ opacity: 0, y: 50, rotate: -5 }} animate={{ opacity: 1, y: 0, rotate: -3 }} transition={{ delay: 1.3, duration: 0.8, type: "spring" }}
-            className="absolute bottom-40 left-32 w-24 h-24 lg:w-28 lg:h-28 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden md:block animate-float-5">
-            <img src={roll} alt="Roll" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Bottom Right - Pasta */}
-          <motion.div initial={{ opacity: 0, y: 50, rotate: 5 }} animate={{ opacity: 1, y: 0, rotate: 3 }} transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
-            className="absolute bottom-32 right-32 w-24 h-24 lg:w-32 lg:h-32 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 hidden lg:block animate-float-1" style={{ animationDelay: '1s' }}>
-            <img src={pasta} alt="Pasta" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Center Top - Beverages */}
-          <motion.div initial={{ opacity: 0, y: -30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 1.7, duration: 0.8, type: "spring" }}
-            className="absolute top-16 left-1/2 -translate-x-1/2 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-3" style={{ animationDelay: '0.5s' }}>
-            <img src={brevage} alt="Beverages" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Bottom Center - Desserts */}
-          <motion.div initial={{ opacity: 0, y: 30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 1.9, duration: 0.8, type: "spring" }}
-            className="absolute bottom-20 left-1/2 -translate-x-1/2 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-2" style={{ animationDelay: '1.5s' }}>
-            <img src={deserts} alt="Desserts" className="w-full h-full object-cover" />
-          </motion.div>
-
-          {/* Paneer Tikka */}
-          <motion.div initial={{ opacity: 0, x: -30, rotate: -12 }} animate={{ opacity: 1, x: 0, rotate: -10 }} transition={{ delay: 2.1, duration: 0.8, type: "spring" }}
-            className="absolute bottom-60 left-1/4 w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/30 hidden xl:block animate-float-4" style={{ animationDelay: '2s' }}>
-            <img src={panneertikka} alt="Paneer Tikka" className="w-full h-full object-cover" />
-          </motion.div>
-        </div>
-
-        {/* Main Content - Left Aligned */}
+        {/* Main Content - Centered */}
         <div className="relative max-w-7xl mx-auto px-6 py-20 w-full z-10">
-          <div className="max-w-xl text-white" style={{ textShadow: "0 2px 30px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.6)" }}>
+          <div className="flex flex-col items-center text-center" style={{ textShadow: "0 4px 40px rgba(0,0,0,1), 0 2px 15px rgba(0,0,0,0.9), 0 0px 60px rgba(255,165,0,0.3)" }}>
 
             {/* Badge */}
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -335,29 +349,29 @@ const Home = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
               </span>
-              <span className="font-semibold tracking-wide text-sm">Live Order Tracking &bull; Fast Delivery</span>
+              <span className="font-semibold tracking-wide text-sm text-white">Live Order Tracking &bull; Fast Delivery</span>
             </motion.div>
 
             {/* Heading */}
             <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6 max-w-4xl text-white">
               Taste the{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300 drop-shadow-lg">Best Food</span>
+              <span className="text-white">Best Food</span>
               <br />
               Delivered{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-300 to-teal-300 drop-shadow-lg">Fresh &amp; Fast</span>
+              <span className="text-white">Fresh &amp; Fast</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48 }}
-              className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-md mb-8 drop-shadow-md">
+              className="text-lg sm:text-xl text-white leading-relaxed max-w-2xl mb-8">
               Order from top restaurants near you. Hot, delicious meals delivered to your door in under{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300 font-bold">30 minutes</span>.
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-orange-300 font-bold">30 minutes</span>.
             </motion.p>
 
             {/* Search Bar */}
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58 }}
-              className="flex bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md mb-8">
+              className="flex bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-xl mb-8">
               <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search restaurant or food..." className="flex-1 px-6 py-4 text-gray-800 outline-none text-sm placeholder:text-gray-400" />
               <button className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 px-8 text-white font-semibold hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-red-500/30">
                 <Search className="w-4 h-4" /> Search
@@ -366,7 +380,7 @@ const Home = () => {
 
             {/* CTA Buttons */}
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }}
-              className="flex flex-wrap gap-4 mb-8">
+              className="flex flex-wrap gap-4 justify-center mb-8">
               <Link to="/menu" className="group bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-2xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
                 Order Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -378,7 +392,7 @@ const Home = () => {
 
             {/* Trust Badges */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.82 }}
-              className="flex flex-wrap items-center gap-6">
+              className="flex flex-wrap items-center justify-center gap-6">
               {[
                 { icon: <ShieldCheck className="w-5 h-5 text-green-400" />, label: "Secure Payment" },
                 { icon: <Truck className="w-5 h-5 text-yellow-400" />, label: "Free Delivery" },
@@ -428,162 +442,106 @@ const Home = () => {
           <h2 className="text-4xl sm:text-5xl font-extrabold">
             Browse <span className="text-orange-500">Categories</span>
           </h2>
-          <p className="text-gray-500 mt-3 max-w-lg mx-auto">Click any category to filter dishes instantly</p>
+          <p className="text-gray-500 mt-3 max-w-lg mx-auto">Click any category to explore dishes</p>
         </motion.div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-9 gap-4 sm:gap-5">
-          {categories.map((cat, index) => (
-            <motion.button key={cat.name} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04, duration: 0.5 }} whileHover={{ y: -6, scale: 1.06 }} whileTap={{ scale: 0.95 }} viewport={{ once: true }}
-              onClick={() => handleCategoryClick(cat.name)}
-              className={`group relative overflow-hidden rounded-2xl p-4 sm:p-5 transition-all duration-300 flex flex-col items-center text-center
-                ${selectedCategory === cat.name ? "bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xl shadow-orange-500/40 scale-105 ring-4 ring-orange-300" : "bg-white/80 backdrop-blur-xl shadow-md hover:shadow-xl border border-white/60"}`}>
-              <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${selectedCategory === cat.name ? "opacity-100" : "opacity-0 group-hover:opacity-100"} bg-gradient-to-br from-orange-500/10 to-red-500/10`} />
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="relative mb-3">
-                  <div className={`absolute inset-0 rounded-full blur-md transition-all duration-300 ${selectedCategory === cat.name ? "bg-white/30 opacity-100" : "bg-orange-500 opacity-0 group-hover:opacity-50"}`} />
-                  <img src={cat.image} alt={cat.name}
-                    className={`relative h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover ring-2 transition-all duration-300 ${selectedCategory === cat.name ? "ring-white shadow-lg" : "ring-white shadow-md group-hover:shadow-lg"}`} />
+        <div className="relative group/scroll">
+          {/* Scroll arrows */}
+          <button onClick={() => document.getElementById("catScroll").scrollBy({ left: -300, behavior: "smooth" })}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/90 hover:bg-orange-500 hover:text-white shadow-lg rounded-full items-center justify-center text-gray-600 transition-all duration-300 opacity-0 group-hover/scroll:opacity-100 -ml-3">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button onClick={() => document.getElementById("catScroll").scrollBy({ left: 300, behavior: "smooth" })}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/90 hover:bg-orange-500 hover:text-white shadow-lg rounded-full items-center justify-center text-gray-600 transition-all duration-300 opacity-0 group-hover/scroll:opacity-100 -mr-3">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+          </button>
+
+          <div id="catScroll" className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide scroll-smooth px-1" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {categories.map((cat, index) => (
+              <motion.button key={cat.name} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03, duration: 0.5 }} whileHover={{ y: -6, scale: 1.06 }} whileTap={{ scale: 0.95 }} viewport={{ once: true }}
+                onClick={() => handleCategoryClick(cat.name)}
+                className="group relative overflow-hidden rounded-2xl p-4 sm:p-5 transition-all duration-300 flex flex-col items-center text-center bg-white/80 backdrop-blur-xl shadow-md hover:shadow-xl border border-white/60 hover:bg-gradient-to-br hover:from-orange-500 hover:to-red-500 hover:text-white shrink-0 w-[100px] sm:w-[110px]">
+                <div className="absolute inset-0 rounded-2xl transition-all duration-300 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-orange-500/10 to-red-500/10" />
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="relative mb-3">
+                    <div className="absolute inset-0 rounded-full blur-md transition-all duration-300 bg-orange-500 opacity-0 group-hover:opacity-50" />
+                    <img src={cat.image} alt={cat.name}
+                      className="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full object-cover ring-2 ring-white shadow-md group-hover:shadow-lg transition-all duration-300" />
+                  </div>
+                  <span className="text-2xl sm:hidden mb-1">{cat.icon}</span>
+                  <p className="font-semibold text-xs sm:text-sm text-gray-800 group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                    {cat.name}
+                  </p>
                 </div>
-                <span className="text-2xl sm:hidden mb-1">{cat.icon}</span>
-                <p className={`font-semibold text-sm sm:text-base transition-colors duration-300 ${selectedCategory === cat.name ? "text-white" : "text-gray-800 group-hover:text-orange-600"}`}>
-                  {cat.name}
-                </p>
-              </div>
-            </motion.button>
-          ))}
+              </motion.button>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ===============================================
-          SECTION 4: FILTERED FOOD RESULTS
-      =============================================== */}
-      <AnimatePresence mode="wait">
-        {selectedCategory && (
-          <motion.section key={selectedCategory} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.5 }}
-            className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
-            <div className="bg-orange-50/80 rounded-3xl p-6 sm:p-8 border border-orange-100">
-              <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-2xl font-bold text-gray-800">{selectedCategory} Dishes</h3>
-                  <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-semibold">{filteredFoods.length} items</span>
-                </div>
-                <button onClick={() => setSelectedCategory(null)} className="text-sm text-gray-500 hover:text-red-500 transition-colors flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-sm hover:shadow">Clear Filter ✕</button>
-              </div>
-
-              {loading ? (
-                <div className="flex justify-center py-12">
-                  <div className="w-12 h-12 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin" />
-                </div>
-              ) : filteredFoods.length > 0 ? (
-                <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {filteredFoods.map(food => (
-                    <motion.div key={food._id} variants={itemVariants} whileHover={{ y: -8, scale: 1.03 }}
-                      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group border border-white/60">
-                      <div className="h-44 overflow-hidden">
-                        <img src={food.image ? (food.image.startsWith("http") || food.image.startsWith("data:") ? food.image : `https://food-delivery-website-2-qpp0.onrender.com/uploads/${food.image}`) : ""} alt={food.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                      </div>
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">{food.category}</span>
-                          {food.rating > 0 && (
-                            <span className="flex items-center gap-0.5 text-xs text-yellow-500 font-semibold">
-                              <Star className="w-3 h-3 fill-yellow-400" /> {food.rating.toFixed(1)}
-                            </span>
-                          )}
-                        </div>
-                        <h4 className="text-lg font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{food.name}</h4>
-                        <p className="text-gray-500 text-sm mt-1 line-clamp-2">{food.description}</p>
-                        {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
-                          <div className="flex gap-1.5 mt-2 flex-wrap">
-                            {food.quarterPrice > 0 && <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">Q ₹{food.quarterPrice}</span>}
-                            {food.halfPrice > 0 && <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">H ₹{food.halfPrice}</span>}
-                            {food.fullPrice > 0 && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">F ₹{food.fullPrice}</span>}
-                          </div>
-                        )}
-                        <div className="flex items-center justify-between mt-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-orange-600">₹{food.discountPrice > 0 ? food.discountPrice : food.originalPrice}</span>
-                            {!(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && food.discountPrice > 0 && food.originalPrice > food.discountPrice && (
-                              <span className="text-gray-400 line-through text-sm">₹{food.originalPrice}</span>
-                            )}
-                          </div>
-                          <button onClick={() => navigate("/menu")} className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-2 rounded-xl font-semibold text-sm hover:from-red-500 hover:to-orange-500 transition-all duration-300 shadow-md hover:shadow-lg">
-                            Order
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              ) : (
-                <div className="text-center py-12 text-gray-500">
-                  <p className="text-4xl mb-3">🔍</p>
-                  <p className="text-lg">No items found in this category.</p>
-                  <p className="text-sm text-gray-400 mt-1">Check back soon for new additions!</p>
-                </div>
-              )}
-            </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
-
-      {/* ===============================================
           SECTION 5: TRENDING OFFER BANNER
       =============================================== */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-orange-500 via-red-500 to-orange-600">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+        {/* Full background image */}
+        <img src={trandingMeals} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-gray-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-transparent to-gray-900/70" />
+
         <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
-          <div className="grid lg:grid-cols-2 items-center gap-20">
-            <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-white max-w-xl">
-              <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-lg px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
+          <div className="flex flex-col items-center text-center">
+            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="max-w-2xl text-white">
+
+              {/* Badge */}
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
                 <span className="relative flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-300 opacity-75" />
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-400" />
                 </span>
-                <span className="font-semibold tracking-wide">Trending Now</span>
+                <span className="font-semibold tracking-wide text-sm">Trending Now</span>
               </div>
+
+              {/* Heading */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
                 Trending Meals <br />
-                <span className="text-yellow-300">Near You</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300">Near You</span>
               </h2>
-              <p className="text-white/85 text-lg leading-relaxed mb-10 max-w-lg">
+
+              {/* Subtitle */}
+              <p className="text-white/70 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
                 Discover today's most loved dishes, viral food trends, and exclusive chef specials curated just for you.
               </p>
-              <Link to="/menu" className="group inline-flex items-center gap-3 bg-white text-orange-600 px-10 py-4 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                Explore Food <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 80 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }} viewport={{ once: true }} className="flex justify-center lg:justify-end">
-              <motion.div animate={{ y: [0, -16, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                className="relative bg-white/20 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl w-full max-w-sm sm:max-w-md text-white border border-white/10">
-                <div className="flex justify-between mb-6">
-                  <span className="bg-white/90 text-orange-600 px-4 py-2 rounded-full font-bold shadow flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-orange-500 text-orange-500" /> 4.8
+              {/* Trending tags */}
+              <div className="flex flex-wrap gap-3 justify-center mb-10">
+                {[
+                  { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, text: "4.8 Rated" },
+                  { icon: <TrendingUp className="w-4 h-4 text-green-400" />, text: "10K+ Orders" },
+                  { icon: <Clock className="w-4 h-4 text-blue-400" />, text: "30 min Delivery" },
+                ].map((tag, i) => (
+                  <span key={i} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-5 py-2.5 rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-all duration-300">
+                    {tag.icon} {tag.text}
                   </span>
-                  <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow">Hot 🔥</span>
-                </div>
-                <div className="text-center text-7xl mb-6">🔥</div>
-                <h3 className="text-2xl font-bold text-center mb-2">Today's Top Picks</h3>
-                <p className="text-white/70 text-center text-sm mb-6">Loved by thousands of foodies</p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {["Pizza", "Burger", "Noodles", "Desserts"].map((item, i) => (
-                    <span key={i} className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-semibold">{item}</span>
-                  ))}
-                </div>
-                <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-                  {[
-                    { value: "10K+", label: "Orders" },
-                    { value: "500+", label: "Restaurants" },
-                    { value: "30 min", label: "Delivery" },
-                  ].map((s, i) => (
-                    <div key={i}>
-                      <h4 className="text-xl font-extrabold">{s.value}</h4>
-                      <p className="text-xs text-white/70">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <Link to="/menu" className="group inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black px-10 py-4 rounded-2xl font-bold text-lg shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300">
+                Explore Food <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              {/* Trust row */}
+              <div className="flex items-center justify-center gap-6 mt-8">
+                {[
+                  { icon: <Utensils className="w-4 h-4 text-orange-400" />, text: "500+ Restaurants" },
+                  { icon: <MapPin className="w-4 h-4 text-green-400" />, text: "350+ Cities" },
+                  { icon: <Truck className="w-4 h-4 text-yellow-400" />, text: "Free Delivery" },
+                ].map((item, i) => (
+                  <span key={i} className="flex items-center gap-1.5 text-white/50 text-xs font-medium">
+                    {item.icon} {item.text}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>
@@ -592,9 +550,9 @@ const Home = () => {
       {/* ===============================================
           SECTION 6: POPULAR DISHES
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-b from-white via-gray-50 to-white">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl" />
+      <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
@@ -680,6 +638,7 @@ const Home = () => {
           SECTION 7: HOW IT WORKS
       =============================================== */}
       <section className="relative py-20 bg-white">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Simple Process</span>
@@ -691,15 +650,20 @@ const Home = () => {
             {howItWorks.map((step, index) => (
               <motion.div key={step.step} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: index * 0.15, duration: 0.6 }} whileHover={{ y: -8 }}
-                className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-300 text-center group">
-                <div className="relative mx-auto mb-6 w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-white text-3xl">{step.icon}</span>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-sm font-bold text-orange-600 border-2 border-orange-200">
+                className="relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-300 group">
+                <div className="relative h-36 overflow-hidden">
+                  <img src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${step.color} opacity-60`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-lg font-bold text-orange-600 border-2 border-orange-200">
                     {step.step}
                   </div>
+                  <div className="absolute bottom-3 right-3 text-2xl">{step.icon}</div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{step.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
+                <div className="p-6 text-center">
+                  <h3 className="text-lg font-bold text-gray-800 mb-2">{step.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
+                </div>
                 {index < 3 && (
                   <div className="hidden lg:block absolute top-1/2 -right-6 text-2xl text-gray-300">→</div>
                 )}
@@ -712,7 +676,10 @@ const Home = () => {
       {/* ===============================================
           SECTION 8: SPECIAL DEALS & OFFERS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white overflow-hidden">
+      <section className="relative py-20 text-white overflow-hidden bg-gradient-to-br from-gray-900 via-purple-950/40 to-gray-900">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '50px 50px' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
             <span className="inline-block px-4 py-2 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-4 border border-orange-500/30">Limited Time</span>
@@ -724,15 +691,27 @@ const Home = () => {
             {specialOffers.map((offer, index) => (
               <motion.div key={offer.id} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                className="relative group rounded-3xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8">
-                <div className={`absolute inset-0 bg-gradient-to-br ${offer.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-4xl"><Gift className="w-8 h-8 text-orange-400" /></span>
-                    <span className="bg-white/20 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">Use Code</span>
+                className="relative group rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl">
+                <div className="relative h-40 overflow-hidden">
+                  <img src={offer.image} alt={offer.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${offer.color} opacity-60`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-white/90 text-orange-600 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                      <Gift className="w-3 h-3" /> Limited
+                    </span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">{offer.title}</h3>
-                  <p className="text-white/70 text-sm mb-4">{offer.desc}</p>
+                  <div className="absolute top-4 right-4 z-10">
+                    <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                      Use Code
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 z-10">
+                    <h3 className="text-2xl font-extrabold text-white drop-shadow-lg">{offer.title}</h3>
+                    <p className="text-white/80 text-sm">{offer.desc}</p>
+                  </div>
+                </div>
+                <div className="relative p-5">
                   <div className="flex items-center justify-between">
                     <code className="bg-white/10 px-4 py-2 rounded-xl text-yellow-300 font-mono font-bold text-lg tracking-wider border border-white/10">
                       {offer.code}
@@ -752,7 +731,8 @@ const Home = () => {
       {/* ===============================================
           SECTION 9: WHY CHOOSE US
       =============================================== */}
-      <section className="relative py-20 bg-white">
+      <section className="relative py-20 bg-gray-50">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Why FoodExpress</span>
@@ -780,75 +760,150 @@ const Home = () => {
       {/* ===============================================
           SECTION 10: APP EXPERIENCE
       =============================================== */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-orange-600 via-red-500 to-orange-700">
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+        {/* Full background image */}
+        <img src={appDownload} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-gray-900/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-transparent to-gray-900/80" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+
         <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
-          <div className="grid lg:grid-cols-2 items-center gap-20">
-            <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="max-w-xl text-white">
-              <div className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-xl px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
-                <Smartphone className="w-5 h-5" /> <span className="font-semibold tracking-wide">Mobile App</span>
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+
+            {/* LEFT: Text content */}
+            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="flex-1 text-white">
+
+              {/* Badge */}
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
+                <Smartphone className="w-5 h-5 text-orange-400" /> <span className="font-semibold tracking-wide text-sm">Download Our App</span>
               </div>
+
+              {/* Heading */}
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
                 Get the App <br />
-                <span className="text-cyan-300">Experience</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300">Experience</span>
               </h2>
-              <p className="text-white/80 text-lg leading-relaxed mb-10">
+
+              {/* Subtitle */}
+              <p className="text-white/70 text-lg leading-relaxed mb-10 max-w-xl">
                 Enjoy live order tracking, exclusive app-only offers, faster checkout, and a smoother food ordering experience.
               </p>
-              <div className="flex flex-wrap gap-4 mb-10">
-                {["⚡ Fast Checkout", "📍 Live Tracking", "🎁 App Offers", "🔔 Push Alerts"].map((feat, i) => (
-                  <span key={i} className="bg-white/15 backdrop-blur-sm text-white px-5 py-2 rounded-full text-sm font-semibold border border-white/10 hover:bg-white/25 transition-all duration-300">
-                    {feat}
+
+              {/* Feature tags */}
+              <div className="flex flex-wrap gap-3 mb-12">
+                {[
+                  { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Fast Checkout" },
+                  { icon: <MapPin className="w-4 h-4 text-green-400" />, text: "Live Tracking" },
+                  { icon: <Gift className="w-4 h-4 text-pink-400" />, text: "App Offers" },
+                  { icon: <Sparkles className="w-4 h-4 text-purple-400" />, text: "Push Alerts" },
+                ].map((feat, i) => (
+                  <span key={i} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-5 py-2.5 rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-all duration-300">
+                    {feat.icon} {feat.text}
                   </span>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-6">
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-3 bg-black px-8 py-4 rounded-xl shadow-xl font-semibold hover:bg-gray-900 transition-all duration-300 border border-white/10">
-                  <span className="text-2xl">▶</span>
+
+              {/* Download buttons with real icons */}
+              <div className="flex flex-wrap gap-5 mb-8">
+                {/* Google Play */}
+                <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-4 bg-white px-8 py-4 rounded-2xl shadow-2xl hover:shadow-orange-500/20 transition-all duration-300">
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5Z" fill="#FFD147"/>
+                    <path d="M16.81 15.12L6.05 21.34L13.69 12L16.81 15.12Z" fill="#FF4B4B"/>
+                    <path d="M20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.5 12.92 20.16 13.19L17.89 14.5L14.5 12L17.89 9.5L20.16 10.81Z" fill="#FFA726"/>
+                    <path d="M6.05 2.66L16.81 8.88L13.69 12L6.05 2.66Z" fill="#4CAF50"/>
+                  </svg>
                   <div className="text-left">
-                    <p className="text-xs text-gray-400">Download on</p>
-                    <p className="font-bold">Google Play</p>
+                    <p className="text-[10px] text-gray-500 leading-none mb-0.5">GET IT ON</p>
+                    <p className="text-lg font-bold text-gray-800 leading-none">Google Play</p>
                   </div>
                 </motion.button>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-xl shadow-xl font-semibold hover:bg-gray-100 transition-all duration-300">
-                  <span className="text-2xl">🍎</span>
+
+                {/* App Store */}
+                <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-4 bg-white px-8 py-4 rounded-2xl shadow-2xl hover:shadow-orange-500/20 transition-all duration-300">
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="#000000">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.72 12.57 5.72C13.36 5.72 14.85 4.62 16.4 4.8C17.07 4.83 18.88 5.07 20.03 6.77C19.91 6.84 17.72 8.1 17.75 10.73C17.78 13.86 20.53 14.93 20.56 14.94C20.53 15.02 20.11 16.5 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                  </svg>
                   <div className="text-left">
-                    <p className="text-xs text-gray-500">Download on</p>
-                    <p className="font-bold">App Store</p>
+                    <p className="text-[10px] text-gray-500 leading-none mb-0.5">Download on the</p>
+                    <p className="text-lg font-bold text-gray-800 leading-none">App Store</p>
                   </div>
                 </motion.button>
               </div>
+
+              {/* Trust row */}
+              <div className="flex items-center gap-6">
+                {[
+                  { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, text: "Secure" },
+                  { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, text: "4.9 Rating" },
+                  { icon: <Download className="w-4 h-4 text-blue-400" />, text: "1M+ Downloads" },
+                ].map((item, i) => (
+                  <span key={i} className="flex items-center gap-1.5 text-white/50 text-xs font-medium">
+                    {item.icon} {item.text}
+                  </span>
+                ))}
+              </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9 }} viewport={{ once: true }} className="flex justify-center lg:justify-end">
-              <motion.div animate={{ y: [0, -18, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-8 shadow-2xl w-full max-w-sm border border-white/10">
-                <div className="relative mx-auto w-56 bg-gradient-to-b from-gray-900 to-gray-800 rounded-[40px] p-4 shadow-inner border-2 border-gray-700">
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-3 bg-black rounded-full" />
-                  <div className="mt-8 bg-white/10 rounded-2xl p-5 text-center text-white">
-                    <div className="text-5xl mb-4"><Utensils className="w-12 h-12 mx-auto text-orange-400" /></div>
-                    <h4 className="font-bold text-lg mb-1">Order in Seconds</h4>
-                    <p className="text-white/60 text-xs">Simple • Fast • Secure</p>
+            {/* RIGHT: Phone mockup with floating food images */}
+            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="flex-1 relative flex items-center justify-center min-h-[500px]">
+
+              {/* Floating food images around the phone */}
+              {[
+                { src: trending1, top: "0%", left: "5%", size: "w-20 h-20", delay: 0, duration: 4 },
+                { src: trending2, top: "5%", right: "0%", size: "w-16 h-16", delay: 0.5, duration: 3.5 },
+                { src: food1, bottom: "10%", left: "0%", size: "w-18 h-18", delay: 1, duration: 4.5 },
+                { src: food2, bottom: "5%", right: "5%", size: "w-14 h-14", delay: 1.5, duration: 3.8 },
+                { src: trending3, top: "35%", left: "-5%", size: "w-14 h-14", delay: 0.8, duration: 5 },
+                { src: food3, top: "30%", right: "-3%", size: "w-16 h-16", delay: 1.2, duration: 4.2 },
+                { src: trending4, top: "60%", left: "2%", size: "w-12 h-12", delay: 0.3, duration: 3.6 },
+                { src: food4, top: "55%", right: "2%", size: "w-14 h-14", delay: 1.8, duration: 4.8 },
+              ].map((item, i) => (
+                <motion.img
+                  key={i}
+                  src={item.src}
+                  alt=""
+                  className={`absolute ${item.size} rounded-2xl object-cover shadow-2xl border-2 border-white/20`}
+                  style={{ top: item.top, bottom: item.bottom, left: item.left, right: item.right }}
+                  animate={{ y: [0, -12, 0], rotate: [0, i % 2 === 0 ? 5 : -5, 0] }}
+                  transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: "easeInOut" }}
+                />
+              ))}
+
+              {/* Phone frame */}
+              <div className="relative w-[280px] h-[560px] bg-gray-900 rounded-[40px] border-4 border-gray-700 shadow-2xl shadow-orange-500/20 overflow-hidden z-10">
+                {/* Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-gray-900 rounded-b-2xl z-20" />
+
+                {/* Phone screen content */}
+                <div className="w-full h-full bg-gradient-to-b from-orange-500 to-red-500 flex flex-col items-center justify-center gap-4 px-6">
+                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                    <Utensils className="w-8 h-8 text-white" />
                   </div>
-                  <div className="mt-6 space-y-3 text-white text-sm">
-                    {[
-                      { label: "⏱ Delivery", value: "30 min" },
-                      { label: "⭐ Rating", value: "4.9" },
-                      { label: "🎁 Offers", value: "Daily" },
-                    ].map((item, i) => (
-                      <div key={i} className="bg-white/10 rounded-xl px-4 py-3 flex justify-between">
-                        <span>{item.label}</span>
-                        <span className="font-bold">{item.value}</span>
-                      </div>
-                    ))}
+                  <p className="text-white font-bold text-lg text-center">FoodExpress</p>
+                  <p className="text-white/70 text-xs text-center">Order. Track. Enjoy.</p>
+                  <div className="flex gap-2 mt-2">
+                    <img src={trending1} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                    <img src={food1} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                    <img src={trending2} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                  </div>
+                  <div className="flex gap-2">
+                    <img src={food2} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                    <img src={trending3} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                    <img src={food3} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
+                  </div>
+                  <div className="bg-white rounded-full px-6 py-2 mt-3">
+                    <p className="text-orange-600 font-bold text-sm">Order Now</p>
                   </div>
                 </div>
-                <div className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-2 rounded-full font-bold shadow-lg text-sm">
-                  App Only
-                </div>
-              </motion.div>
+              </div>
+
+              {/* Glow effect behind phone */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-full blur-3xl -z-10" />
             </motion.div>
+
           </div>
         </div>
       </section>
@@ -856,7 +911,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 11: TOP RESTAURANTS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-b from-white via-gray-50 to-white">
+      <section className="relative py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
@@ -911,7 +966,8 @@ const Home = () => {
       {/* ===============================================
           SECTION 12: MEET OUR CHEFS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      <section className="relative py-20 bg-gradient-to-br from-amber-50/80 to-orange-50/60">
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #f59e0b 1px, transparent 0)', backgroundSize: '30px 30px' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">
@@ -949,6 +1005,7 @@ const Home = () => {
           SECTION 13: POPULAR COMBOS
       =============================================== */}
       <section className="relative py-20 bg-white">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Best Value</span>
@@ -1000,7 +1057,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 14: CATERING SERVICES
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+      <section className="relative py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
@@ -1064,7 +1121,10 @@ const Home = () => {
       {/* ===============================================
           SECTION 15: CUSTOMER TESTIMONIALS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
+      <section className="relative py-20 text-white overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="absolute top-10 left-10 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '50px 50px' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
             <span className="inline-block px-4 py-2 bg-white/10 text-white rounded-full text-sm font-semibold mb-4 border border-white/10">
@@ -1074,57 +1134,105 @@ const Home = () => {
             <p className="text-white/60 mt-3 max-w-lg mx-auto">Real feedback from real people who love our service</p>
           </motion.div>
 
-          <motion.div key={testimonialIndex} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto">
-            <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-10 sm:p-14 text-center border border-white/10">
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-2xl shadow-2xl">
-                <Quote className="w-6 h-6 text-white" />
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <motion.div key={testimonialIndex} initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
+              className="relative">
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 sm:p-10 border border-white/10">
+                <div className="absolute -top-5 left-8 w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center shadow-2xl">
+                  <Quote className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex items-center gap-4 mb-6">
+                  <img src={testimonials[testimonialIndex].avatar} alt={testimonials[testimonialIndex].name}
+                    className="w-16 h-16 rounded-full object-cover border-2 border-yellow-400 shadow-lg" />
+                  <div>
+                    <h4 className="text-lg font-bold">{testimonials[testimonialIndex].name}</h4>
+                    <p className="text-white/60 text-sm">{testimonials[testimonialIndex].role}</p>
+                  </div>
+                  <div className="ml-auto">
+                    <img src={testimonials[testimonialIndex].foodImage} alt="Ordered food"
+                      className="w-12 h-12 rounded-xl object-cover shadow-lg border border-white/20" />
+                  </div>
+                </div>
+                <p className="text-lg italic text-white/90 leading-relaxed">
+                  "{testimonials[testimonialIndex].text}"
+                </p>
+                <div className="flex gap-1 mt-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`w-5 h-5 ${i < testimonials[testimonialIndex].rating ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
+                  ))}
+                </div>
               </div>
-              <p className="text-xl sm:text-2xl italic text-white/90 leading-relaxed mt-4">
-                "{testimonials[testimonialIndex].text}"
-              </p>
-              <div className="flex justify-center gap-1 mt-6">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`w-5 h-5 ${i < testimonials[testimonialIndex].rating ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
-                ))}
-              </div>
-              <h4 className="text-lg font-bold mt-4">{testimonials[testimonialIndex].name}</h4>
-              <p className="text-white/60 text-sm">{testimonials[testimonialIndex].role}</p>
-
               <div className="flex justify-center gap-3 mt-8">
-                {testimonials.map((_, i) => (
+                {testimonials.map((t, i) => (
                   <button key={i} onClick={() => setTestimonialIndex(i)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${i === testimonialIndex ? "bg-yellow-400 w-8" : "bg-white/30 hover:bg-white/50"}`} />
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${i === testimonialIndex ? "bg-yellow-400 text-black" : "bg-white/10 text-white/60 hover:bg-white/20"}`}>
+                    <img src={t.avatar} alt={t.name} className="w-6 h-6 rounded-full object-cover" />
+                    <span className="text-xs font-semibold">{t.name.split(" ")[0]}</span>
+                  </button>
                 ))}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }}
+              className="grid grid-cols-2 gap-4">
+              {testimonials.map((t, i) => (
+                <motion.div key={t.id} whileHover={{ y: -6, scale: 1.03 }}
+                  onClick={() => setTestimonialIndex(i)}
+                  className={`cursor-pointer bg-white/5 backdrop-blur-xl rounded-2xl p-5 border transition-all duration-300 ${i === testimonialIndex ? "border-yellow-400/50 bg-white/10" : "border-white/10 hover:border-white/20"}`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-white/20" />
+                    <div>
+                      <p className="text-sm font-bold">{t.name}</p>
+                      <p className="text-[10px] text-white/50">{t.role}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/70 line-clamp-2">"{t.text}"</p>
+                  <div className="flex gap-0.5 mt-2">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className={`w-3 h-3 ${j < t.rating ? "fill-yellow-400 text-yellow-400" : "text-white/20"}`} />
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ===============================================
           SECTION 16: OUR ACHIEVEMENTS
       =============================================== */}
-      <section className="relative py-16 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
+      <section className="relative py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-orange-500 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-yellow-400 rounded-full blur-[120px]" />
+        </div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white">Our <span className="text-yellow-200">Achievements</span></h2>
-            <p className="text-white/80 mt-3">Milestones we've reached on our journey</p>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
+            <span className="inline-block px-4 py-2 bg-white/10 text-orange-300 rounded-full text-sm font-semibold mb-4 border border-white/10">Milestones</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4">Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300">Achievements</span></h2>
+            <p className="text-white/60 text-lg mt-3 max-w-xl mx-auto">Milestones we've reached on our journey to deliver the best food experience</p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {[
-              { value: "5M+", label: "Orders Completed", icon: <Zap className="w-8 h-8 text-white" /> },
-              { value: "50K+", label: "5-Star Reviews", icon: <Star className="w-8 h-8 text-yellow-300 fill-yellow-300" /> },
-              { value: "1M+", label: "App Downloads", icon: <Smartphone className="w-8 h-8 text-white" /> },
-              { value: "99%", label: "On-Time Delivery", icon: <Clock className="w-8 h-8 text-white" /> },
+              { value: "5M+", label: "Orders Completed", icon: <Zap className="w-8 h-8" />, color: "from-yellow-400 to-orange-500", glow: "shadow-yellow-500/30" },
+              { value: "50K+", label: "5-Star Reviews", icon: <Star className="w-8 h-8 fill-yellow-300" />, color: "from-amber-400 to-yellow-500", glow: "shadow-amber-500/30" },
+              { value: "1M+", label: "App Downloads", icon: <Smartphone className="w-8 h-8" />, color: "from-orange-400 to-red-500", glow: "shadow-orange-500/30" },
+              { value: "99%", label: "On-Time Delivery", icon: <Clock className="w-8 h-8" />, color: "from-red-400 to-pink-500", glow: "shadow-red-500/30" },
             ].map((stat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1, type: "spring" }}
-                className="bg-white/15 backdrop-blur-xl rounded-2xl p-6 text-center text-white border border-white/20 hover:bg-white/25 transition-all duration-300">
-                <div className="mb-3">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-extrabold mb-1">{stat.value}</div>
-                <p className="text-white/70 text-sm">{stat.label}</p>
+              <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, type: "spring", stiffness: 100 }}
+                whileHover={{ y: -10, scale: 1.05 }}
+                className="group relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center text-white border border-white/10 hover:bg-white/15 hover:border-white/20 transition-all duration-300">
+                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-b ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                <div className="relative z-10">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} text-white mb-5 shadow-lg ${stat.glow} group-hover:scale-110 transition-transform duration-300`}>
+                    {stat.icon}
+                  </div>
+                  <div className="text-4xl md:text-5xl font-extrabold mb-2 bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">{stat.value}</div>
+                  <p className="text-white/60 text-sm font-medium">{stat.label}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -1134,7 +1242,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 17: FAQ SECTION
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-14">
             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-4">Got Questions?</span>
@@ -1170,7 +1278,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 18: FOOD BLOG & TIPS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
+      <section className="relative py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold mb-4">
@@ -1205,7 +1313,7 @@ const Home = () => {
       {/* ===============================================
           SECTION 19: AWARDS & RECOGNITION
       =============================================== */}
-      <section className="relative py-20 bg-white">
+      <section className="relative py-20 bg-gradient-to-br from-amber-50/60 to-orange-50/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-amber-100 text-amber-600 rounded-full text-sm font-semibold mb-4">
@@ -1235,7 +1343,9 @@ const Home = () => {
       {/* ===============================================
           SECTION 20: USER REVIEWS
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section className="relative py-20 bg-white">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-400/10 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
@@ -1254,20 +1364,25 @@ const Home = () => {
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review) => (
               <motion.div key={review.id} whileHover={{ y: -12, scale: 1.03 }} transition={{ type: "spring", stiffness: 200 }}
-                className="relative bg-white/90 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white hover:shadow-2xl transition-all duration-300">
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full blur-2xl opacity-30" />
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: review.rating }).map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 italic leading-relaxed mb-6">"{review.text}"</p>
-                <div className="flex items-center gap-4">
-                  <img src={review.avatar} alt={review.name} className="h-14 w-14 rounded-full object-cover ring-2 ring-pink-400 shadow-md" />
-                  <div>
-                    <h4 className="font-bold text-gray-800">{review.name}</h4>
-                    <p className="text-sm text-gray-500">{review.role}</p>
+                className="relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden shadow-xl border border-white hover:shadow-2xl transition-all duration-300">
+                <div className="relative h-32 overflow-hidden">
+                  <img src={review.bgImage} alt={review.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-3 left-4 flex items-center gap-3">
+                    <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-lg" />
+                    <div>
+                      <h4 className="font-bold text-white text-sm">{review.name}</h4>
+                      <p className="text-white/70 text-xs">{review.role}</p>
+                    </div>
                   </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex gap-1 mb-3">
+                    {Array.from({ length: review.rating }).map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 italic leading-relaxed">"{review.text}"</p>
                 </div>
               </motion.div>
             ))}
@@ -1278,27 +1393,94 @@ const Home = () => {
       {/* ===============================================
           SECTION 21 (BONUS): NEWSLETTER BANNER
       =============================================== */}
-      <section className="relative py-20 bg-gradient-to-r from-orange-500 to-red-500 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_60%)]" />
-        <div className="relative max-w-4xl mx-auto px-6 text-center text-white">
+      <section className="relative py-24 overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="absolute inset-0 opacity-15">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-orange-500 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-red-500 rounded-full blur-[130px]" />
+        </div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+
+        <div className="relative max-w-5xl mx-auto px-6 text-center text-white">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-            <span className="text-5xl block mb-6"><Mail className="w-12 h-12 mx-auto" /></span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
-              Stay <span className="text-yellow-300">Updated</span>
+
+            {/* Floating food images */}
+            <div className="flex justify-center gap-5 mb-8">
+              <motion.div animate={{ y: [0, -10, 0], rotate: [-5, 5, -5] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="relative">
+                <img src={food7} alt="Food 1" className="w-16 h-16 rounded-2xl object-cover shadow-2xl border-2 border-white/20" />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                  <Mail className="w-3 h-3 text-white" />
+                </div>
+              </motion.div>
+              <motion.div animate={{ y: [0, -14, 0], rotate: [5, -5, 5] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.5 }}
+                className="relative -mt-4">
+                <img src={food8} alt="Food 2" className="w-18 h-18 w-[72px] h-[72px] rounded-2xl object-cover shadow-2xl border-2 border-white/20" />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                  <Gift className="w-3 h-3 text-white" />
+                </div>
+              </motion.div>
+              <motion.div animate={{ y: [0, -10, 0], rotate: [-3, 7, -3] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 1 }}
+                className="relative">
+                <img src={food3} alt="Food 3" className="w-16 h-16 rounded-2xl object-cover shadow-2xl border-2 border-white/20" />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-3 h-3 text-white" />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Badge */}
+            <span className="inline-flex items-center gap-2 px-5 py-2 bg-white/10 backdrop-blur-md rounded-full text-sm font-semibold text-orange-300 border border-white/10 mb-6">
+              <Mail className="w-4 h-4" /> Newsletter
+            </span>
+
+            {/* Heading */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight">
+              Stay <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300">Updated</span>
             </h2>
-            <p className="text-white/80 text-lg max-w-xl mx-auto mb-8">
-              Subscribe to get exclusive offers, new menu updates, and foodie tips delivered to your inbox.
+            <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+              Subscribe to get exclusive offers, new menu updates, and foodie tips delivered straight to your inbox. No spam, ever.
             </p>
-            <div className="flex max-w-lg mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl">
-              <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 text-gray-800 outline-none" />
-              <button className="bg-gradient-to-r from-white to-orange-100 text-orange-600 px-8 py-4 font-semibold hover:from-orange-50 hover:to-orange-200 transition-all duration-300">
-                Subscribe
+
+            {/* Email form */}
+            <div className="flex max-w-xl mx-auto bg-white/10 backdrop-blur-xl rounded-2xl p-2 border border-white/10 shadow-2xl">
+              <div className="flex items-center flex-1">
+                <Mail className="w-5 h-5 text-white/40 ml-4" />
+                <input type="email" placeholder="Enter your email address" className="flex-1 px-4 py-3 bg-transparent text-white outline-none placeholder:text-white/40 text-sm" />
+              </div>
+              <button className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white px-8 py-3 rounded-xl font-bold hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transition-all duration-300 shadow-lg shadow-red-500/30 hover:shadow-red-500/40 hover:scale-105 flex items-center gap-2">
+                Subscribe <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-white/50 text-sm mt-3">No spam. Unsubscribe anytime.</p>
+
+            {/* Trust row */}
+            <div className="flex items-center justify-center gap-6 mt-6">
+              {["No spam, ever", "Unsubscribe anytime", "Weekly updates"].map((item, i) => (
+                <span key={i} className="flex items-center gap-1.5 text-white/40 text-xs">
+                  <FaCheck className="w-3 h-3 text-green-400" /> {item}
+                </span>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
+
+      {/* SCROLL TO TOP BUTTON */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-xl shadow-orange-500/40 hover:shadow-orange-500/60 hover:scale-110 flex items-center justify-center transition-all duration-300 cursor-pointer"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
     </div>
   );

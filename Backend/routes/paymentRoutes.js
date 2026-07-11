@@ -5,10 +5,16 @@ import Order from "../models/Order.js";
 
 const router = express.Router();
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+let razorpay;
+const getRazorpay = () => {
+  if (!razorpay) {
+    razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+  }
+  return razorpay;
+};
 
 /* CREATE RAZORPAY ORDER */
 router.post("/create", async (req, res) => {
@@ -28,7 +34,7 @@ router.post("/create", async (req, res) => {
       receipt: `receipt_${orderId}`,
     };
 
-    const razorpayOrder = await razorpay.orders.create(options);
+    const razorpayOrder = await getRazorpay().orders.create(options);
 
     order.razorpay_order_id = razorpayOrder.id;
     await order.save();

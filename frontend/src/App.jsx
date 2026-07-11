@@ -18,6 +18,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
+import OrderTracking from "./pages/OrderTracking";
 
 import AdminDashboard from "./admin/AdminDashboard";
 import AddFood from "./admin/AddFood";
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/track/:id" element={<OrderTracking />} />
         </Route>
 
         {/* ADMIN ROUTES (admin only) */}

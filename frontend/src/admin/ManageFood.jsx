@@ -12,6 +12,7 @@ const ManageFood = () => {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [failedImages, setFailedImages] = useState(new Set());
 
   const backendURL = "https://food-delivery-website-2-qpp0.onrender.com";
   const apiURL = `${backendURL}/api/foods`;
@@ -159,8 +160,9 @@ const ManageFood = () => {
                   transition={{ delay: index * 0.05 }} whileHover={{ y: -6 }}
                   className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                   <div className="relative overflow-hidden">
-                    {food.image ? (
+                    {food.image && !failedImages.has(food._id) ? (
                       <img src={`${backendURL}/uploads/${food.image}`} alt={food.name}
+                        onError={() => setFailedImages(prev => new Set([...prev, food._id]))}
                         className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-52 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
