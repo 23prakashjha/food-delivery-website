@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaShoppingCart, FaStar, FaHeart } from "react-icons/fa";
 import { Clock, TrendingUp } from "lucide-react";
+import { getFoodImageUrl } from "../utils/image";
 
 const categoryColors = {
   Veg: "bg-gradient-to-r from-green-400 to-emerald-500 text-white",
@@ -14,13 +15,39 @@ const categoryColors = {
   Italian: "bg-gradient-to-r from-rose-400 to-pink-500 text-white",
   Snacks: "bg-gradient-to-r from-amber-400 to-orange-500 text-white",
   Beverages: "bg-gradient-to-r from-cyan-400 to-blue-500 text-white",
+  Roll: "bg-gradient-to-r from-amber-400 to-yellow-500 text-white",
+  Pasta: "bg-gradient-to-r from-rose-400 to-pink-500 text-white",
+  "Ice Cream": "bg-gradient-to-r from-purple-400 to-pink-500 text-white",
+  "Cakes & Pastries": "bg-gradient-to-r from-pink-300 to-rose-400 text-white",
+  Salads: "bg-gradient-to-r from-green-300 to-teal-500 text-white",
+  Soups: "bg-gradient-to-r from-orange-300 to-red-400 text-white",
+  Cafe: "bg-gradient-to-r from-amber-600 to-yellow-500 text-white",
+  Chaat: "bg-gradient-to-r from-orange-300 to-red-400 text-white",
+  "Punjabi Food": "bg-gradient-to-r from-orange-400 to-green-500 text-white",
+  "Sea Foods": "bg-gradient-to-r from-blue-400 to-cyan-500 text-white",
+  Mutton: "bg-gradient-to-r from-red-500 to-rose-600 text-white",
+  Egg: "bg-gradient-to-r from-yellow-300 to-amber-500 text-white",
 };
 
-const FoodCard = ({ food, onAddToCart, featured = false }) => {
+const categoryIcons = {
+  Pizza: "🍕", Burger: "🍔", Veg: "🥬", "Non-Veg": "🍗",
+  Roll: "🌯", Pasta: "🍝", Biryani: "🍚", "Sea Foods": "🦐", Mutton: "🥩",
+  Egg: "🥚", Salads: "🥗", Soups: "🍜", Desserts: "🍰", "Ice Cream": "🍦",
+  "Cakes & Pastries": "🎂", Beverages: "🥤", Cafe: "☕", Snacks: "🥟",
+  Chaat: "🫓", "Punjabi Food": "🫘", Chinese: "🥠",
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const FoodCard = ({ food, onAddToCart, onAdd, featured = false }) => {
+  const addItem = onAddToCart || onAdd;
+  const imgSrc = getFoodImageUrl(food.image);
   const categoryClass = categoryColors[food.type || food.category] || "bg-gradient-to-r from-gray-400 to-gray-500 text-white";
 
   const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);
-
   const sizes = [];
   if (food.quarterPrice > 0) sizes.push({ label: "Quarter", value: "quarter", price: food.quarterPrice });
   if (food.halfPrice > 0) sizes.push({ label: "Half", value: "half", price: food.halfPrice });
@@ -40,27 +67,34 @@ const FoodCard = ({ food, onAddToCart, featured = false }) => {
   const discountPercent = hasDiscount ? Math.round((1 - food.discountPrice / food.originalPrice) * 100) : 0;
 
   const handleAdd = () => {
-    const item = {
+    addItem({
       ...food,
       size: selectedSize,
       unitPrice: getCurrentPrice(),
-    };
-    onAddToCart(item);
+    });
   };
 
   return (
     <motion.div
+      variants={itemVariants}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 200 }}
-      className="group relative bg-white rounded-3xl shadow-md hover:shadow-2xl overflow-hidden flex flex-col transition-all duration-500 border border-gray-50"
+      className="group relative bg-white rounded-3xl shadow-md hover:shadow-2xl overflow-hidden flex flex-col transition-all duration-500 border border-gray-50 hover:border-indigo-100"
     >
       {/* IMAGE WRAPPER */}
-      <div className="relative h-52 w-full overflow-hidden">
-        <img
-          src={food.image}
-          alt={food.name}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+      <div className="relative h-52 w-full overflow-hidden bg-gradient-to-br from-indigo-100 to-purple-50">
+        {imgSrc ? (
+          <img
+            src={imgSrc}
+            alt={food.name}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-500 text-white">
+            <span className="text-6xl mb-2 drop-shadow-lg">{categoryIcons[food.category || food.type] || "🍽️"}</span>
+            <span className="text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">{food.category || food.type}</span>
+          </div>
+        )}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

@@ -5,12 +5,10 @@ import React, {
   useState,
 } from "react";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
-/* =======================
-   AXIOS INSTANCE
-======================= */
 const API = axios.create({
-  baseURL: "https://food-delivery-website-2-qpp0.onrender.com/api",
+  baseURL: API_BASE,
   headers: {
     "Content-Type": "application/json",
   },

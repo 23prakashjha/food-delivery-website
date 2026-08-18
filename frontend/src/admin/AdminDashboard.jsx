@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { PlusCircle, Utensils, ShoppingBag, Users } from "lucide-react";
 import { FaTrash, FaUserShield, FaUser, FaSearch, FaCheckCircle, FaTimes } from "react-icons/fa";
-
-const API_BASE = "https://food-delivery-website-2-qpp0.onrender.com/api";
+import { API_BASE } from "../utils/api";
 
 const AdminDashboard = () => {
   const { user: currentUser } = useAuth();

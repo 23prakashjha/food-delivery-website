@@ -5,6 +5,7 @@ import { Plus, Utensils } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { getFoodImageUrl } from "../utils/image";
+import { API_BASE } from "../utils/api";
 
 const ManageFood = () => {
   const [foods, setFoods] = useState([]);
@@ -15,8 +16,7 @@ const ManageFood = () => {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [failedImages, setFailedImages] = useState(new Set());
 
-  const backendURL = "https://food-delivery-website-2-qpp0.onrender.com";
-  const apiURL = `${backendURL}/api/foods`;
+  const apiURL = `${API_BASE}/foods`;
 
   const showToast = (message, type = "success") => {
     setToast({ message, type });

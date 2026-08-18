@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhone, FaArrowLeft, FaCheckCircle, FaClock, FaMotorcycle, FaUtensils, FaShoppingBag, FaStar } from "react-icons/fa";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
 const trackingSteps = [
   { key: "placed", label: "Order Placed", icon: <FaShoppingBag />, desc: "Your order has been received" },
@@ -33,7 +34,7 @@ const OrderTracking = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const { data } = await axios.get(`https://food-delivery-website-2-qpp0.onrender.com/api/orders`);
+        const { data } = await axios.get(`${API_BASE}/orders`);
         const found = (data || []).find(o => o._id === id);
         if (found) {
           setOrder(found);

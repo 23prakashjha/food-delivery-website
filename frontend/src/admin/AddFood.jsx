@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaPlus, FaUpload, FaStar } from "react-icons/fa";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
 const defaultCategories = ["Veg", "Non-Veg", "Pizza", "Burger", "Desserts"];
 const categoryColors = {
@@ -73,7 +74,7 @@ const AddFood = () => {
       formData.append("image", imageFile);
 
       const res = await axios.post(
-        "https://food-delivery-website-2-qpp0.onrender.com/api/foods",
+        `${API_BASE}/foods`,
         formData
       );
 

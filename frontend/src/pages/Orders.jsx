@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBoxOpen, FaTimes, FaClock, FaCheckCircle, FaSpinner, FaTimesCircle, FaCalendarAlt, FaUser, FaMapMarkerAlt, FaPhone, FaShoppingBag, FaClipboardList, FaMapMarkedAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
 const statusConfig = {
   pending: { bg: "bg-yellow-100 text-yellow-800", bar: "bg-yellow-500", icon: <FaClock size={14} />, label: "Pending" },
@@ -23,7 +24,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/orders");
+        const res = await axios.get(`${API_BASE}/orders`);
         setOrders(res.data || []);
       } catch (err) {
         console.error("Failed to fetch orders:", err);

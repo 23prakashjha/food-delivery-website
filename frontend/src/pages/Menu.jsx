@@ -1,49 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSearch, FaShoppingCart, FaStar, FaFilter, FaTimes, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { FaSearch, FaShoppingCart, FaFilter, FaTimes, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import { ArrowRight, Utensils } from "lucide-react";
-import pizzaImg from "../assets/pizza.jpeg";
-import burgerImg from "../assets/burger.jpeg";
-import rollImg from "../assets/roll.jpeg";
-import chickenImg from "../assets/chickentikka.jpeg";
-import momosImg from "../assets/momos.jpeg";
-import pastaImg from "../assets/pasta.jpeg";
-import beverageImg from "../assets/brevage.jpeg";
-import paneerImg from "../assets/panneertikka.jpeg";
-import dessertsImg from "../assets/deserts.jpeg";
 import axios from "axios";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { API_BASE } from "../utils/api";
 import { useCart } from "../context/CartContext";
-import { getFoodImageUrl } from "../utils/image";
-
-
-
-/* ================================================
-   CATEGORY IMAGE / GRADIENT MAPS
-================================================ */
-const categoryImages = {
-  Pizza: pizzaImg, Burger: burgerImg, "Non-Veg": chickenImg,
-  Veg: paneerImg, Roll: rollImg, Pasta: pastaImg,
-  Desserts: dessertsImg, "Ice Cream": dessertsImg, "Cakes & Pastries": dessertsImg,
-  Beverages: beverageImg, Snacks: momosImg, Biryani: chickenImg,
-  "Sea Foods": chickenImg, Mutton: chickenImg, Egg: chickenImg,
-  Salads: paneerImg, Soups: momosImg, Cafe: beverageImg,
-  Chaat: momosImg, "Punjabi Food": paneerImg, Chinese: momosImg,
-};
-
-const categoryGradients = {
-  Pizza: "from-yellow-400 to-orange-500", Burger: "from-orange-400 to-red-500",
-  "Non-Veg": "from-red-400 to-rose-600", Veg: "from-green-400 to-emerald-500",
-  Roll: "from-amber-400 to-yellow-500", Pasta: "from-rose-400 to-pink-500",
-  Desserts: "from-pink-400 to-rose-500", "Ice Cream": "from-purple-400 to-pink-500",
-  "Cakes & Pastries": "from-pink-300 to-rose-400", Beverages: "from-cyan-400 to-blue-500",
-  Snacks: "from-amber-400 to-orange-500", Biryani: "from-red-400 to-orange-500",
-  "Sea Foods": "from-blue-400 to-cyan-500", Mutton: "from-red-500 to-rose-600",
-  Egg: "from-yellow-300 to-amber-500", Salads: "from-green-300 to-teal-500",
-  Soups: "from-orange-300 to-red-400", Cafe: "from-brown-400 to-amber-500",
-  Chaat: "from-orange-300 to-red-400", "Punjabi Food": "from-orange-400 to-green-500",
-  Chinese: "from-red-400 to-rose-500",
-};
+import FoodCard from "../components/FoodCard";
 
 const categories = [
   "All", "Pizza", "Burger", "Veg", "Non-Veg", "Roll", "Pasta",
@@ -63,10 +26,6 @@ const categoryIcons = {
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
-};
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 /* ================================================
@@ -103,7 +62,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/foods");
+        const { data } = await axios.get(`${API_BASE}/foods`);
         const apiFoods = (data || []).map(f => ({ ...f, _id: `api-${f._id}` }));
         setFoods(apiFoods);
       } catch {
@@ -328,116 +287,6 @@ const Menu = () => {
         )}
       </AnimatePresence>
     </div>
-  );
-};
-
-/* -------- FOOD CARD (LOCAL) -------- */
-const FoodCard = ({ food, onAdd }) => {
-  const imgSrc = getFoodImageUrl(food.image);
-  const gradient = categoryGradients[food.category || food.type] || "from-indigo-400 to-purple-500";
-
-  const hasSizes = (food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0);
-  const sizes = [];
-  if (food.quarterPrice > 0) sizes.push({ label: "Quarter", value: "quarter", price: food.quarterPrice });
-  if (food.halfPrice > 0) sizes.push({ label: "Half", value: "half", price: food.halfPrice });
-  if (food.fullPrice > 0) sizes.push({ label: "Full", value: "full", price: food.fullPrice });
-
-  const [selectedSize, setSelectedSize] = React.useState(sizes.length > 0 ? sizes[0].value : "");
-
-  const getCurrentPrice = () => {
-    if (hasSizes && selectedSize) {
-      const s = sizes.find((sz) => sz.value === selectedSize);
-      return s ? s.price : (food.discountPrice > 0 ? food.discountPrice : food.originalPrice);
-    }
-    return food.discountPrice > 0 ? food.discountPrice : food.originalPrice;
-  };
-
-  const hasDiscount = !hasSizes && food.discountPrice > 0 && food.originalPrice > 0 && food.originalPrice > food.discountPrice;
-  const discountPercent = hasDiscount ? Math.round((1 - food.discountPrice / food.originalPrice) * 100) : 0;
-
-  const handleAdd = () => {
-    onAdd({
-      ...food,
-      size: selectedSize,
-      unitPrice: getCurrentPrice(),
-    });
-  };
-
-  return (
-    <motion.div variants={itemVariants} whileHover={{ y: -6, scale: 1.02 }}
-      className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col hover:shadow-2xl transition-all duration-300 group border border-gray-50">
-      <div className={`h-48 w-full overflow-hidden relative bg-gradient-to-br ${gradient}`}>
-        {imgSrc ? (
-          <img src={imgSrc} alt={food.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-white">
-            <span className="text-6xl mb-2 drop-shadow-lg">{categoryIcons[food.category || food.type] || "🍽️"}</span>
-            <span className="text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">{food.category || food.type}</span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-indigo-600 shadow-sm">
-          {food.category || food.type}
-        </span>
-        {hasDiscount && (
-          <span className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-            {discountPercent}% OFF
-          </span>
-        )}
-        {food.rating > 0 && (
-          <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-bold flex items-center gap-1 shadow-lg">
-            <FaStar className="text-yellow-400" /> {food.rating.toFixed(1)}
-          </div>
-        )}
-      </div>
-      <div className="p-5 flex flex-col flex-1 space-y-2">
-        <h3 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{food.name}</h3>
-        <p className="text-gray-500 text-sm flex-1 line-clamp-2 leading-relaxed">{food.description || "Delicious food item"}</p>
-        <div className="flex items-center gap-1">
-          {[...Array(5)].map((_, i) => (
-            <FaStar key={i} className={`text-sm ${i < Math.round(food.rating || 4) ? "text-yellow-400" : "text-gray-200"}`} />
-          ))}
-          <span className="text-gray-500 text-xs ml-1 font-medium">({food.rating > 0 ? food.rating.toFixed(1) : "4.0"})</span>
-          {food.rating > 0 && <span className="text-gray-400 text-xs ml-1">• {food.rating > 4 ? "Popular" : "Good"}</span>}
-        </div>
-        {hasSizes && sizes.length > 0 && (
-          <div className="flex gap-1.5 flex-wrap">
-            {sizes.map((s) => (
-              <button
-                key={s.value}
-                onClick={() => setSelectedSize(s.value)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
-                  selectedSize === s.value
-                    ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-indigo-300 hover:text-indigo-600"
-                }`}
-              >
-                {s.label} ₹{s.price}
-              </button>
-            ))}
-          </div>
-        )}
-        <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-100">
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-extrabold text-indigo-600">₹{getCurrentPrice()}</span>
-              {hasDiscount && (
-                <span className="text-gray-400 line-through text-sm font-medium">₹{food.originalPrice}</span>
-              )}
-            </div>
-            {hasDiscount && (
-              <span className="text-green-600 text-xs font-bold mt-0.5">You save ₹{(food.originalPrice - food.discountPrice).toFixed(0)}</span>
-            )}
-          </div>
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-            onClick={handleAdd}
-            className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:from-purple-600 hover:to-indigo-600">
-            <FaShoppingCart className="text-xs" /> Add
-          </motion.button>
-        </div>
-      </div>
-    </motion.div>
   );
 };
 

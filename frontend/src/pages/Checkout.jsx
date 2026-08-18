@@ -11,8 +11,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { getFoodImageUrl } from "../utils/image";
-
-const API = "https://food-delivery-website-2-qpp0.onrender.com/api";
+import { API_BASE as API } from "../utils/api";
 
 const Checkout = () => {
   const { cart, totalPrice, clearCart } = useCart();
@@ -116,17 +115,13 @@ const Checkout = () => {
           exit={{ opacity: 0 }}
           className="min-h-[70vh] flex items-center justify-center px-4"
         >
-          <div className="bg-white rounded-3xl shadow-2xl p-10 text-center max-w-md w-full">
-            <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
-            <h2 className="text-3xl font-extrabold mb-2">
-              Payment Successful
-            </h2>
-            <p className="text-gray-500 mb-6">
-              Your order has been confirmed!
-            </p>
-            <p className="text-sm text-gray-400">
-              Redirecting to orders...
-            </p>
+          <div className="bg-white rounded-3xl shadow-2xl p-10 text-center max-w-md w-full border border-gray-50">
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 15 }}>
+              <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
+            </motion.div>
+            <h2 className="text-3xl font-extrabold mb-2">Payment Successful</h2>
+            <p className="text-gray-500 mb-6">Your order has been confirmed!</p>
+            <p className="text-sm text-gray-400">Redirecting to orders...</p>
           </div>
         </motion.div>
       ) : (
@@ -172,7 +167,7 @@ const Checkout = () => {
                       </div>
                     </div>
 
-                    <p className="font-semibold text-orange-600">
+                    <p className="font-semibold text-indigo-600">
                       ₹
                       {(
                         (item.unitPrice ?? item.discountPrice ?? item.originalPrice) *
@@ -210,11 +205,11 @@ const Checkout = () => {
                 ].map((method) => (
                   <label
                     key={method.id}
-                    className={`flex items-center justify-between p-4 border rounded-2xl cursor-pointer mb-3 transition
+                    className={`flex items-center justify-between p-4 border-2 rounded-2xl cursor-pointer mb-3 transition-all duration-300
                     ${
                       paymentMethod === method.id
-                        ? "border-orange-500 bg-orange-50"
-                        : "hover:border-gray-300"
+                        ? "border-indigo-500 bg-indigo-50 shadow-md"
+                        : "border-gray-100 hover:border-indigo-200 hover:bg-gray-50"
                     }`}
                   >
                     <div className="flex items-center gap-4">
@@ -222,9 +217,9 @@ const Checkout = () => {
                         type="radio"
                         checked={paymentMethod === method.id}
                         onChange={() => setPaymentMethod(method.id)}
-                        className="accent-orange-500"
+                        className="accent-indigo-500"
                       />
-                      <span className="text-2xl text-orange-500">
+                      <span className="text-2xl text-indigo-500">
                         {method.icon}
                       </span>
                       <div>
@@ -260,7 +255,7 @@ const Checkout = () => {
                 <hr />
                 <div className="flex justify-between text-xl font-extrabold">
                   <span>Total</span>
-                  <span className="text-orange-600">
+                  <span className="text-indigo-600">
                     ₹{totalPrice.toFixed(2)}
                   </span>
                 </div>
@@ -269,7 +264,7 @@ const Checkout = () => {
               <button
                 onClick={handlePlaceOrder}
                 disabled={loading || cart.length === 0}
-                className="mt-8 w-full bg-orange-500 text-white py-4 rounded-2xl font-bold text-lg hover:bg-orange-600 transition disabled:opacity-60"
+                className="mt-8 w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl font-bold text-lg hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-60"
               >
                 {loading
                   ? "Processing Payment..."

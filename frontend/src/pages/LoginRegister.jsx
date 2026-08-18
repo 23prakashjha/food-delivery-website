@@ -81,7 +81,7 @@ const LoginRegister = () => {
         initial={{ opacity: 0, scale: 0.9, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-white"
+        className="w-full max-w-md bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-white/50 hover:shadow-2xl transition-shadow duration-500"
       >
         {/* USER / ADMIN TOGGLE PILLS */}
         <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
@@ -144,7 +144,7 @@ const LoginRegister = () => {
                   placeholder={isAdminMode ? "Admin Name" : "Full Name"}
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 outline-none shadow-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none shadow-sm transition-all duration-200"
                 />
               </div>
             </>
@@ -158,7 +158,7 @@ const LoginRegister = () => {
               placeholder={isAdminMode ? "Admin Email" : "Email Address"}
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 outline-none shadow-sm"
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none shadow-sm transition-all duration-200"
             />
           </div>
 
@@ -170,7 +170,7 @@ const LoginRegister = () => {
               placeholder={isAdminMode ? "Admin Password" : "Password"}
               value={formData.password}
               onChange={handleChange}
-              className="w-full pl-12 pr-12 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 outline-none shadow-sm"
+              className="w-full pl-12 pr-12 py-3 rounded-xl bg-white text-gray-800 border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none shadow-sm transition-all duration-200"
             />
             <button
               type="button"

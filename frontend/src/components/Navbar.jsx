@@ -55,6 +55,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-2xl shadow-lg border-b border-gray-100">
+        <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
           {/* LOGO */}

@@ -9,6 +9,7 @@ import {
 import { FaCheck, FaHeadset } from "react-icons/fa";
 import axios from "axios";
 import { getFoodImageUrl } from "../utils/image";
+import { API_BASE } from "../utils/api";
 import pizza from "../assets/pizza.jpeg";
 import burger from "../assets/burger.jpeg";
 import roll from "../assets/roll.jpeg";
@@ -241,7 +242,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const { data } = await axios.get("https://food-delivery-website-2-qpp0.onrender.com/api/foods");
+        const { data } = await axios.get(`${API_BASE}/foods`);
         if (data && data.length > 0) setFoods(data);
       } catch {
         /* no fallback */
@@ -570,7 +571,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr">
             {(foods.length > 0 ? foods : []).slice(0, 8).map((food, index) => (
               <motion.div key={food._id} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05, duration: 0.6 }}
                 whileHover={{ y: -10, scale: 1.03 }}
@@ -598,7 +599,7 @@ const Home = () => {
                     )}
                   </div>
                   <h3 className="text-lg font-bold text-gray-800">{food.name}</h3>
-                  <p className="text-gray-500 mt-1 text-sm flex-1">{food.description}</p>
+                  <p className="text-gray-500 mt-1 text-sm flex-1 line-clamp-2">{food.description}</p>
                   {(food.quarterPrice > 0 || food.halfPrice > 0 || food.fullPrice > 0) && (
                     <div className="flex gap-1.5 mt-2 flex-wrap">
                       {food.quarterPrice > 0 && <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">Q ₹{food.quarterPrice}</span>}
@@ -769,10 +770,10 @@ const Home = () => {
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
         <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
+          <div className="max-w-3xl mx-auto text-center">
 
-            {/* LEFT: Text content */}
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="flex-1 text-white">
+            {/* Text content */}
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="text-white">
 
               {/* Badge */}
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-full mb-8 shadow-lg border border-white/10">
@@ -791,7 +792,7 @@ const Home = () => {
               </p>
 
               {/* Feature tags */}
-              <div className="flex flex-wrap gap-3 mb-12">
+              <div className="flex flex-wrap gap-3 mb-12 justify-center">
                 {[
                   { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Fast Checkout" },
                   { icon: <MapPin className="w-4 h-4 text-green-400" />, text: "Live Tracking" },
@@ -805,7 +806,7 @@ const Home = () => {
               </div>
 
               {/* Download buttons with real icons */}
-              <div className="flex flex-wrap gap-5 mb-8">
+              <div className="flex flex-wrap gap-5 mb-8 justify-center">
                 {/* Google Play */}
                 <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-4 bg-white px-8 py-4 rounded-2xl shadow-2xl hover:shadow-orange-500/20 transition-all duration-300">
@@ -835,7 +836,7 @@ const Home = () => {
               </div>
 
               {/* Trust row */}
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 justify-center">
                 {[
                   { icon: <ShieldCheck className="w-4 h-4 text-green-400" />, text: "Secure" },
                   { icon: <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />, text: "4.9 Rating" },
@@ -846,63 +847,6 @@ const Home = () => {
                   </span>
                 ))}
               </div>
-            </motion.div>
-
-            {/* RIGHT: Phone mockup with floating food images */}
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} viewport={{ once: true }} className="flex-1 relative flex items-center justify-center min-h-[500px]">
-
-              {/* Floating food images around the phone */}
-              {[
-                { src: trending1, top: "0%", left: "5%", size: "w-20 h-20", delay: 0, duration: 4 },
-                { src: trending2, top: "5%", right: "0%", size: "w-16 h-16", delay: 0.5, duration: 3.5 },
-                { src: food1, bottom: "10%", left: "0%", size: "w-18 h-18", delay: 1, duration: 4.5 },
-                { src: food2, bottom: "5%", right: "5%", size: "w-14 h-14", delay: 1.5, duration: 3.8 },
-                { src: trending3, top: "35%", left: "-5%", size: "w-14 h-14", delay: 0.8, duration: 5 },
-                { src: food3, top: "30%", right: "-3%", size: "w-16 h-16", delay: 1.2, duration: 4.2 },
-                { src: trending4, top: "60%", left: "2%", size: "w-12 h-12", delay: 0.3, duration: 3.6 },
-                { src: food4, top: "55%", right: "2%", size: "w-14 h-14", delay: 1.8, duration: 4.8 },
-              ].map((item, i) => (
-                <motion.img
-                  key={i}
-                  src={item.src}
-                  alt=""
-                  className={`absolute ${item.size} rounded-2xl object-cover shadow-2xl border-2 border-white/20`}
-                  style={{ top: item.top, bottom: item.bottom, left: item.left, right: item.right }}
-                  animate={{ y: [0, -12, 0], rotate: [0, i % 2 === 0 ? 5 : -5, 0] }}
-                  transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: "easeInOut" }}
-                />
-              ))}
-
-              {/* Phone frame */}
-              <div className="relative w-[280px] h-[560px] bg-gray-900 rounded-[40px] border-4 border-gray-700 shadow-2xl shadow-orange-500/20 overflow-hidden z-10">
-                {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-gray-900 rounded-b-2xl z-20" />
-
-                {/* Phone screen content */}
-                <div className="w-full h-full bg-gradient-to-b from-orange-500 to-red-500 flex flex-col items-center justify-center gap-4 px-6">
-                  <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-                    <Utensils className="w-8 h-8 text-white" />
-                  </div>
-                  <p className="text-white font-bold text-lg text-center">FoodExpress</p>
-                  <p className="text-white/70 text-xs text-center">Order. Track. Enjoy.</p>
-                  <div className="flex gap-2 mt-2">
-                    <img src={trending1} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                    <img src={food1} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                    <img src={trending2} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                  </div>
-                  <div className="flex gap-2">
-                    <img src={food2} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                    <img src={trending3} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                    <img src={food3} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/30" />
-                  </div>
-                  <div className="bg-white rounded-full px-6 py-2 mt-3">
-                    <p className="text-orange-600 font-bold text-sm">Order Now</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Glow effect behind phone */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-full blur-3xl -z-10" />
             </motion.div>
 
           </div>

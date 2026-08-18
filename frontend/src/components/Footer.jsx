@@ -48,9 +48,15 @@ const Footer = () => {
           </p>
 
           <div className="flex gap-3 mt-6">
-            {[FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp, FaYoutube].map((Icon, i) => (
+            {[
+              { Icon: FaFacebookF, hoverClass: "hover:!bg-blue-600" },
+              { Icon: FaInstagram, hoverClass: "hover:!bg-gradient-to-r hover:!from-pink-500 hover:!to-orange-500" },
+              { Icon: FaTwitter, hoverClass: "hover:!bg-sky-500" },
+              { Icon: FaWhatsapp, hoverClass: "hover:!bg-green-500" },
+              { Icon: FaYoutube, hoverClass: "hover:!bg-red-600" },
+            ].map(({ Icon, hoverClass }, i) => (
               <motion.a key={i} whileHover={{ scale: 1.1, y: -2 }} href="#"
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-pink-500 transition-all duration-300 text-sm">
+                className={`w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 ${hoverClass} transition-all duration-300 text-sm`}>
                 <Icon />
               </motion.a>
             ))}
