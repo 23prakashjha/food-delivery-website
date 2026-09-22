@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import { PlusCircle, Utensils, ShoppingBag, Users } from "lucide-react";
+import { PlusCircle, Utensils, ShoppingBag, Users, BarChart3, TrendingUp, Clock3 } from "lucide-react";
 import { FaTrash, FaUserShield, FaUser, FaSearch, FaCheckCircle, FaTimes } from "react-icons/fa";
 import { API_BASE } from "../utils/api";
 
@@ -13,6 +13,8 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [toast, setToast] = useState(null);
+  const [analytics, setAnalytics] = useState({ orders: [], foods: [] });
+  const [platformInsights, setPlatformInsights] = useState(null);
 
   const showToast = (message, type = "success") => {
     setToast({ message, type });
@@ -42,7 +44,31 @@ const AdminDashboard = () => {
     }
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => {
+    fetchUsers();
+    Promise.all([
+      fetch(`${API_BASE}/orders`).then(response => response.ok ? response.json() : []),
+      fetch(`${API_BASE}/foods`).then(response => response.ok ? response.json() : []),
+    ]).then(([orders, foods]) => setAnalytics({ orders: Array.isArray(orders) ? orders : [], foods: Array.isArray(foods) ? foods : [] }));
+    fetch(`${API_BASE}/platform/analytics/restaurant`, { headers: { Authorization: `Bearer ${currentUser?.token}` } })
+      .then(response => response.ok ? response.json() : null)
+      .then(data => setPlatformInsights(data))
+      .catch(() => setPlatformInsights(null));
+  }, [currentUser?.token]);
+
+  const completedOrders = analytics.orders.filter(order => order.status === "delivered");
+  const revenue = analytics.orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+  const foodCounts = analytics.orders.flatMap(order => order.items || []).reduce((counts, item) => {
+    counts[item.name] = (counts[item.name] || 0) + Number(item.quantity || 1);
+    return counts;
+  }, {});
+  const topFood = Object.entries(foodCounts).sort(([, first], [, second]) => second - first)[0]?.[0] || "Awaiting first order";
+  const insightCards = [
+    { label: "Total orders", value: analytics.orders.length, note: `${completedOrders.length} delivered`, icon: <ShoppingBag size={20} />, tone: "bg-orange-50 text-orange-600" },
+    { label: "Gross revenue", value: `₹${revenue.toLocaleString("en-IN")}`, note: "Across all orders", icon: <TrendingUp size={20} />, tone: "bg-emerald-50 text-emerald-600" },
+    { label: "Menu items", value: analytics.foods.length, note: "Available to discover", icon: <Utensils size={20} />, tone: "bg-sky-50 text-sky-600" },
+    { label: "Top ordered", value: topFood, note: "Most popular dish", icon: <BarChart3 size={20} />, tone: "bg-violet-50 text-violet-600" },
+  ];
 
   const handleDelete = async (id) => {
     try {
@@ -71,6 +97,7 @@ const AdminDashboard = () => {
   const cards = [
     { title: "Add Food", desc: "Add new menu items", link: "/admin/add-food", icon: <PlusCircle size={28} />, color: "from-green-500 to-emerald-500" },
     { title: "Manage Food", desc: "Edit or remove food items", link: "/admin/manage-food", icon: <Utensils size={28} />, color: "from-blue-500 to-cyan-500" },
+    { title: "Restaurants", desc: "Manage restaurant profiles", link: "/admin/restaurants", icon: <BarChart3 size={28} />, color: "from-teal-500 to-emerald-500" },
     { title: "All Orders", desc: "View & manage orders", link: "/admin/orders", icon: <ShoppingBag size={28} />, color: "from-orange-500 to-red-500" },
     { title: "Users", desc: "Manage platform users", link: "#users", icon: <Users size={28} />, color: "from-purple-500 to-pink-500" },
   ];
@@ -93,8 +120,17 @@ const AdminDashboard = () => {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">Admin Dashboard 🛠️</h1>
-          <p className="text-gray-500 mt-2 text-lg">Manage your food delivery platform efficiently</p>
+          <p className="text-gray-500 mt-2 text-lg">Manage the menu, understand demand, and keep every order moving.</p>
         </motion.div>
+
+        {/* Operational analytics */}
+        <section>
+          <div className="mb-5 flex items-center gap-3"><div className="rounded-xl bg-slate-900 p-2.5 text-white"><BarChart3 size={19} /></div><div><h2 className="text-2xl font-extrabold text-gray-800">Today at a glance</h2><p className="text-sm text-gray-500">Signals from your current order and menu data</p></div></div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {insightCards.map((card, index) => <motion.div key={card.label} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * .08 }} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"><div className="flex items-start justify-between"><div><p className="text-xs font-bold uppercase tracking-wider text-gray-400">{card.label}</p><p className="mt-3 max-w-[190px] truncate text-2xl font-black text-gray-800">{card.value}</p></div><div className={`rounded-xl p-3 ${card.tone}`}>{card.icon}</div></div><p className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-gray-500"><Clock3 size={13} /> {card.note}</p></motion.div>)}
+          </div>
+          {platformInsights && <div className="mt-5 grid gap-4 lg:grid-cols-[1.1fr_.9fr]"><div className="rounded-2xl border border-gray-100 bg-slate-900 p-6 text-white"><div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-wider text-lime-300">AI demand forecast</p><h3 className="mt-2 text-xl font-black">Plan your next service window</h3></div><TrendingUp className="text-lime-300" size={24} /></div><div className="mt-5 space-y-3">{platformInsights.forecast?.map(signal => <p key={signal} className="flex items-center gap-2 text-sm text-slate-300"><span className="h-1.5 w-1.5 rounded-full bg-lime-300" />{signal}</p>)}</div></div><div className="rounded-2xl border border-orange-100 bg-orange-50 p-6"><p className="text-xs font-bold uppercase tracking-wider text-orange-600">Peak ordering window</p><p className="mt-2 text-3xl font-black text-slate-900">{platformInsights.peakHour}</p><p className="mt-2 text-sm text-slate-600">Most ordered item: <b>{platformInsights.topFood?.name || "No data yet"}</b></p></div></div>}
+        </section>
 
         {/* Management Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

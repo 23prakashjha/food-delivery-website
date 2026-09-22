@@ -8,6 +8,8 @@ import foodRoutes from "./routes/foodRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
+import platformRoutes from "./routes/platformRoutes.js";
 
 dotenv.config();
 
@@ -51,6 +53,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/foods", foodRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/platform", platformRoutes);
 
 // ===== Health Check =====
 app.get("/", (req, res) => {

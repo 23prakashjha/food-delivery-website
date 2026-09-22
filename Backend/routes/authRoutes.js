@@ -9,6 +9,22 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "food_delivery_jwt_secret_key_2026";
 
+const registerRole = (role) => async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) return res.status(400).json({ message: "All fields are required" });
+    if (await User.findOne({ email })) return res.status(400).json({ message: "User already exists" });
+    const user = await User.create({ name, email, password: await bcrypt.hash(password, 10), role });
+    const token = jwt.sign({ id: user._id, role, isAdmin: false }, JWT_SECRET, { expiresIn: "7d" });
+    res.status(201).json({ _id: user._id, name: user.name, email: user.email, role, isAdmin: false, token });
+  } catch (error) {
+    res.status(500).json({ message: `${role} registration failed` });
+  }
+};
+
+router.post("/register-restaurant", registerRole("restaurant"));
+router.post("/register-delivery-partner", registerRole("delivery_partner"));
+
 /* =======================
    REGISTER
 ======================= */
@@ -35,10 +51,11 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: "customer",
     });
 
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, role: user.role, isAdmin: user.isAdmin },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -48,6 +65,7 @@ router.post("/register", async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      role: user.role || (user.isAdmin ? "admin" : "customer"),
       token,
     });
   } catch (error) {
@@ -96,6 +114,7 @@ router.post("/login", async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      role: user.role || (user.isAdmin ? "admin" : "customer"),
       token,
     });
   } catch (error) {
@@ -129,10 +148,11 @@ router.post("/register-admin", async (req, res) => {
       email,
       password: hashedPassword,
       isAdmin: true,
+      role: "admin",
     });
 
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, role: user.role, isAdmin: user.isAdmin },
       JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -142,6 +162,7 @@ router.post("/register-admin", async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      role: user.role,
       token,
     });
   } catch (error) {

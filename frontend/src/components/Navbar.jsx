@@ -1,19 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import {
   FaBars, FaTimes, FaShoppingCart, FaUserCircle, FaSignOutAlt,
   FaClipboardList, FaUserShield, FaHome, FaUtensils, FaTags,
-  FaInfoCircle, FaPhoneAlt, FaBell, FaSearch, FaCog,
+  FaInfoCircle, FaPhoneAlt, FaBell, FaSearch, FaCog, FaHeadset,
+  FaTruck, FaCompass,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
-  const { user, logout, cart } = useAuth();
+  const { user, logout } = useAuth();
+  const { cart, cartCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [exploreOpen, setExploreOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,10 +25,27 @@ const Navbar = () => {
   const menuLinks = [
     { name: "Home", path: "/", icon: <FaHome /> },
     { name: "Menu", path: "/menu", icon: <FaUtensils /> },
+    { name: "FoodAI", path: "/discover", icon: <FaSearch /> },
     { name: "Offers", path: "/offers", icon: <FaTags /> },
     { name: "About", path: "/about", icon: <FaInfoCircle /> },
     { name: "Contact", path: "/contact", icon: <FaPhoneAlt /> },
   ];
+
+  const exploreLinks = [
+    { name: "Restaurants", path: "/restaurants", icon: <FaUtensils /> },
+    { name: "How It Works", path: "/how-it-works", icon: <FaCompass /> },
+    { name: "Reviews", path: "/reviews", icon: <FaBell /> },
+    { name: "Help Center", path: "/help", icon: <FaHeadset /> },
+    { name: "Partner With Us", path: "/partners", icon: <FaTruck /> },
+  ];
+
+  const workspaceLink = user?.role === "restaurant"
+    ? { to: "/restaurant", label: "Restaurant workspace", icon: <FaUtensils className="text-emerald-700" /> }
+    : user?.role === "delivery_partner"
+      ? { to: "/delivery", label: "Delivery hub", icon: <FaTruck className="text-orange-600" /> }
+      : user?.isAdmin
+        ? { to: "/admin", label: "Admin dashboard", icon: <FaUserShield className="text-red-500" /> }
+        : null;
 
   useEffect(() => {
     const handler = (e) => {
@@ -41,6 +62,7 @@ const Navbar = () => {
   useEffect(() => {
     setMobileOpen(false);
     setDropdownOpen(false);
+    setExploreOpen(false);
   }, [location]);
 
   const handleSearch = (e) => {
@@ -54,17 +76,17 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-2xl shadow-lg border-b border-gray-100">
-        <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+      <nav className="sticky top-0 z-50 border-b border-emerald-950/10 bg-[#fffdf8]/90 shadow-lg backdrop-blur-2xl">
+        <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-orange-500 via-rose-500 to-emerald-700" />
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
           {/* LOGO */}
           <Link to="/" className="flex items-center gap-2 group">
             <motion.div whileHover={{ rotate: [0, -10, 10, -5, 0] }} transition={{ duration: 0.5 }}
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-lg shadow-lg">
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-rose-600 text-lg text-white shadow-lg">
               🍔
             </motion.div>
-            <span className="text-xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#143733] via-emerald-700 to-orange-600 bg-clip-text text-xl font-extrabold text-transparent">
               FoodExpress
             </span>
           </Link>
@@ -82,6 +104,12 @@ const Navbar = () => {
                 )}
               </NavLink>
             ))}
+            <div className="relative">
+              <button onClick={() => setExploreOpen(value => !value)} className={`relative flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all ${exploreLinks.some(link => location.pathname === link.path) ? "bg-indigo-50 text-indigo-600" : "text-gray-600 hover:bg-gray-50 hover:text-indigo-600"}`}><FaCompass size={13} /> Explore <span className={`transition-transform ${exploreOpen ? "rotate-180" : ""}`}>⌄</span></button>
+              <AnimatePresence>
+                {exploreOpen && <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="absolute right-0 top-12 z-50 w-56 rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl">{exploreLinks.map(link => <Link key={link.path} to={link.path} onClick={() => setExploreOpen(false)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 transition hover:bg-indigo-50 hover:text-indigo-600">{link.icon}<span>{link.name}</span></Link>)}</motion.div>}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* RIGHT SECTION */}
@@ -97,10 +125,10 @@ const Navbar = () => {
               onClick={() => navigate("/cart")}
               className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
               <FaShoppingCart size={16} />
-              {cart?.length > 0 && (
+              {cartCount > 0 && (
                 <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}
                   className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold shadow-lg">
-                  {cart.length}
+                  {cartCount}
                 </motion.span>
               )}
             </motion.button>
@@ -133,7 +161,7 @@ const Navbar = () => {
                         {[
                           { to: "/profile", icon: <FaUserCircle className="text-indigo-600" />, label: "Profile" },
                           { to: "/orders", icon: <FaClipboardList className="text-indigo-600" />, label: "Orders" },
-                          ...(user?.isAdmin ? [{ to: "/admin", icon: <FaUserShield className="text-red-500" />, label: "Admin Dashboard", red: true }] : []),
+                          ...(workspaceLink ? [{ ...workspaceLink, red: user?.isAdmin }] : []),
                         ].map(item => (
                           <Link key={item.label} to={item.to}
                             className={`flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-50 transition-all duration-300 ${item.red ? "text-red-500" : "text-gray-700"}`}>
@@ -231,6 +259,11 @@ const Navbar = () => {
             </NavLink>
           ))}
 
+          <div className="mt-3 border-t border-gray-100 pt-3">
+            <p className="px-4 pb-2 text-[11px] font-black uppercase tracking-[.18em] text-gray-400">Explore</p>
+            {exploreLinks.map((link) => <NavLink key={link.path} to={link.path} onClick={() => setMobileOpen(false)} className={({ isActive }) => `flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-all ${isActive ? "bg-indigo-50 font-semibold text-indigo-600" : "text-gray-700 hover:bg-gray-50"}`}>{link.icon} {link.name}</NavLink>)}
+          </div>
+
           {user && (
             <>
               <hr className="my-2 border-gray-100" />
@@ -242,10 +275,10 @@ const Navbar = () => {
                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all">
                 <FaClipboardList className="text-indigo-600" /> Orders
               </Link>
-              {user?.isAdmin && (
-                <Link to="/admin" onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-all">
-                  <FaUserShield /> Admin Dashboard
+              {workspaceLink && (
+                <Link to={workspaceLink.to} onClick={() => setMobileOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${user?.isAdmin ? "text-red-500 hover:bg-red-50" : "text-gray-700 hover:bg-gray-50"}`}>
+                  {workspaceLink.icon} {workspaceLink.label}
                 </Link>
               )}
             </>

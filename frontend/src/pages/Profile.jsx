@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaUser, FaEnvelope, FaCalendarAlt, FaClock, FaTimes, FaCheckCircle, FaSpinner, FaTimesCircle, FaClipboardList, FaMapMarkerAlt, FaPhone, FaShoppingBag } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { API_BASE } from "../utils/api";
+import { API_BASE, getOrderItemPrice } from "../utils/api";
 
 const statusConfig = {
   pending: { bg: "bg-yellow-100 text-yellow-800", bar: "bg-yellow-500", icon: <FaClock size={14} />, label: "Pending" },
@@ -120,7 +120,7 @@ const Profile = () => {
                           {order.items?.slice(0, 3).map((item, idx) => (
                             <div key={idx} className="flex justify-between text-sm">
                               <span className="text-gray-700">{item.name} <span className="text-gray-400">×{item.quantity}</span></span>
-                              {item.price && <span className="text-gray-600 font-medium">₹{item.price}</span>}
+                              <span className="text-gray-600 font-medium">₹{getOrderItemPrice(item).toFixed(2)}</span>
                             </div>
                           ))}
                           {order.items?.length > 3 && (
@@ -227,7 +227,7 @@ const Profile = () => {
                             <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                           </div>
                         </div>
-                        <span className="font-bold text-indigo-600">₹{item.price ? (item.price * item.quantity).toFixed(2) : "—"}</span>
+                        <span className="font-bold text-indigo-600">₹{(getOrderItemPrice(item) * item.quantity).toFixed(2)}</span>
                       </div>
                     ))}
                   </div>

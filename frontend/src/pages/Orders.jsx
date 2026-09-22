@@ -3,16 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBoxOpen, FaTimes, FaClock, FaCheckCircle, FaSpinner, FaTimesCircle, FaCalendarAlt, FaUser, FaMapMarkerAlt, FaPhone, FaShoppingBag, FaClipboardList, FaMapMarkedAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { API_BASE } from "../utils/api";
+import { API_BASE, authHeaders, getOrderItemPrice } from "../utils/api";
 
 const statusConfig = {
   pending: { bg: "bg-yellow-100 text-yellow-800", bar: "bg-yellow-500", icon: <FaClock size={14} />, label: "Pending" },
   confirmed: { bg: "bg-indigo-100 text-indigo-800", bar: "bg-indigo-500", icon: <FaSpinner size={14} />, label: "Confirmed" },
+  preparing: { bg: "bg-orange-100 text-orange-800", bar: "bg-orange-500", icon: <FaSpinner size={14} />, label: "Preparing" },
+  pickup: { bg: "bg-cyan-100 text-cyan-800", bar: "bg-cyan-500", icon: <FaMapMarkerAlt size={14} />, label: "Ready for pickup" },
+  on_the_way: { bg: "bg-blue-100 text-blue-800", bar: "bg-blue-500", icon: <FaMapMarkedAlt size={14} />, label: "On the way" },
   delivered: { bg: "bg-green-100 text-green-800", bar: "bg-green-500", icon: <FaCheckCircle size={14} />, label: "Delivered" },
   cancelled: { bg: "bg-red-100 text-red-800", bar: "bg-red-500", icon: <FaTimesCircle size={14} />, label: "Cancelled" },
 };
 
-const statusSteps = ["pending", "confirmed", "delivered"];
+const statusSteps = ["pending", "confirmed", "preparing", "pickup", "on_the_way", "delivered"];
 const statusColors = { pending: "bg-yellow-500", confirmed: "bg-indigo-500", delivered: "bg-green-500" };
 
 const Orders = () => {
@@ -24,7 +27,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${API_BASE}/orders`);
+        const res = await axios.get(`${API_BASE}/orders`, { headers: authHeaders() });
         setOrders(res.data || []);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
@@ -117,7 +120,7 @@ const Orders = () => {
                         {order.items?.slice(0, 3).map((item, idx) => (
                           <div key={idx} className="flex justify-between text-sm">
                             <span className="text-gray-700">{item.name}{item.size ? <span className="text-indigo-500 text-xs ml-1 capitalize">({item.size})</span> : ""} <span className="text-gray-400">×{item.quantity}</span></span>
-                            {item.price && <span className="text-gray-600 font-medium">₹{item.price}</span>}
+                            <span className="text-gray-600 font-medium">₹{getOrderItemPrice(item).toFixed(2)}</span>
                           </div>
                         ))}
                         {order.items?.length > 3 && (
@@ -238,7 +241,7 @@ const Orders = () => {
                             <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                           </div>
                         </div>
-                        <span className="font-bold text-indigo-600">₹{item.price ? (item.price * item.quantity).toFixed(2) : "—"}</span>
+                        <span className="font-bold text-indigo-600">₹{(getOrderItemPrice(item) * item.quantity).toFixed(2)}</span>
                       </div>
                     ))}
                   </div>

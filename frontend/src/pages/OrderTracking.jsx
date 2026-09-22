@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhone, FaArrowLeft, FaCheckCircle, FaClock, FaMotorcycle, FaUtensils, FaShoppingBag, FaStar } from "react-icons/fa";
 import axios from "axios";
-import { API_BASE } from "../utils/api";
+import { API_BASE, authHeaders, getOrderItemPrice } from "../utils/api";
 
 const trackingSteps = [
   { key: "placed", label: "Order Placed", icon: <FaShoppingBag />, desc: "Your order has been received" },
@@ -31,15 +31,23 @@ const OrderTracking = () => {
   const [riderPos, setRiderPos] = useState({ x: 20, y: 80 });
   const [eta, setEta] = useState(25);
 
+  const applyTracking = (data) => {
+    setOrder(data);
+    setCurrentStep(statusToStep[data.status] ?? 0);
+    setEta(data.tracking?.etaMinutes ?? 25);
+    if (data.tracking?.lat !== undefined && data.tracking?.lng !== undefined) {
+      setRiderPos({
+        x: Math.min(85, Math.max(20, 20 + Number(data.tracking.lng) * 10)),
+        y: Math.min(80, Math.max(20, 80 - Number(data.tracking.lat) * 10)),
+      });
+    }
+  };
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const { data } = await axios.get(`${API_BASE}/orders`);
-        const found = (data || []).find(o => o._id === id);
-        if (found) {
-          setOrder(found);
-          setCurrentStep(statusToStep[found.status] || 0);
-        }
+        const { data } = await axios.get(`${API_BASE}/platform/orders/${id}/tracking`, { headers: authHeaders() });
+        if (data) applyTracking(data);
       } catch {
         /* silent */
       } finally {
@@ -49,30 +57,18 @@ const OrderTracking = () => {
     fetchOrder();
   }, [id]);
 
-  // Simulated rider movement
   useEffect(() => {
-    if (currentStep < 4) return;
-    const interval = setInterval(() => {
-      setRiderPos(prev => ({
-        x: Math.min(prev.x + (Math.random() * 4 + 1), 85),
-        y: Math.max(prev.y - (Math.random() * 3 + 0.5), 20),
-      }));
-      setEta(prev => Math.max(prev - 1, 0));
-    }, 3000);
+    if (!order || order.status === "delivered" || order.status === "cancelled") return undefined;
+    const interval = setInterval(async () => {
+      try {
+        const { data } = await axios.get(`${API_BASE}/platform/orders/${id}/tracking`, { headers: authHeaders() });
+        applyTracking(data);
+      } catch {
+        /* Keep the last known position during brief network gaps. */
+      }
+    }, 10000);
     return () => clearInterval(interval);
-  }, [currentStep]);
-
-  // Auto progress simulation for demo
-  useEffect(() => {
-    if (!order || order.status === "delivered" || order.status === "cancelled") return;
-    const timeout = setTimeout(() => {
-      setCurrentStep(prev => {
-        if (prev < 5) return prev + 1;
-        return prev;
-      });
-    }, 12000);
-    return () => clearTimeout(timeout);
-  }, [order, currentStep]);
+  }, [id, order?.status]);
 
   if (loading) {
     return (
@@ -226,7 +222,7 @@ const OrderTracking = () => {
                   <div className={`pb-6 pt-1 ${!isComplete && !isCurrent ? "opacity-40" : ""}`}>
                     <p className={`font-bold text-base ${isComplete ? "text-green-600" : "text-gray-800"}`}>{step.label}</p>
                     <p className="text-sm text-gray-500 mt-0.5">{step.desc}</p>
-                    {isCurrent && !isComplete && (
+                    {isCurrent && !["delivered", "cancelled"].includes(order.status) && (
                       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                         className="flex items-center gap-2 mt-2 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-xs font-semibold w-fit">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -287,7 +283,7 @@ const OrderTracking = () => {
                     <p className="text-xs text-gray-400">Qty: {item.quantity}{item.size ? ` • ${item.size}` : ""}</p>
                   </div>
                 </div>
-                <span className="font-bold text-gray-700">₹{item.price ? (item.price * item.quantity).toFixed(0) : "—"}</span>
+                <span className="font-bold text-gray-700">₹{(getOrderItemPrice(item) * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>

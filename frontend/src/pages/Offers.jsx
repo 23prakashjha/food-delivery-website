@@ -2,6 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCopy, FaClock, FaTag, FaFire, FaArrowRight, FaGift, FaShareAlt, FaCheck, FaStar, FaPercent } from "react-icons/fa";
 import { Sparkles, Zap, Timer } from "lucide-react";
+import axios from "axios";
+import { API_BASE } from "../utils/api";
+import { useAuth } from "../context/AuthContext";
 
 const offerData = [
   { title: "50% OFF First Order", desc: "New users get 50% off on their very first order. No minimum order value required.", code: "FIRST50", category: "General", discount: 50, gradient: "from-pink-500 to-rose-500", expires: "Dec 31, 2026", popular: true, bg: "bg-pink-50" },
@@ -98,15 +101,23 @@ const CountdownTimer = ({ expires }) => {
 };
 
 const Offers = () => {
+  const { user } = useAuth();
   const [activeCategory, setActiveCategory] = useState("All");
   const [copiedCode, setCopiedCode] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [personalizedOffers, setPersonalizedOffers] = useState([]);
 
   useEffect(() => {
     const handler = () => setShowScrollTop(window.scrollY > 400);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  useEffect(() => {
+    axios.get(`${API_BASE}/platform/offers/personalized`, { params: { userId: user?._id } })
+      .then(({ data }) => setPersonalizedOffers(data || []))
+      .catch(() => setPersonalizedOffers([]));
+  }, [user?._id]);
 
   const filteredOffers = useMemo(() =>
     activeCategory === "All" ? offerData : offerData.filter(o => o.category === activeCategory),
@@ -128,8 +139,8 @@ const Offers = () => {
       <div className="absolute top-1/2 -right-40 w-96 h-96 bg-purple-400/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-yellow-400/20 blur-[120px] rounded-full" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#143733] via-emerald-950 to-orange-950 text-white">
+        <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-lime-300/20 blur-[120px]" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500/20 blur-[120px] rounded-full" />
         <div className="relative max-w-7xl mx-auto px-4 py-20 sm:py-28 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -161,6 +172,7 @@ const Offers = () => {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-10">
+        {personalizedOffers.length > 0 && <section className="mb-14 rounded-3xl bg-[#112d2b] p-6 text-white shadow-2xl sm:p-8"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-black uppercase tracking-[.18em] text-lime-300">Picked for your FoodAI profile</p><h2 className="mt-2 text-2xl font-black">Offers that fit your next order</h2></div><Sparkles className="h-8 w-8 text-lime-300" /></div><div className="mt-6 grid gap-4 md:grid-cols-2">{personalizedOffers.map(offer => <div key={offer.code} className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 p-4"><div><p className="font-bold">{offer.title}</p><p className="mt-1 text-sm text-white/60">{offer.description}</p></div><button onClick={() => copyCode(offer.code)} className="rounded-xl bg-[#e7f55f] px-3 py-2 text-xs font-black text-[#173430]">{copiedCode === offer.code ? "Copied" : offer.code}</button></div>)}</div></section>}
         {/* Featured / Popular Offers */}
         {popularOffers.length > 0 && (
           <motion.section initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">

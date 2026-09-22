@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaUserShield } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaUserShield, FaStore, FaMotorcycle } from "react-icons/fa";
 
 const LoginRegister = () => {
-  const { login, register, adminRegister } = useAuth();
+  const { login, register, registerRole, adminRegister } = useAuth();
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isAdminMode, setIsAdminMode] = useState(false);
+  const [accountRole, setAccountRole] = useState("customer");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,14 +60,17 @@ const LoginRegister = () => {
         if (isLogin) {
           result = await login(formData.email, formData.password);
         } else {
-          result = await register(formData.name, formData.email, formData.password);
+          result = accountRole === "customer"
+            ? await register(formData.name, formData.email, formData.password)
+            : await registerRole(accountRole, formData.name, formData.email, formData.password);
         }
         if (!result.success) {
           setError(result.message);
           setLoading(false);
           return;
         }
-        navigate("/");
+        const signedInUser = JSON.parse(localStorage.getItem("user") || "null");
+        navigate(signedInUser?.role === "restaurant" ? "/restaurant" : signedInUser?.role === "delivery_partner" ? "/delivery" : signedInUser?.isAdmin ? "/admin" : "/");
       }
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -106,6 +110,14 @@ const LoginRegister = () => {
             <FaUserShield /> Admin
           </button>
         </div>
+
+        {!isLogin && !isAdminMode && (
+          <div className="mb-6 grid grid-cols-3 gap-2">
+            {[["customer", "Customer", <FaUser />], ["restaurant", "Restaurant", <FaStore />], ["delivery_partner", "Delivery", <FaMotorcycle />]].map(([value, label, icon]) => (
+              <button key={value} type="button" onClick={() => setAccountRole(value)} className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2 text-[11px] font-bold transition ${accountRole === value ? "border-emerald-600 bg-emerald-50 text-emerald-800" : "border-gray-200 bg-white text-gray-500"}`}>{icon}<span>{label}</span></button>
+            ))}
+          </div>
+        )}
 
         {/* TITLE */}
         <h2 className="text-3xl font-extrabold text-center mb-2 bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">

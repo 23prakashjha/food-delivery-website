@@ -97,6 +97,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const registerRole = async (role, name, email, password) => {
+    try {
+      const response = await API.post(`/auth/register-${role === "delivery_partner" ? "delivery-partner" : "restaurant"}`, { name, email, password });
+      const data = response.data;
+      setUser(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || "Registration failed. Please try again." };
+    }
+  };
+
   /* =======================
      ADMIN REGISTER
   ======================= */
@@ -132,10 +144,15 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         register,
+        registerRole,
         adminRegister,
         logout,
         isAuthenticated: !!user,
         isAdmin: !!user?.isAdmin,
+        role: user?.role || (user?.isAdmin ? "admin" : "customer"),
+        isCustomer: !user || (user?.role || "customer") === "customer",
+        isRestaurant: user?.role === "restaurant",
+        isDeliveryPartner: user?.role === "delivery_partner",
       }}
     >
       {!loading && children}

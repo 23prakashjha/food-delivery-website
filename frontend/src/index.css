@@ -1,18 +1,68 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
 
 html {
   scroll-behavior: smooth;
+  background: #f8faf9;
+  --ink: #172321;
+  --forest: #143733;
+  --coral: #f97316;
+  --lime: #e7f55f;
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  color: #172321;
+  background: #f8faf9;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Manrope", sans-serif;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.25);
-  color: #1e1b4b;
+  background: rgba(249, 115, 22, 0.24);
+  color: #143733;
 }
 
 :focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #f97316;
   outline-offset: 2px;
   border-radius: 8px;
+}
+
+img {
+  max-width: 100%;
+}
+
+.food-image-frame {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.food-image-frame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(135deg, rgba(20, 55, 51, 0.08), transparent 45%, rgba(249, 115, 22, 0.18));
 }
 
 @layer utilities {

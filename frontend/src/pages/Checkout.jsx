@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { getFoodImageUrl } from "../utils/image";
-import { API_BASE as API } from "../utils/api";
+import { API_BASE as API, authHeaders } from "../utils/api";
 
 const Checkout = () => {
   const { cart, totalPrice, clearCart } = useCart();
@@ -35,7 +35,7 @@ const Checkout = () => {
         items: cart,
         totalAmount: totalPrice,
         paymentMethod,
-      });
+      }, { headers: authHeaders() });
 
       const orderId = orderRes.data.order._id;
 

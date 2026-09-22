@@ -3,11 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBoxOpen, FaCheckCircle, FaTimesCircle, FaSpinner, FaSearch, FaCalendarAlt, FaUser, FaFilter } from "react-icons/fa";
 import { ShoppingBag, Clock, CheckCircle, XCircle } from "lucide-react";
 import axios from "axios";
-import { API_BASE } from "../utils/api";
+import { API_BASE, getOrderItemPrice } from "../utils/api";
 
 const statusConfig = {
   pending: { bg: "bg-yellow-100 text-yellow-800", icon: <Clock size={14} />, label: "Pending" },
   confirmed: { bg: "bg-indigo-100 text-indigo-800", icon: <FaSpinner size={14} />, label: "Confirmed" },
+  preparing: { bg: "bg-orange-100 text-orange-800", icon: <FaSpinner size={14} />, label: "Preparing" },
+  pickup: { bg: "bg-cyan-100 text-cyan-800", icon: <Clock size={14} />, label: "Ready for pickup" },
+  on_the_way: { bg: "bg-blue-100 text-blue-800", icon: <FaSpinner size={14} />, label: "On the way" },
   delivered: { bg: "bg-green-100 text-green-800", icon: <CheckCircle size={14} />, label: "Delivered" },
   cancelled: { bg: "bg-red-100 text-red-800", icon: <XCircle size={14} />, label: "Cancelled" },
 };
@@ -187,7 +190,7 @@ const AllOrders = () => {
                           {order.items?.map((item, idx) => (
                             <div key={idx} className="flex justify-between text-sm">
                               <span className="text-gray-700">{item.name}{item.size ? <span className="text-indigo-500 text-xs ml-1 capitalize">({item.size})</span> : ""} <span className="text-gray-400">×{item.quantity}</span></span>
-                              {item.price && <span className="text-gray-600 font-medium">₹{item.price}</span>}
+                              <span className="text-gray-600 font-medium">₹{getOrderItemPrice(item).toFixed(2)}</span>
                             </div>
                           ))}
                         </div>

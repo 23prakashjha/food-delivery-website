@@ -21,6 +21,7 @@ const authMiddleware = async (req, res, next) => {
     }
 
     req.user = user; // Attach full user object to request
+    if (!req.user.role) req.user.role = req.user.isAdmin ? "admin" : "customer";
     next();
   } catch (error) {
     console.error("Auth middleware error:", error.message);

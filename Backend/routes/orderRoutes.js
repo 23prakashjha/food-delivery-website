@@ -1,10 +1,11 @@
 import express from "express";
 import Order from "../models/Order.js";
+import optionalAuthMiddleware from "../middleware/optionalAuthMiddleware.js";
 
 const router = express.Router();
 
 /* PLACE ORDER */
-router.post("/", async (req, res) => {
+router.post("/", optionalAuthMiddleware, async (req, res) => {
   try {
     const { items, totalAmount, paymentMethod } = req.body;
 
@@ -21,11 +22,21 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Invalid payment method" });
     }
 
+    const normalizedItems = items.map((item) => ({
+      ...item,
+      unitPrice: Number(item.unitPrice ?? item.price ?? item.discountPrice ?? item.originalPrice ?? 0),
+    }));
+
+    if (normalizedItems.some((item) => !item.unitPrice || item.unitPrice < 0)) {
+      return res.status(400).json({ message: "Every order item must have a valid price" });
+    }
+
     const order = await Order.create({
-      items,
+      items: normalizedItems,
       total: totalAmount,
       paymentMethod,
       status: paymentMethod === "cod" ? "pending" : "pending",
+      customer: req.user?._id,
     });
 
     res.status(201).json({
@@ -39,9 +50,10 @@ router.post("/", async (req, res) => {
 });
 
 /* GET ALL ORDERS */
-router.get("/", async (req, res) => {
+router.get("/", optionalAuthMiddleware, async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });
+    const filter = req.user?.role === "customer" ? { customer: req.user._id } : {};
+    const orders = await Order.find(filter).sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     console.error("Get Orders Error:", error.message);
@@ -54,7 +66,7 @@ router.put("/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
 
-    if (!status || !["pending", "confirmed", "delivered", "cancelled"].includes(status)) {
+    if (!status || !["pending", "confirmed", "preparing", "pickup", "on_the_way", "delivered", "cancelled"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
